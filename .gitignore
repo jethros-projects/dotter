@@ -1,0 +1,7 @@
+node_modules/
+*.tgz
+.env*
+auth.json
+coverage/
+*.log
+work/

@@ -1,0 +1,3906 @@
+{
+  "schemaVersion": 1,
+  "scope": "Static source and test mapping. This inventory is not a claim of live service support.",
+  "extendedCommandSets": [
+    {
+      "id": "account",
+      "description": "Account memory, personalization, notifications, allowed settings, summary and voice catalog",
+      "commandCount": 23,
+      "implementation": "src/account.mjs",
+      "tests": [
+        "test/account.test.mjs"
+      ]
+    },
+    {
+      "id": "account-projects",
+      "description": "Native account project lifecycle, conversation listing and pins",
+      "commandCount": 9,
+      "implementation": "src/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs"
+      ]
+    },
+    {
+      "id": "browser-auth",
+      "description": "Native browser challenge metadata and operation reconciliation",
+      "commandCount": 4,
+      "implementation": "src/browser-auth.mjs",
+      "tests": [
+        "test/browser-auth.test.mjs",
+        "test/browser-auth-origins.test.mjs"
+      ]
+    },
+    {
+      "id": "browser-auth-native",
+      "description": "Private credential fill/save/reuse and password-manager approval",
+      "commandCount": 10,
+      "implementation": "src/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/browser-auth-input-cancellation.test.mjs"
+      ]
+    },
+    {
+      "id": "browser-extras",
+      "description": "QR sign-in, browser policy, origins, passkeys, scoped cookies and legacy noVNC",
+      "commandCount": 14,
+      "implementation": "src/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/browser-extras-lifecycle.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ]
+    },
+    {
+      "id": "connectors-admin",
+      "description": "Connector administration, custom MCP, service-account links",
+      "commandCount": 23,
+      "implementation": "src/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "id": "conversations",
+      "description": "Account conversations, visible history, response selection, owned links",
+      "commandCount": 22,
+      "implementation": "src/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/conversation-created-order.test.mjs"
+      ]
+    },
+    {
+      "id": "dot-extras",
+      "description": "Hidden-thread metadata, conditional avatar, deletion finalization, reference photos",
+      "commandCount": 8,
+      "implementation": "src/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs"
+      ]
+    },
+    {
+      "id": "library-content",
+      "description": "Library folders, content, transfers, deletion, saved reports",
+      "commandCount": 18,
+      "implementation": "src/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/library-registration.test.mjs",
+        "test/provider-materialization.test.mjs",
+        "test/store-cancellation.test.mjs",
+        "test/library-snapshot-removal.test.mjs"
+      ]
+    },
+    {
+      "id": "library-navigation",
+      "description": "Library file/folder movement and root navigation",
+      "commandCount": 3,
+      "implementation": "src/command-sets/library-navigation.mjs",
+      "tests": [
+        "test/library.test.mjs",
+        "test/library-navigation-cli.test.mjs"
+      ]
+    },
+    {
+      "id": "library-providers",
+      "description": "Mounted providers, complete browse/search filters, federated search, references",
+      "commandCount": 21,
+      "implementation": "src/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/provider-materialization.test.mjs",
+        "test/library-save-chat-retired.test.mjs"
+      ]
+    },
+    {
+      "id": "libraryUpload",
+      "description": "Standalone account Library uploads and durable reconciliation",
+      "commandCount": 3,
+      "implementation": "src/library-upload.mjs",
+      "tests": [
+        "test/library-upload.test.mjs",
+        "test/library-upload-source.test.mjs",
+        "test/library-upload-multipart.test.mjs"
+      ]
+    },
+    {
+      "id": "mail",
+      "description": "Selected Gmail/Outlook sends, status, undo, contacts",
+      "commandCount": 5,
+      "implementation": "src/mail.mjs",
+      "tests": [
+        "test/mail.test.mjs"
+      ]
+    },
+    {
+      "id": "message-workflows",
+      "description": "Message-bound plugin/authentication continuation",
+      "commandCount": 5,
+      "implementation": "src/message-workflows.mjs",
+      "tests": [
+        "test/message-workflows.test.mjs",
+        "test/message-callback-file.test.mjs"
+      ]
+    },
+    {
+      "id": "native-actions",
+      "description": "First-party native review, completion checks and explicit email-code approval",
+      "commandCount": 5,
+      "implementation": "src/native-actions.mjs",
+      "tests": [
+        "test/native-actions.test.mjs",
+        "test/native-actions-cancellation.test.mjs"
+      ]
+    },
+    {
+      "id": "onboarding",
+      "description": "Native creation/initialization with private recovery journal",
+      "commandCount": 4,
+      "implementation": "src/onboarding.mjs",
+      "tests": [
+        "test/onboarding.test.mjs"
+      ]
+    },
+    {
+      "id": "plugins",
+      "description": "Hosted plugin discovery, lifecycle, archive, sharing, service accounts",
+      "commandCount": 25,
+      "implementation": "src/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs"
+      ]
+    },
+    {
+      "id": "project-connections",
+      "description": "Project-scoped provider setup and private authorization recovery",
+      "commandCount": 8,
+      "implementation": "src/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs"
+      ]
+    },
+    {
+      "id": "project-files",
+      "description": "Project file membership and existing Library attachments",
+      "commandCount": 3,
+      "implementation": "src/project-files.mjs",
+      "tests": [
+        "test/project-files.test.mjs"
+      ]
+    },
+    {
+      "id": "project-memory",
+      "description": "Existing project memory configuration and guarded changes",
+      "commandCount": 2,
+      "implementation": "src/project-memory.mjs",
+      "tests": [
+        "test/project-memory.test.mjs"
+      ]
+    },
+    {
+      "id": "project-saves",
+      "description": "Project saved assistant-response lifecycle",
+      "commandCount": 5,
+      "implementation": "src/project-saves.mjs",
+      "tests": [
+        "test/project-saves.test.mjs"
+      ]
+    },
+    {
+      "id": "project-sharing",
+      "description": "Native project access, invitations and member roles",
+      "commandCount": 5,
+      "implementation": "src/project-sharing.mjs",
+      "tests": [
+        "test/project-sharing.test.mjs"
+      ]
+    },
+    {
+      "id": "project-sources",
+      "description": "Project website and connector sources with synchronization",
+      "commandCount": 7,
+      "implementation": "src/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs"
+      ]
+    },
+    {
+      "id": "project-upload",
+      "description": "Direct native project uploads and durable recovery",
+      "commandCount": 3,
+      "implementation": "src/project-upload.mjs",
+      "tests": [
+        "test/project-upload.test.mjs"
+      ]
+    },
+    {
+      "id": "remote-control",
+      "description": "Loopback WebRTC viewer, explicit control, clipboard, browser handoff",
+      "commandCount": 2,
+      "implementation": "src/remote-control.mjs",
+      "tests": [
+        "test/remote-control.test.mjs",
+        "test/remote-control-browser.test.mjs",
+        "test/remote-control-browser-bootstrap.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ]
+    },
+    {
+      "id": "routine-management",
+      "description": "Routine search, public sharing, shared-source import prompt",
+      "commandCount": 7,
+      "implementation": "src/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs"
+      ]
+    },
+    {
+      "id": "saved-entities",
+      "description": "Native account Library saved products and places",
+      "commandCount": 6,
+      "implementation": "src/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/library.test.mjs",
+        "test/saved-entities-variant-options.test.mjs"
+      ]
+    },
+    {
+      "id": "sharing",
+      "description": "Scoped Library permissions, invitations, access requests",
+      "commandCount": 20,
+      "implementation": "src/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "account capabilities",
+      "commandSet": "account",
+      "method": "capabilities",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account memories capacity",
+      "commandSet": "account",
+      "method": "memoryCapacity",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account memories clear",
+      "commandSet": "account",
+      "method": "memoryClear",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account memories delete",
+      "commandSet": "account",
+      "method": "memoryDelete",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account memories list",
+      "commandSet": "account",
+      "method": "memoryList",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account memories warm",
+      "commandSet": "account",
+      "method": "memoryWarm",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account notifications get",
+      "commandSet": "account",
+      "method": "notificationGet",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account notifications update",
+      "commandSet": "account",
+      "method": "notificationUpdate",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account personality traits",
+      "commandSet": "account",
+      "method": "personalityTraitTypes",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account personality types",
+      "commandSet": "account",
+      "method": "personalityTypes",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account personalization get",
+      "commandSet": "account",
+      "method": "personalizationGet",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account personalization update",
+      "commandSet": "account",
+      "method": "personalizationUpdate",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections complete",
+      "commandSet": "project-connections",
+      "method": "connectionComplete",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections get",
+      "commandSet": "project-connections",
+      "method": "connectionGet",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections no-auth",
+      "commandSet": "project-connections",
+      "method": "connectionNoAuth",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections oauth",
+      "commandSet": "project-connections",
+      "method": "connectionStart",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections operation",
+      "commandSet": "project-connections",
+      "method": "connectionOperation",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections reauthorize",
+      "commandSet": "project-connections",
+      "method": "connectionReauthorize",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections status",
+      "commandSet": "project-connections",
+      "method": "connectionStatus",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects connections tos",
+      "commandSet": "project-connections",
+      "method": "connectionTos",
+      "implementation": "src/project-connections.mjs",
+      "registration": "src/command-sets/project-connections.mjs",
+      "tests": [
+        "test/project-connections.test.mjs",
+        "test/connections.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects conversations",
+      "commandSet": "account-projects",
+      "method": "conversations",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects create",
+      "commandSet": "account-projects",
+      "method": "create",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects delete",
+      "commandSet": "account-projects",
+      "method": "delete",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects files attach-library",
+      "commandSet": "project-files",
+      "method": "attachLibrary",
+      "implementation": "src/project-files.mjs",
+      "registration": "src/command-sets/project-files.mjs",
+      "tests": [
+        "test/project-files.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects files list",
+      "commandSet": "project-files",
+      "method": "list",
+      "implementation": "src/project-files.mjs",
+      "registration": "src/command-sets/project-files.mjs",
+      "tests": [
+        "test/project-files.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects files remove",
+      "commandSet": "project-files",
+      "method": "remove",
+      "implementation": "src/project-files.mjs",
+      "registration": "src/command-sets/project-files.mjs",
+      "tests": [
+        "test/project-files.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects files upload",
+      "commandSet": "project-upload",
+      "method": "upload",
+      "implementation": "src/project-upload.mjs",
+      "registration": "src/command-sets/project-upload.mjs",
+      "tests": [
+        "test/project-upload.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects files upload-reconcile",
+      "commandSet": "project-upload",
+      "method": "reconcile",
+      "implementation": "src/project-upload.mjs",
+      "registration": "src/command-sets/project-upload.mjs",
+      "tests": [
+        "test/project-upload.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects files upload-status",
+      "commandSet": "project-upload",
+      "method": "status",
+      "implementation": "src/project-upload.mjs",
+      "registration": "src/command-sets/project-upload.mjs",
+      "tests": [
+        "test/project-upload.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects get",
+      "commandSet": "account-projects",
+      "method": "get",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects list",
+      "commandSet": "account-projects",
+      "method": "list",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects memory get",
+      "commandSet": "project-memory",
+      "method": "get",
+      "implementation": "src/project-memory.mjs",
+      "registration": "src/command-sets/project-memory.mjs",
+      "tests": [
+        "test/project-memory.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects memory set",
+      "commandSet": "project-memory",
+      "method": "set",
+      "implementation": "src/project-memory.mjs",
+      "registration": "src/command-sets/project-memory.mjs",
+      "tests": [
+        "test/project-memory.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects pin",
+      "commandSet": "account-projects",
+      "method": "pin",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects pinned",
+      "commandSet": "account-projects",
+      "method": "pinned",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects saves create",
+      "commandSet": "project-saves",
+      "method": "create",
+      "implementation": "src/project-saves.mjs",
+      "registration": "src/command-sets/project-saves.mjs",
+      "tests": [
+        "test/project-saves.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects saves get",
+      "commandSet": "project-saves",
+      "method": "get",
+      "implementation": "src/project-saves.mjs",
+      "registration": "src/command-sets/project-saves.mjs",
+      "tests": [
+        "test/project-saves.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects saves list",
+      "commandSet": "project-saves",
+      "method": "list",
+      "implementation": "src/project-saves.mjs",
+      "registration": "src/command-sets/project-saves.mjs",
+      "tests": [
+        "test/project-saves.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects saves remove",
+      "commandSet": "project-saves",
+      "method": "remove",
+      "implementation": "src/project-saves.mjs",
+      "registration": "src/command-sets/project-saves.mjs",
+      "tests": [
+        "test/project-saves.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects saves rename",
+      "commandSet": "project-saves",
+      "method": "rename",
+      "implementation": "src/project-saves.mjs",
+      "registration": "src/command-sets/project-saves.mjs",
+      "tests": [
+        "test/project-saves.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sharing access",
+      "commandSet": "project-sharing",
+      "method": "access",
+      "implementation": "src/project-sharing.mjs",
+      "registration": "src/command-sets/project-sharing.mjs",
+      "tests": [
+        "test/project-sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sharing get",
+      "commandSet": "project-sharing",
+      "method": "get",
+      "implementation": "src/project-sharing.mjs",
+      "registration": "src/command-sets/project-sharing.mjs",
+      "tests": [
+        "test/project-sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sharing invite",
+      "commandSet": "project-sharing",
+      "method": "invite",
+      "implementation": "src/project-sharing.mjs",
+      "registration": "src/command-sets/project-sharing.mjs",
+      "tests": [
+        "test/project-sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sharing remove",
+      "commandSet": "project-sharing",
+      "method": "remove",
+      "implementation": "src/project-sharing.mjs",
+      "registration": "src/command-sets/project-sharing.mjs",
+      "tests": [
+        "test/project-sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sharing role",
+      "commandSet": "project-sharing",
+      "method": "role",
+      "implementation": "src/project-sharing.mjs",
+      "registration": "src/command-sets/project-sharing.mjs",
+      "tests": [
+        "test/project-sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources add",
+      "commandSet": "project-sources",
+      "method": "sourceAdd",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources get",
+      "commandSet": "project-sources",
+      "method": "sourceGet",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources list",
+      "commandSet": "project-sources",
+      "method": "sourcesList",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources providers",
+      "commandSet": "project-sources",
+      "method": "sourceProviders",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources remove",
+      "commandSet": "project-sources",
+      "method": "sourceRemove",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources sync",
+      "commandSet": "project-sources",
+      "method": "sourceSync",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects sources wait",
+      "commandSet": "project-sources",
+      "method": "sourceWait",
+      "implementation": "src/project-sources.mjs",
+      "registration": "src/command-sets/project-sources.mjs",
+      "tests": [
+        "test/project-sources.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects unpin",
+      "commandSet": "account-projects",
+      "method": "unpin",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account projects update",
+      "commandSet": "account-projects",
+      "method": "update",
+      "implementation": "src/account-projects.mjs",
+      "registration": "src/command-sets/account-projects.mjs",
+      "tests": [
+        "test/account-projects.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account reference-photos add",
+      "commandSet": "dot-extras",
+      "method": "uploadReferencePhoto",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account reference-photos delete",
+      "commandSet": "dot-extras",
+      "method": "removeReferencePhoto",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account reference-photos list",
+      "commandSet": "dot-extras",
+      "method": "listReferencePhotos",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account reference-photos replace",
+      "commandSet": "dot-extras",
+      "method": "updateReferencePhoto",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account settings get",
+      "commandSet": "account",
+      "method": "settingsGet",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account settings set",
+      "commandSet": "account",
+      "method": "settingsSet",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary actions",
+      "commandSet": "account",
+      "method": "summarySelectionActions",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary checksum",
+      "commandSet": "account",
+      "method": "summaryChecksum",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary clear",
+      "commandSet": "account",
+      "method": "summaryClear",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary correct",
+      "commandSet": "account",
+      "method": "summaryCorrect",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary forget",
+      "commandSet": "account",
+      "method": "summaryForget",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary get",
+      "commandSet": "account",
+      "method": "summaryGet",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary regenerate",
+      "commandSet": "account",
+      "method": "summaryRegenerate",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account summary stream",
+      "commandSet": "account",
+      "method": "summaryStream",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "account voices",
+      "commandSet": "account",
+      "method": "voices",
+      "implementation": "src/account.mjs",
+      "registration": "src/command-sets/account.mjs",
+      "tests": [
+        "test/account.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "actions native approve-email-code",
+      "commandSet": "native-actions",
+      "method": "approveEmailOtp",
+      "implementation": "src/native-actions.mjs",
+      "registration": "src/command-sets/native-actions.mjs",
+      "tests": [
+        "test/native-actions.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "actions native complete",
+      "commandSet": "native-actions",
+      "method": "complete",
+      "implementation": "src/native-actions.mjs",
+      "registration": "src/command-sets/native-actions.mjs",
+      "tests": [
+        "test/native-actions.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "actions native inspect",
+      "commandSet": "native-actions",
+      "method": "inspect",
+      "implementation": "src/native-actions.mjs",
+      "registration": "src/command-sets/native-actions.mjs",
+      "tests": [
+        "test/native-actions.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "actions native start",
+      "commandSet": "native-actions",
+      "method": "start",
+      "implementation": "src/native-actions.mjs",
+      "registration": "src/command-sets/native-actions.mjs",
+      "tests": [
+        "test/native-actions.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/native-actions-cancellation.test.mjs"
+      ]
+    },
+    {
+      "command": "actions native status",
+      "commandSet": "native-actions",
+      "method": "status",
+      "implementation": "src/native-actions.mjs",
+      "registration": "src/command-sets/native-actions.mjs",
+      "tests": [
+        "test/native-actions.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin get",
+      "commandSet": "connectors-admin",
+      "method": "get",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin mcp-create",
+      "commandSet": "connectors-admin",
+      "method": "createMcp",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin mcp-update",
+      "commandSet": "connectors-admin",
+      "method": "updateMcp",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin mfa",
+      "commandSet": "connectors-admin",
+      "method": "mfaRequirement",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin oauth",
+      "commandSet": "connectors-admin",
+      "method": "startOAuth",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin oauth-callback",
+      "commandSet": "connectors-admin",
+      "method": "oauthCallback",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin oauth-clients",
+      "commandSet": "connectors-admin",
+      "method": "oauthClients",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin oauth-config",
+      "commandSet": "connectors-admin",
+      "method": "discoverOAuth",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs",
+        "test/connector-oauth-discovery.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin privacy",
+      "commandSet": "connectors-admin",
+      "method": "setPrivacy",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs",
+        "test/connector-privacy-eligibility.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin refresh-actions",
+      "commandSet": "connectors-admin",
+      "method": "refreshActions",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin tos",
+      "commandSet": "connectors-admin",
+      "method": "tos",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin tunnels",
+      "commandSet": "connectors-admin",
+      "method": "tunnels",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector admin unlink-all",
+      "commandSet": "connectors-admin",
+      "method": "unlinkAll",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account api-key",
+      "commandSet": "connectors-admin",
+      "method": "serviceAccountApiKey",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account links",
+      "commandSet": "connectors-admin",
+      "method": "serviceAccountLinks",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account no-auth",
+      "commandSet": "connectors-admin",
+      "method": "serviceAccountNoAuth",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account oauth",
+      "commandSet": "connectors-admin",
+      "method": "serviceAccountOAuth",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account read-only",
+      "commandSet": "connectors-admin",
+      "method": "setServiceAccountReadOnly",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account read-write",
+      "commandSet": "connectors-admin",
+      "method": "setServiceAccountReadOnly",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account unlink",
+      "commandSet": "connectors-admin",
+      "method": "serviceAccountUnlink",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account workspace-connections",
+      "commandSet": "connectors-admin",
+      "method": "serviceAccountConnections",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account workspace-disable",
+      "commandSet": "connectors-admin",
+      "method": "setServiceAccountConnection",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "connector service-account workspace-enable",
+      "commandSet": "connectors-admin",
+      "method": "setServiceAccountConnection",
+      "implementation": "src/connectors-admin.mjs",
+      "registration": "src/command-sets/connectors-admin.mjs",
+      "tests": [
+        "test/connectors-admin.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/connector-service-account.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation archive",
+      "commandSet": "conversations",
+      "method": "archive",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation batch",
+      "commandSet": "conversations",
+      "method": "batch",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation clear-async-status",
+      "commandSet": "conversations",
+      "method": "clearAsyncStatus",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation delete",
+      "commandSet": "conversations",
+      "method": "delete",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation get",
+      "commandSet": "conversations",
+      "method": "get",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation history",
+      "commandSet": "conversations",
+      "method": "historyPages",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation inbox list",
+      "commandSet": "conversations",
+      "method": "inbox",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation inbox mark-read",
+      "commandSet": "conversations",
+      "method": "markRead",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation list",
+      "commandSet": "conversations",
+      "method": "list",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/conversation-created-order.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation move-project",
+      "commandSet": "conversations",
+      "method": "moveProject",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation pin",
+      "commandSet": "conversations",
+      "method": "pin",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation rename",
+      "commandSet": "conversations",
+      "method": "rename",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation responses",
+      "commandSet": "conversations",
+      "method": "responses",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation search",
+      "commandSet": "conversations",
+      "method": "search",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation select-response",
+      "commandSet": "conversations",
+      "method": "selectResponse",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation shares create",
+      "commandSet": "conversations",
+      "method": "shareCreate",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation shares get",
+      "commandSet": "conversations",
+      "method": "shareGet",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation shares list",
+      "commandSet": "conversations",
+      "method": "shareList",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation shares revoke",
+      "commandSet": "conversations",
+      "method": "shareRevoke",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation shares update",
+      "commandSet": "conversations",
+      "method": "shareUpdate",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation unarchive",
+      "commandSet": "conversations",
+      "method": "unarchive",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "conversation unpin",
+      "commandSet": "conversations",
+      "method": "unpin",
+      "implementation": "src/conversations.mjs",
+      "registration": "src/command-sets/conversations.mjs",
+      "tests": [
+        "test/conversations.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot avatar-default",
+      "commandSet": "dot-extras",
+      "method": "avatar",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot onboarding create",
+      "commandSet": "onboarding",
+      "method": "create",
+      "implementation": "src/onboarding.mjs",
+      "registration": "src/command-sets/onboarding.mjs",
+      "tests": [
+        "test/onboarding.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot onboarding eligibility",
+      "commandSet": "onboarding",
+      "method": "eligibility",
+      "implementation": "src/onboarding.mjs",
+      "registration": "src/command-sets/onboarding.mjs",
+      "tests": [
+        "test/onboarding.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot onboarding resume",
+      "commandSet": "onboarding",
+      "method": "resume",
+      "implementation": "src/onboarding.mjs",
+      "registration": "src/command-sets/onboarding.mjs",
+      "tests": [
+        "test/onboarding.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot onboarding status",
+      "commandSet": "onboarding",
+      "method": "status",
+      "implementation": "src/onboarding.mjs",
+      "registration": "src/command-sets/onboarding.mjs",
+      "tests": [
+        "test/onboarding.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot primary-thread",
+      "commandSet": "dot-extras",
+      "method": "setPrimaryThread",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "dot recover-deletion",
+      "commandSet": "dot-extras",
+      "method": "recoverDeletions",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library browse",
+      "commandSet": "library-providers",
+      "method": "browse",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library content",
+      "commandSet": "library-content",
+      "method": "content",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library conversation-favorites",
+      "commandSet": "library-providers",
+      "method": "conversationFavorites",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library create-directory",
+      "commandSet": "library-content",
+      "method": "createDirectory",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library create-inline",
+      "commandSet": "library-content",
+      "method": "createInline",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library deep-research",
+      "commandSet": "library-content",
+      "method": "deepResearch",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library deep-research-export",
+      "commandSet": "library-content",
+      "method": "deepResearchExport",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/provider-materialization.test.mjs"
+      ]
+    },
+    {
+      "command": "library deep-research-images",
+      "commandSet": "library-content",
+      "method": "deepResearchImages",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library deep-research-state",
+      "commandSet": "library-content",
+      "method": "deepResearchState",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library delete-batch",
+      "commandSet": "library-content",
+      "method": "deleteBatch",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library delete-directory",
+      "commandSet": "library-content",
+      "method": "deleteDirectory",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library delete-permanently",
+      "commandSet": "library-content",
+      "method": "permanentDelete",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-snapshot-removal.test.mjs"
+      ]
+    },
+    {
+      "command": "library directory-path",
+      "commandSet": "library-navigation",
+      "method": "directoryPath",
+      "implementation": "src/command-sets/library-navigation.mjs",
+      "registration": "src/command-sets/library-navigation.mjs",
+      "tests": [
+        "test/library.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-navigation-cli.test.mjs"
+      ]
+    },
+    {
+      "command": "library download",
+      "commandSet": "library-content",
+      "method": "download",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/provider-materialization.test.mjs"
+      ]
+    },
+    {
+      "command": "library empty-trash",
+      "commandSet": "library-content",
+      "method": "emptyTrash",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library global-search",
+      "commandSet": "library-providers",
+      "method": "globalSearch",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/global-search-nested-id.test.mjs"
+      ]
+    },
+    {
+      "command": "library image-favorites add",
+      "commandSet": "library-providers",
+      "method": "imageFavorite",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library image-favorites status",
+      "commandSet": "library-providers",
+      "method": "imageFavoriteStatus",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library move",
+      "commandSet": "library-navigation",
+      "method": "move",
+      "implementation": "src/command-sets/library-navigation.mjs",
+      "registration": "src/command-sets/library-navigation.mjs",
+      "tests": [
+        "test/library.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-navigation-cli.test.mjs"
+      ]
+    },
+    {
+      "command": "library move-directory",
+      "commandSet": "library-navigation",
+      "method": "moveDirectory",
+      "implementation": "src/command-sets/library-navigation.mjs",
+      "registration": "src/command-sets/library-navigation.mjs",
+      "tests": [
+        "test/library.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-navigation-cli.test.mjs"
+      ]
+    },
+    {
+      "command": "library opened",
+      "commandSet": "library-content",
+      "method": "markOpened",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library plan-summary",
+      "commandSet": "library-content",
+      "method": "planSummary",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers capabilities",
+      "commandSet": "library-providers",
+      "method": "mountedCapabilities",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers materialize",
+      "commandSet": "library-providers",
+      "method": "materialize",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/provider-materialization.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers metadata",
+      "commandSet": "library-providers",
+      "method": "fileMetadata",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers onedrive-status",
+      "commandSet": "library-providers",
+      "method": "oneDriveCapability",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers preview",
+      "commandSet": "library-providers",
+      "method": "preview",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/provider-materialization.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers resolve",
+      "commandSet": "library-providers",
+      "method": "resolve",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers search",
+      "commandSet": "library-providers",
+      "method": "search",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library providers search-cache",
+      "commandSet": "library-providers",
+      "method": "searchCache",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library recents",
+      "commandSet": "library-content",
+      "method": "recents",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library references add",
+      "commandSet": "library-providers",
+      "method": "createReferenceImage",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/reference-image-mutation-echo.test.mjs"
+      ]
+    },
+    {
+      "command": "library references add-suggestion",
+      "commandSet": "library-providers",
+      "method": "createReferenceImage",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/reference-image-mutation-echo.test.mjs"
+      ]
+    },
+    {
+      "command": "library references delete",
+      "commandSet": "library-providers",
+      "method": "deleteReferenceImage",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library references list",
+      "commandSet": "library-providers",
+      "method": "referenceImages",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library references thumbnail",
+      "commandSet": "library-providers",
+      "method": "referenceThumbnail",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/provider-materialization.test.mjs"
+      ]
+    },
+    {
+      "command": "library references update",
+      "commandSet": "library-providers",
+      "method": "updateReferenceImage",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/reference-image-mutation-echo.test.mjs"
+      ]
+    },
+    {
+      "command": "library register-upload",
+      "commandSet": "library-content",
+      "method": "registerUpload",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-registration.test.mjs",
+        "test/provider-materialization.test.mjs"
+      ]
+    },
+    {
+      "command": "library saved capabilities",
+      "commandSet": "saved-entities",
+      "method": "capabilities",
+      "implementation": "src/saved-entities.mjs",
+      "registration": "src/command-sets/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library saved get",
+      "commandSet": "saved-entities",
+      "method": "get",
+      "implementation": "src/saved-entities.mjs",
+      "registration": "src/command-sets/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library.test.mjs",
+        "test/saved-entities-variant-options.test.mjs"
+      ]
+    },
+    {
+      "command": "library saved move",
+      "commandSet": "saved-entities",
+      "method": "move",
+      "implementation": "src/saved-entities.mjs",
+      "registration": "src/command-sets/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/saved-entities-variant-options.test.mjs"
+      ]
+    },
+    {
+      "command": "library saved remove",
+      "commandSet": "saved-entities",
+      "method": "remove",
+      "implementation": "src/saved-entities.mjs",
+      "registration": "src/command-sets/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library.test.mjs",
+        "test/saved-entities-variant-options.test.mjs"
+      ]
+    },
+    {
+      "command": "library saved save",
+      "commandSet": "saved-entities",
+      "method": "save",
+      "implementation": "src/saved-entities.mjs",
+      "registration": "src/command-sets/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library.test.mjs",
+        "test/saved-entities-variant-options.test.mjs"
+      ]
+    },
+    {
+      "command": "library saved status",
+      "commandSet": "saved-entities",
+      "method": "status",
+      "implementation": "src/saved-entities.mjs",
+      "registration": "src/command-sets/saved-entities.mjs",
+      "tests": [
+        "test/saved-entities.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library.test.mjs",
+        "test/saved-entities-variant-options.test.mjs"
+      ]
+    },
+    {
+      "command": "library search",
+      "commandSet": "library-providers",
+      "method": "librarySearch",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library.test.mjs"
+      ]
+    },
+    {
+      "command": "library shared-search",
+      "commandSet": "library-providers",
+      "method": "sharedSearch",
+      "implementation": "src/library-providers.mjs",
+      "registration": "src/command-sets/library-providers.mjs",
+      "tests": [
+        "test/library-providers.test.mjs",
+        "test/v4-library-filters.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing accept",
+      "commandSet": "sharing",
+      "method": "acceptInvitation",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing apply",
+      "commandSet": "sharing",
+      "method": "applyAccessChange",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/sharing-access-impact.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing capabilities",
+      "commandSet": "sharing",
+      "method": "capabilities",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing collaborators",
+      "commandSet": "sharing",
+      "method": "collaborators",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing decide",
+      "commandSet": "sharing",
+      "method": "decideAccessRequest",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing decline",
+      "commandSet": "sharing",
+      "method": "declineInvitation",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing effective",
+      "commandSet": "sharing",
+      "method": "effectiveAccess",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing grant",
+      "commandSet": "sharing",
+      "method": "createShare",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/sharing-recipient-default.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing identity",
+      "commandSet": "sharing",
+      "method": "identity",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing invitation",
+      "commandSet": "sharing",
+      "method": "invitation",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing invitations",
+      "commandSet": "sharing",
+      "method": "invitations",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing leave",
+      "commandSet": "sharing",
+      "method": "removeReceivedShare",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing link",
+      "commandSet": "sharing",
+      "method": "updateLinkAccess",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing preview",
+      "commandSet": "sharing",
+      "method": "previewAccessChange",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/sharing-access-impact.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing request",
+      "commandSet": "sharing",
+      "method": "createAccessRequest",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing requests",
+      "commandSet": "sharing",
+      "method": "accessRequests",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/sharing-requester-eligibility.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing resolve",
+      "commandSet": "sharing",
+      "method": "resolveRecipient",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing revoke",
+      "commandSet": "sharing",
+      "method": "removeShare",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing shares",
+      "commandSet": "sharing",
+      "method": "shares",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library sharing state",
+      "commandSet": "sharing",
+      "method": "state",
+      "implementation": "src/sharing.mjs",
+      "registration": "src/command-sets/sharing.mjs",
+      "tests": [
+        "test/sharing.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library thumbnail",
+      "commandSet": "library-content",
+      "method": "thumbnail",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library update-inline",
+      "commandSet": "library-content",
+      "method": "updateInline",
+      "implementation": "src/library-content.mjs",
+      "registration": "src/command-sets/library-content.mjs",
+      "tests": [
+        "test/library-content.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "library upload",
+      "commandSet": "libraryUpload",
+      "method": "upload",
+      "implementation": "src/library-upload.mjs",
+      "registration": "src/command-sets/libraryUpload.mjs",
+      "tests": [
+        "test/library-upload.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-upload-source.test.mjs",
+        "test/library-upload-multipart.test.mjs"
+      ]
+    },
+    {
+      "command": "library upload-reconcile",
+      "commandSet": "libraryUpload",
+      "method": "reconcile",
+      "implementation": "src/library-upload.mjs",
+      "registration": "src/command-sets/libraryUpload.mjs",
+      "tests": [
+        "test/library-upload.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-upload-source.test.mjs",
+        "test/library-upload-multipart.test.mjs"
+      ]
+    },
+    {
+      "command": "library upload-status",
+      "commandSet": "libraryUpload",
+      "method": "status",
+      "implementation": "src/library-upload.mjs",
+      "registration": "src/command-sets/libraryUpload.mjs",
+      "tests": [
+        "test/library-upload.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/library-upload-source.test.mjs",
+        "test/library-upload-multipart.test.mjs"
+      ]
+    },
+    {
+      "command": "mail accounts",
+      "commandSet": "mail",
+      "method": "accounts",
+      "implementation": "src/mail.mjs",
+      "registration": "src/command-sets/mail.mjs",
+      "tests": [
+        "test/mail.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "mail contacts",
+      "commandSet": "mail",
+      "method": "contacts",
+      "implementation": "src/mail.mjs",
+      "registration": "src/command-sets/mail.mjs",
+      "tests": [
+        "test/mail.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "mail send",
+      "commandSet": "mail",
+      "method": "send",
+      "implementation": "src/mail.mjs",
+      "registration": "src/command-sets/mail.mjs",
+      "tests": [
+        "test/mail.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "mail status",
+      "commandSet": "mail",
+      "method": "status",
+      "implementation": "src/mail.mjs",
+      "registration": "src/command-sets/mail.mjs",
+      "tests": [
+        "test/mail.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "mail undo",
+      "commandSet": "mail",
+      "method": "undo",
+      "implementation": "src/mail.mjs",
+      "registration": "src/command-sets/mail.mjs",
+      "tests": [
+        "test/mail.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "message auth complete",
+      "commandSet": "message-workflows",
+      "method": "completeConnectorAuth",
+      "implementation": "src/message-workflows.mjs",
+      "registration": "src/command-sets/message-workflows.mjs",
+      "tests": [
+        "test/message-workflows.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/message-callback-file.test.mjs"
+      ]
+    },
+    {
+      "command": "message auth get",
+      "commandSet": "message-workflows",
+      "method": "connectorAuth",
+      "implementation": "src/message-workflows.mjs",
+      "registration": "src/command-sets/message-workflows.mjs",
+      "tests": [
+        "test/message-workflows.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/message-callback-file.test.mjs"
+      ]
+    },
+    {
+      "command": "message auth start",
+      "commandSet": "message-workflows",
+      "method": "startConnectorAuth",
+      "implementation": "src/message-workflows.mjs",
+      "registration": "src/command-sets/message-workflows.mjs",
+      "tests": [
+        "test/message-workflows.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/message-callback-file.test.mjs"
+      ]
+    },
+    {
+      "command": "message plugins continue",
+      "commandSet": "message-workflows",
+      "method": "continuePlugins",
+      "implementation": "src/message-workflows.mjs",
+      "registration": "src/command-sets/message-workflows.mjs",
+      "tests": [
+        "test/message-workflows.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/message-callback-file.test.mjs"
+      ]
+    },
+    {
+      "command": "message plugins get",
+      "commandSet": "message-workflows",
+      "method": "pluginSuggestions",
+      "implementation": "src/message-workflows.mjs",
+      "registration": "src/command-sets/message-workflows.mjs",
+      "tests": [
+        "test/message-workflows.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/message-callback-file.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin batch",
+      "commandSet": "plugins",
+      "method": "batch",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin catalog",
+      "commandSet": "plugins",
+      "method": "list",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin created",
+      "commandSet": "plugins",
+      "method": "list",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin delete",
+      "commandSet": "plugins",
+      "method": "delete",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin disable",
+      "commandSet": "plugins",
+      "method": "setEnabled",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin enable",
+      "commandSet": "plugins",
+      "method": "setEnabled",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin export",
+      "commandSet": "plugins",
+      "method": "exportArchive",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin get",
+      "commandSet": "plugins",
+      "method": "get",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin home",
+      "commandSet": "plugins",
+      "method": "home",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin import",
+      "commandSet": "plugins",
+      "method": "importArchive",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin import-status",
+      "commandSet": "plugins",
+      "method": "importStatus",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin install",
+      "commandSet": "plugins",
+      "method": "install",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin list",
+      "commandSet": "plugins",
+      "method": "list",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin resolve-app",
+      "commandSet": "plugins",
+      "method": "resolveApp",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin search",
+      "commandSet": "plugins",
+      "method": "list",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin service-account install",
+      "commandSet": "plugins",
+      "method": "teamInstall",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin service-account list",
+      "commandSet": "plugins",
+      "method": "teamList",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin service-account uninstall",
+      "commandSet": "plugins",
+      "method": "teamUninstall",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin share",
+      "commandSet": "plugins",
+      "method": "setShares",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/plugin-workspace-eligibility.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin shared",
+      "commandSet": "plugins",
+      "method": "list",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin shares",
+      "commandSet": "plugins",
+      "method": "shares",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/plugin-workspace-eligibility.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin skill",
+      "commandSet": "plugins",
+      "method": "skill",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin skill-disable",
+      "commandSet": "plugins",
+      "method": "setSkillEnabled",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin skill-enable",
+      "commandSet": "plugins",
+      "method": "setSkillEnabled",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "plugin uninstall",
+      "commandSet": "plugins",
+      "method": "uninstall",
+      "implementation": "src/plugins.mjs",
+      "registration": "src/command-sets/plugins.mjs",
+      "tests": [
+        "test/plugins.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth availability",
+      "commandSet": "browser-auth",
+      "method": "availability",
+      "implementation": "src/browser-auth.mjs",
+      "registration": "src/command-sets/browser-auth.mjs",
+      "tests": [
+        "test/browser-auth.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/browser-auth-origins.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth candidates",
+      "commandSet": "browser-auth",
+      "method": "candidates",
+      "implementation": "src/browser-auth.mjs",
+      "registration": "src/command-sets/browser-auth.mjs",
+      "tests": [
+        "test/browser-auth.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/browser-auth-origins.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth claim",
+      "commandSet": "browser-auth-native",
+      "method": "claim",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth fill",
+      "commandSet": "browser-auth-native",
+      "method": "fill",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/browser-auth-input-cancellation.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth inspect",
+      "commandSet": "browser-auth-native",
+      "method": "inspectChallenge",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth operation",
+      "commandSet": "browser-auth-native",
+      "method": "state",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth password-manager open",
+      "commandSet": "browser-auth-native",
+      "method": "openManagerApproval",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth password-manager start",
+      "commandSet": "browser-auth-native",
+      "method": "startManager",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth password-manager status",
+      "commandSet": "browser-auth-native",
+      "method": "managerStatus",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth password-manager use",
+      "commandSet": "browser-auth-native",
+      "method": "useManager",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth prepare",
+      "commandSet": "browser-auth",
+      "method": "prepare",
+      "implementation": "src/browser-auth.mjs",
+      "registration": "src/command-sets/browser-auth.mjs",
+      "tests": [
+        "test/browser-auth.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/browser-auth-origins.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth qr open",
+      "commandSet": "browser-extras",
+      "method": "qrOpen",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/browser-extras-lifecycle.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth qr status",
+      "commandSet": "browser-extras",
+      "method": "qrStatus",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth reconcile",
+      "commandSet": "browser-auth",
+      "method": "reconcile",
+      "implementation": "src/browser-auth.mjs",
+      "registration": "src/command-sets/browser-auth.mjs",
+      "tests": [
+        "test/browser-auth.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth recover",
+      "commandSet": "browser-auth-native",
+      "method": "recover",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote auth reuse",
+      "commandSet": "browser-auth-native",
+      "method": "reuse",
+      "implementation": "src/browser-auth-native.mjs",
+      "registration": "src/command-sets/browser-auth-native.mjs",
+      "tests": [
+        "test/browser-auth-native.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote browser",
+      "commandSet": "remote-control",
+      "method": "open",
+      "implementation": "src/remote-control.mjs",
+      "registration": "src/command-sets/remote-control.mjs",
+      "tests": [
+        "test/remote-control.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/remote-control-browser.test.mjs",
+        "test/remote-control-browser-bootstrap.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ]
+    },
+    {
+      "command": "remote browser legacy open",
+      "commandSet": "browser-extras",
+      "method": "handoffOpen",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/browser-extras-lifecycle.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ]
+    },
+    {
+      "command": "remote browser legacy status",
+      "commandSet": "browser-extras",
+      "method": "handoffStatus",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote computer",
+      "commandSet": "remote-control",
+      "method": "open",
+      "implementation": "src/remote-control.mjs",
+      "registration": "src/command-sets/remote-control.mjs",
+      "tests": [
+        "test/remote-control.test.mjs",
+        "test/v4-commands.test.mjs",
+        "test/remote-control-browser.test.mjs",
+        "test/remote-control-browser-bootstrap.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ]
+    },
+    {
+      "command": "remote config",
+      "commandSet": "browser-extras",
+      "method": "config",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote config set",
+      "commandSet": "browser-extras",
+      "method": "updateConfig",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote cookies clear",
+      "commandSet": "browser-extras",
+      "method": "clearCookies",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote cookies delete",
+      "commandSet": "browser-extras",
+      "method": "deleteCookies",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote cookies list",
+      "commandSet": "browser-extras",
+      "method": "cookies",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote origins list",
+      "commandSet": "browser-extras",
+      "method": "origins",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote origins remove",
+      "commandSet": "browser-extras",
+      "method": "removeOrigin",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote origins set",
+      "commandSet": "browser-extras",
+      "method": "setOrigin",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote passkeys delete",
+      "commandSet": "browser-extras",
+      "method": "deletePasskey",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "remote passkeys list",
+      "commandSet": "browser-extras",
+      "method": "passkeys",
+      "implementation": "src/browser-extras.mjs",
+      "registration": "src/command-sets/browser-extras.mjs",
+      "tests": [
+        "test/browser-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine import-prompt",
+      "commandSet": "routine-management",
+      "method": "creationPrompt",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine query",
+      "commandSet": "routine-management",
+      "method": "query",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine share create",
+      "commandSet": "routine-management",
+      "method": "createShare",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine share current",
+      "commandSet": "routine-management",
+      "method": "currentShare",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine share refresh",
+      "commandSet": "routine-management",
+      "method": "refreshShare",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine share revoke",
+      "commandSet": "routine-management",
+      "method": "revokeShare",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "routine shared",
+      "commandSet": "routine-management",
+      "method": "shared",
+      "implementation": "src/routine-management.mjs",
+      "registration": "src/command-sets/routine-management.mjs",
+      "tests": [
+        "test/routine-management.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    },
+    {
+      "command": "threads inventory",
+      "commandSet": "dot-extras",
+      "method": "listThreads",
+      "implementation": "src/dot-extras.mjs",
+      "registration": "src/command-sets/dot-extras.mjs",
+      "tests": [
+        "test/dot-extras.test.mjs",
+        "test/v4-commands.test.mjs"
+      ]
+    }
+  ],
+  "baseSurface": [
+    {
+      "area": "Authentication and transport",
+      "surface": [
+        "auth login",
+        "auth status",
+        "auth refresh",
+        "auth logout"
+      ],
+      "implementation": [
+        "src/auth.mjs",
+        "src/auth-actions.mjs",
+        "src/transport.mjs",
+        "src/http.mjs",
+        "src/stream-http.mjs",
+        "src/http.py"
+      ],
+      "tests": [
+        "test/auth-actions.test.mjs",
+        "test/auth-transport.test.mjs",
+        "test/http.test.mjs",
+        "test/http-helper.test.mjs",
+        "test/stream-http-process.test.mjs"
+      ],
+      "notes": "Shared Codex login; credential redaction, first-party endpoints, bounded transfers and identity pinning."
+    },
+    {
+      "area": "Room history and explicit sends",
+      "surface": [
+        "status",
+        "dots",
+        "profile",
+        "history",
+        "send",
+        "typing",
+        "prepare",
+        "task-subscription"
+      ],
+      "implementation": [
+        "src/client.mjs",
+        "src/advanced.mjs"
+      ],
+      "tests": [
+        "test/client.test.mjs",
+        "test/advanced.test.mjs",
+        "test/task-history-scope.test.mjs",
+        "test/task-subscription-contract.test.mjs"
+      ],
+      "notes": "Visible-message projection, task/reply/context IDs, explicit sends and bounded history.",
+      "liveEvidence": [
+        {
+          "surface": "history --around",
+          "status": "live_read_verified",
+          "sourceStage": "post_package_0.5.13_read_only",
+          "scope": "One bounded around read returned three messages including the exact known assistant marker. No send or wait operation in this phase."
+        },
+        {
+          "surface": "send --wait (plain text)",
+          "status": "live_workflow_verified",
+          "sourceStage": "post_package_0.5.13",
+          "scope": "One accepted plain-text POST followed by exact completed marker observation within 9.853 seconds. Five 200 responses total, four GETs/one POST; no retry/error/follow-up send. Canary/reply remain in history. Attachment/task-scoped variants not implied.",
+          "evidence": "work/live-audit/send-wait-0513-b4d83036-7cf0-4f88-87c9-e934ebad639b/summary.json"
+        }
+      ]
+    },
+    {
+      "area": "Search, export, and terminal chat",
+      "surface": [
+        "search",
+        "thread",
+        "outline",
+        "export",
+        "chat"
+      ],
+      "implementation": [
+        "src/advanced.mjs",
+        "src/chat.mjs",
+        "src/store.mjs"
+      ],
+      "tests": [
+        "test/advanced.test.mjs",
+        "test/chat.test.mjs",
+        "test/chat-cli.test.mjs",
+        "test/store-cancellation.test.mjs",
+        "test/export-publication.test.mjs"
+      ],
+      "notes": "Bounded text search, private exports, typed foreground chat.",
+      "liveEvidence": [
+        {
+          "surface": "export",
+          "status": "live_read_verified",
+          "sourceStage": "working_tree_after_0.5.6",
+          "scope": "JSON and Markdown each exported 20 visible messages with a known marker, mode 0600 and OUTPUT_EXISTS byte preservation. Search/valid around failed on edge challenges."
+        },
+        {
+          "surface": "search --since/--until",
+          "status": "live_read_verified",
+          "sourceStage": "post_package_0.5.13_read_only",
+          "scope": "Local include/exclude predicates returned 1/0 matches from three pages and 60 raw records each; target observed in both scans, truncated true. No exhaustive-history, export, chat or send--wait proof."
+        }
+      ]
+    },
+    {
+      "area": "Polling and native live events",
+      "surface": [
+        "watch",
+        "events watch",
+        "activity list",
+        "activity watch",
+        "activity room",
+        "task-events watch"
+      ],
+      "implementation": [
+        "src/client.mjs",
+        "src/advanced.mjs",
+        "src/live.mjs",
+        "src/task-records.mjs"
+      ],
+      "tests": [
+        "test/client.test.mjs",
+        "test/advanced.test.mjs",
+        "test/live.test.mjs",
+        "test/task-events.test.mjs",
+        "test/task-records.test.mjs",
+        "test/task-history-scope.test.mjs",
+        "test/task-subscription-contract.test.mjs"
+      ],
+      "notes": "Task message topics and the separate native tbo-tasks state feed are implemented. Live task-state connection delivered one resync and no task upserts; execution and task-specific routing remain unverified. No hosted daemon.",
+      "liveVerification": {
+        "surface": "task-events watch",
+        "status": "live_read_verified",
+        "date": "2026-10-18",
+        "scope": "Selected Dot scope matched; one task-resync, zero task-upserts, clean bounded exit. No individual task existed.",
+        "writesVerified": false,
+        "sourceStage": "working_tree_after_0.5.1"
+      }
+    },
+    {
+      "area": "Files and resumable reservations",
+      "surface": [
+        "upload",
+        "download",
+        "artifacts"
+      ],
+      "implementation": [
+        "src/files.mjs",
+        "src/uploads.mjs"
+      ],
+      "tests": [
+        "test/files.test.mjs",
+        "test/uploads.test.mjs"
+      ],
+      "notes": "Bounded files and private saves; reservation/completion recovery, not arbitrary chunked resume."
+    },
+    {
+      "area": "Approval forms and message metadata",
+      "surface": [
+        "actions",
+        "action inspect",
+        "action respond",
+        "react",
+        "read",
+        "email"
+      ],
+      "implementation": [
+        "src/actions.mjs",
+        "src/action-forms.mjs",
+        "src/action-approvals.mjs"
+      ],
+      "tests": [
+        "test/actions.test.mjs",
+        "test/action-forms.test.mjs",
+        "test/action-form-integrity.test.mjs"
+      ],
+      "notes": "Fresh request identity/fingerprint; supported rich forms and offered resource selections. Native acceptance paths remain restricted."
+    },
+    {
+      "area": "Dot lifecycle and computers",
+      "surface": [
+        "dot",
+        "environment",
+        "computer",
+        "doctor",
+        "safety",
+        "pause",
+        "resume",
+        "tasks",
+        "task",
+        "threads all"
+      ],
+      "implementation": [
+        "src/lifecycle.mjs",
+        "src/operations.mjs",
+        "src/task-records.mjs"
+      ],
+      "tests": [
+        "test/lifecycle.test.mjs",
+        "test/operations.test.mjs",
+        "test/task-records.test.mjs",
+        "test/threads-help.test.mjs",
+        "test/task-history-scope.test.mjs",
+        "test/task-subscription-contract.test.mjs"
+      ],
+      "notes": "Visible task list/detail use the shared native-field projection and strict cursor validation. Latest primary read passed but history preflight was edge-challenged; zero new task sends. Task execution/upsert remains unverified. During the 0.5.13 audit, the 0.5.12 CLI Dot profile and task list each returned 200; the list was empty, with zero writes and no individual task read.",
+      "liveVerification": {
+        "surface": "tasks",
+        "status": "live_read_verified",
+        "date": "2026-10-18",
+        "result": "Empty task list; individual task/subscription paths not verified."
+      },
+      "liveEvidence": [
+        {
+          "surface": "environment/computer",
+          "status": "live_read_verified",
+          "sourceStage": "working_tree_after_0.5.6",
+          "scope": "Exact account, Dot and root matched one attached ready cloud environment. Metadata only; zero SDP or remote media/control."
+        }
+      ]
+    },
+    {
+      "area": "Dot email, meetings, voice",
+      "surface": [
+        "email-channel",
+        "meeting start",
+        "voice chat",
+        "voice allocate",
+        "voice attach",
+        "voice stop"
+      ],
+      "implementation": [
+        "src/channels.mjs",
+        "src/voice.mjs",
+        "src/voice-browser.mjs"
+      ],
+      "tests": [
+        "test/channels.test.mjs",
+        "test/voice.test.mjs",
+        "test/voice-browser.test.mjs",
+        "test/voice-browser-dom.test.mjs",
+        "test/viewer-output-failure.test.mjs"
+      ],
+      "notes": "Explicit versioned email consent, Google Meet invitation, separate WebRTC voice broker.",
+      "liveVerification": {
+        "surface": "voice chat --listen-only",
+        "status": "live_workflow_verified",
+        "date": "2026-10-18",
+        "scope": "Actual CLI with real Chrome: allocate201, attach200, one live remote audio track and advancing media clock; exact stop200 and clean exit. Track muted; no audible response, microphone, recognition or call-history readback verified.",
+        "writesVerified": true,
+        "sourceStage": "working_tree_after_0.5.1"
+      }
+    },
+    {
+      "area": "Cloud routine management",
+      "surface": [
+        "routine list",
+        "routine get",
+        "routine create",
+        "routine update",
+        "routine enable",
+        "routine disable",
+        "routine delete",
+        "routine run",
+        "routine runs",
+        "routine result",
+        "routine latest",
+        "routine threads",
+        "routine mark-read",
+        "routine policy",
+        "routine batch",
+        "routine flush-batch"
+      ],
+      "implementation": [
+        "src/operations.mjs",
+        "src/routine-extras.mjs"
+      ],
+      "tests": [
+        "test/operations.test.mjs",
+        "test/routine-extras.test.mjs",
+        "test/routine-result-integrity.test.mjs"
+      ],
+      "notes": "Scheduled routine lifecycle is supported. Existing event metadata remains readable and ordinary edits preserve it by omission. Event-trigger authoring was removed after live requests failed to persist triggers.",
+      "liveEvidence": [
+        {
+          "surface": "routine create/get/policy/threads/latest/delete",
+          "status": "live_workflow_verified",
+          "sourceStage": "audit_0.5.13",
+          "scope": "One owned canary: create/delete were the only writes across17calls; policy200, complete empty threads and null latest. Before-run GET403 stopped execution; no run or chat. Cleanup used fresh configuration/complete empty raw runs, one removal201 and independent detail410. No fixture residue; this does not verify mark-read, terminal results or nonempty latest."
+        },
+        {
+          "surface": "routine result",
+          "status": "live_read_verified",
+          "sourceStage": "post_release_0.5.16_observation_on_frozen_0.5.15",
+          "scope": "Invocation 7 on frozen0.5.15 made three GETs returning200. Exact persisted run/chat identity and visible final result text matched the canary; the CLI projection correctly reported no user action. This is scoped result-read proof, not source-conversation, snapshot-save or cleanup proof.",
+          "harnessOutcome": "Private guard held; exact result and projection independently reconciled offline.",
+          "writesVerified": false
+        },
+        {
+          "surface": "routine latest",
+          "status": "live_read_verified",
+          "sourceStage": "historical_actual_cli_reconciled_2026_10_18",
+          "scope": "Historical actual-CLI latest-null-fixed made one GET returning 200 and a nonempty latest_update whose text matched its synthetic canary. No separate raw-body/framing receipt or returned last_backing_run object is proved; nonempty execution threads are separate.",
+          "writesVerified": false,
+          "evidence": [
+            {
+              "path": "work/live-audit/routines-fixtures.json",
+              "sha256": "9f1ecd44ab83d78715dce9978e736473f47437ccad3406666a958ffaf30daf6a"
+            }
+          ]
+        },
+        {
+          "surface": "routine get preflight for execution threads",
+          "status": "edge_challenge",
+          "sourceStage": "source_0.5.20_read_followup",
+          "scope": "One source 0.5.20 fresh routine-metadata GET returned 403 with cf-mitigated: challenge; zero captured body bytes and bodyComplete: false. No routine CLI output or execution_threads request followed. Zero writes; source/dependency/prior-proof hashes unchanged. Separate from the original saved-chat canary: 12 invocations, 31 requests and an unknown save outcome.",
+          "writesVerified": false,
+          "evidence": [
+            {
+              "path": "work/live-audit/routine-read-followup-0520/execution-review.json",
+              "sha256": "1143780f461c306a591bf5b061de6d8b24e58a9706df2e14286c5eb74a370d96"
+            },
+            {
+              "path": "work/live-audit/routine-read-followup-0520/receipt-independent-review.json",
+              "sha256": "ec73e62357528a4a536fbb1c27f6ff5df2d857fe7a1bcd4c141eaa8ab17f0002"
+            },
+            {
+              "path": "work/live-audit/routine-read-followup-0520/execution-frozen.json",
+              "sha256": "da4365ef74bba9c064fd48b1cfb81923a62976d95f3244c3178101426ad75e7f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Connector links, tools, resources",
+      "surface": [
+        "connectors list",
+        "connector info",
+        "connector health",
+        "connection",
+        "tools",
+        "tool-call",
+        "connector-actions",
+        "resources",
+        "resource",
+        "resource-templates",
+        "prompts"
+      ],
+      "implementation": [
+        "src/operations.mjs",
+        "src/connections.mjs",
+        "src/mcp-catalog.mjs",
+        "src/mcp-native-call.mjs"
+      ],
+      "tests": [
+        "test/operations.test.mjs",
+        "test/connections.test.mjs",
+        "test/mcp-catalog.test.mjs",
+        "test/tool-call-links.test.mjs",
+        "test/mcp-native-call.test.mjs",
+        "test/mcp-native-resource.test.mjs"
+      ],
+      "notes": "Explicit provider setup, linked-account selection and catalog-checked tool calls. Native UI-template tools use qualified bindings; valid ui:// reads require an explicit fresh active link and may be dynamic. Ordinary tools and other resource schemes retain legacy routing. Provider consent remains interactive.",
+      "liveVerification": {
+        "surface": "tool-call",
+        "status": "live_read_verified",
+        "date": "2026-10-18",
+        "scope": "Gmail get_profile passed with an explicit link and empty arguments, and with matching synthetic link_id; native arguments no longer include the synthetic link selector. Other tool calls are not implied.",
+        "writesVerified": false,
+        "sourceStage": "working_tree_after_0.5.1"
+      },
+      "liveEvidence": [
+        {
+          "surface": "connection no-auth/status/unlink",
+          "status": "live_workflow_verified",
+          "scope": "One new personal no-auth connector linked and unlinked; final status disconnected and filtered link list empty. OAuth/API-key flows unverified."
+        },
+        {
+          "surface": "tools/tool-call/connector health",
+          "status": "live_read_verified",
+          "scope": "Three-tool catalog, health and one public-repository read_wiki_structure call passed for the new no-auth connector. Resources/prompts unverified."
+        },
+        {
+          "surface": "tool-call",
+          "status": "live_read_verified",
+          "scope": "Gmail get_profile passed both explicit-link and matching synthetic link_id forms."
+        },
+        {
+          "surface": "tools",
+          "status": "live_read_verified",
+          "sourceStage": "working_tree_after_0.5.3",
+          "scope": "Actual CLI scoped native catalogs returned236 Vercel tools and21 Gmail tools. Legacy short names were preserved; the Vercel native response was984860 bytes."
+        },
+        {
+          "surface": "native UI tool/resource adapters",
+          "status": "live_service_rejected",
+          "sourceStage": "working_tree_after_0.5.6",
+          "scope": "Qualified native Vercel tool calls, including exact UI-source-only metadata, reached HTTP200 but returned provider tool-not-found. Advertised ui:// resource read reached HTTP200 with JSON-RPC resource_not_found; no contents or rendered HTML. Ordinary routes remain unchanged."
+        },
+        {
+          "surface": "native ui:// resource read",
+          "status": "live_read_verified",
+          "sourceStage": "post_release_0.5.8",
+          "scope": "Production native reader returned one 7,438-byte Atlassian text/html;profile=mcp-app resource through exact active-link/account guards. One request, no tool calls/mutations/retries/rendering; no message-bound widget proof."
+        },
+        {
+          "surface": "native UI tool dispatch",
+          "status": "live_read_verified",
+          "sourceStage": "post_release_0.5.8",
+          "scope": "Actual generic CLI atlassianHome through exact active link returned HTTP200 and isError:false with structured content. Fresh catalog marked it read-only/non-destructive and supplied the UI URI; one call, no retry/mutation/rendering, no message-bound widget proof."
+        }
+      ]
+    },
+    {
+      "area": "Established Library operations",
+      "surface": [
+        "library get",
+        "library rename",
+        "library versions",
+        "library restore-version",
+        "library trash",
+        "library restore",
+        "library favorites",
+        "library favorite",
+        "library unfavorite",
+        "library favorite-status",
+        "library usage",
+        "library rename-directory"
+      ],
+      "implementation": [
+        "src/library.mjs"
+      ],
+      "tests": [
+        "test/library.test.mjs"
+      ],
+      "notes": "Safe file metadata, version/confirmation checks; 0.4 registry overrides browse/search/root movement.",
+      "liveEvidence": [
+        {
+          "surface": "library get",
+          "status": "live_read_verified",
+          "sourceVersion": "0.5.15",
+          "sourceStage": "post_package_0.5.15_library_read_followup",
+          "scope": "Exact retained owned ready350-byte file: base detail GET404 followed by the native same-ID /node GET200. Exact identity/name/file ID and visible ownership matched. No file content was downloaded.",
+          "evidence": {
+            "path": "work/live-audit/library-search-fallback-0515/summary.json",
+            "sha256": "f2928749b5baad01c2d8e1bc50dd9cea3d5df22e8de067ae588cd2d06404fc4c"
+          }
+        }
+      ]
+    },
+    {
+      "area": "Base CLI parsing and dispatch",
+      "surface": [
+        "--help",
+        "--version",
+        "capabilities"
+      ],
+      "implementation": [
+        "src/cli.mjs",
+        "src/commands.mjs",
+        "src/v3-commands.mjs",
+        "bin/dotter.mjs"
+      ],
+      "tests": [
+        "test/cli.test.mjs",
+        "test/commands.test.mjs",
+        "test/v3-commands.test.mjs",
+        "test/v3-integration.test.mjs",
+        "test/cli-error-entry.test.mjs",
+        "test/chat-cli.test.mjs",
+        "test/threads-help.test.mjs"
+      ],
+      "notes": "Base surface is grouped rather than counted; do not add these groups to the extended command total."
+    }
+  ],
+  "infrastructureTests": [
+    "test/public-api-v4.test.mjs",
+    "test/transport-v4.test.mjs",
+    "test/v4-commands.test.mjs",
+    "test/http.test.mjs",
+    "test/auth-transport.test.mjs",
+    "test/stream-errors.test.mjs",
+    "test/v5-integration.test.mjs",
+    "test/action-forms.test.mjs",
+    "test/transport-file-upload.test.mjs",
+    "test/task-records.test.mjs",
+    "test/mcp-catalog.test.mjs",
+    "test/mcp-native-call.test.mjs",
+    "test/mcp-native-resource.test.mjs",
+    "test/http-helper.test.mjs",
+    "test/stream-http-process.test.mjs",
+    "test/library-navigation-cli.test.mjs",
+    "test/voice-browser.test.mjs",
+    "test/voice-browser-dom.test.mjs",
+    "test/remote-control-browser.test.mjs",
+    "test/remote-control-browser-bootstrap.test.mjs",
+    "test/widget-continuation-poll.test.mjs",
+    "test/connector-service-account.test.mjs",
+    "test/message-callback-file.test.mjs",
+    "test/cli-error-entry.test.mjs",
+    "test/chat-cli.test.mjs",
+    "test/provider-materialization.test.mjs",
+    "test/store-cancellation.test.mjs",
+    "test/action-form-integrity.test.mjs",
+    "test/export-publication.test.mjs",
+    "test/routine-result-integrity.test.mjs",
+    "test/native-actions-cancellation.test.mjs",
+    "test/browser-extras-lifecycle.test.mjs",
+    "test/browser-auth-origins.test.mjs",
+    "test/browser-auth-input-cancellation.test.mjs",
+    "test/threads-help.test.mjs",
+    "test/conversation-created-order.test.mjs",
+    "test/project-sources-headers.test.mjs",
+    "test/library-not-found-classification.test.mjs",
+    "test/nonlibrary-not-found-classification.test.mjs",
+    "test/live-retry-classification.test.mjs",
+    "test/edge-response-headers.test.mjs",
+    "test/python-edge-headers.test.mjs",
+    "test/http-response-framing.test.mjs",
+    "test/live-callback-boundaries.test.mjs",
+    "test/stream-terminal-errors.test.mjs",
+    "test/transport-auth-status.test.mjs",
+    "test/task-history-scope.test.mjs",
+    "test/task-subscription-contract.test.mjs",
+    "test/sharing-requester-eligibility.test.mjs",
+    "test/library-save-chat-retired.test.mjs",
+    "test/global-search-nested-id.test.mjs",
+    "test/http-content-encoding.test.mjs",
+    "test/http-response-framing-ambiguity.test.mjs",
+    "test/socket-close.test.mjs",
+    "test/stream-response-framing.test.mjs",
+    "test/viewer-output-failure.test.mjs",
+    "test/widget-retirement.test.mjs",
+    "test/connector-mcp-delete-retired.test.mjs",
+    "test/plugin-workspace-eligibility.test.mjs",
+    "test/connector-oauth-discovery.test.mjs",
+    "test/sharing-access-impact.test.mjs",
+    "test/sharing-recipient-default.test.mjs",
+    "test/reference-image-mutation-echo.test.mjs",
+    "test/connector-privacy-eligibility.test.mjs"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "name": "dotter-cli",
+  "version": "0.5.22",
+  "description": "An independent command-line companion for OpenAI Dot",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "exports": "./src/index.mjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "dotter": "./bin/dotter.mjs"
+  },
+  "scripts": {
+    "start": "node bin/dotter.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "registry": "node scripts/build-command-registry.mjs",
+    "docs": "node scripts/build-cli-reference.mjs",
+    "coverage:docs": "node scripts/build-coverage.mjs",
+    "test:package": "node scripts/test-package.mjs",
+    "verify": "npm run check && npm test && npm run test:package"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "docs/workflows.md",
+    "docs/commands.md",
+    "docs/contracts.md",
+    "examples/",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "docs/architecture.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md"
+  ],
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "mime-types": "3.0.2",
+    "ws": "8.22.0"
+  },
+  "bundleDependencies": [
+    "ajv",
+    "ajv-formats",
+    "mime-types",
+    "ws"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Weekly review",
+  "prompt": "Review my current priorities and prepare a short summary for me.",
+  "schedule": "BEGIN:VEVENT\nRRULE:FREQ=WEEKLY;BYDAY=MO;BYHOUR=9;BYMINUTE=0;BYSECOND=0\nEND:VEVENT",
+  "timeZone": "Europe/London",
+  "enabled": false,
+  "notificationsEnabled": true,
+  "emailEnabled": false
+}

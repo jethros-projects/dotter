@@ -1,0 +1,6492 @@
+{
+  "account capabilities": {
+    "method": "capabilities",
+    "description": "List the implemented account-scoped APIs.",
+    "positionals": [],
+    "flags": {},
+    "set": "account"
+  },
+  "account memories capacity": {
+    "method": "memoryCapacity",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read saved-memory token capacity for the selected account.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account memories clear": {
+    "method": "memoryClear",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--delete-history": {
+        "target": "deleteHistory",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "accountId"
+      ]
+    ],
+    "description": "Clear saved account memories; confirm the exact account ID.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account memories delete": {
+    "method": "memoryDelete",
+    "positionals": [
+      "memoryId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "memoryId"
+      ]
+    ],
+    "description": "Delete one saved memory after confirming its exact ID.",
+    "set": "account"
+  },
+  "account memories list": {
+    "method": "memoryList",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "List visible saved memories for the selected account.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account memories warm": {
+    "method": "memoryWarm",
+    "positionals": [
+      "memoryId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Restore normal priority to a saved memory.",
+    "set": "account"
+  },
+  "account notifications get": {
+    "method": "notificationGet",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read account notification categories and channels.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account notifications update": {
+    "method": "notificationUpdate",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--updates": {
+        "target": "updates",
+        "type": "json"
+      },
+      "--file": {
+        "target": "updates",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId",
+      "updates"
+    ],
+    "description": "Update notification channels after fresh catalog validation.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account personality traits": {
+    "method": "personalityTraitTypes",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read nondeprecated personality traits and levels.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account personality types": {
+    "method": "personalityTypes",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read available personality choices.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account personalization get": {
+    "method": "personalizationGet",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read account custom instructions and personality preferences.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account personalization update": {
+    "method": "personalizationUpdate",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--update": {
+        "target": "update",
+        "type": "json"
+      },
+      "--file": {
+        "target": "update",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId",
+      "update"
+    ],
+    "description": "Patch instructions/preferences; personality choices are validated against fresh catalogs.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account projects connections complete": {
+    "method": "connectionComplete",
+    "positionals": [],
+    "description": "Submit a matching private OAuth callback once and verify the exact active account link.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      },
+      "--redirect-file": {
+        "target": "redirectFile",
+        "type": "secretPath"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile",
+      "redirectFile"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections get": {
+    "method": "connectionGet",
+    "positionals": [
+      "projectId",
+      "connectorType"
+    ],
+    "description": "Read native project-provider metadata for google_drive, slack or linear.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections no-auth": {
+    "method": "connectionNoAuth",
+    "positionals": [
+      "projectId",
+      "connectorType"
+    ],
+    "description": "Connect only when this native provider advertises no-auth, then verify its exact link.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections oauth": {
+    "method": "connectionStart",
+    "positionals": [
+      "projectId",
+      "connectorType"
+    ],
+    "description": "Start one browser authorization, bound to a private account/user/project journal.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      },
+      "--actions": {
+        "target": "actionNames",
+        "type": "list"
+      },
+      "--scopes": {
+        "target": "requestedScopes",
+        "type": "list"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections operation": {
+    "method": "connectionOperation",
+    "positionals": [],
+    "description": "Inspect or reconcile a private provider-operation journal without replaying auth requests.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections reauthorize": {
+    "method": "connectionReauthorize",
+    "positionals": [
+      "projectId",
+      "connectorType",
+      "linkId"
+    ],
+    "description": "Reauthorize one exact existing provider link using a private handoff journal.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      },
+      "--scopes": {
+        "target": "requestedScopes",
+        "type": "list"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections status": {
+    "method": "connectionStatus",
+    "positionals": [
+      "projectId",
+      "connectorType"
+    ],
+    "description": "Read current project-SKU provider status; a supplied link is checked exactly.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--link": {
+        "target": "linkId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-connections"
+  },
+  "account projects connections tos": {
+    "method": "connectionTos",
+    "positionals": [
+      "projectId",
+      "connectorType"
+    ],
+    "description": "Read project-provider consent text and policy links without accepting or connecting.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-connections"
+  },
+  "account projects conversations": {
+    "method": "conversations",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "List visible conversations belonging to one readable account project; page size is 1–50.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--pages": {
+        "target": "pages",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--owned-only": {
+        "target": "ownedOnly",
+        "type": "boolean"
+      },
+      "--all-accessible": {
+        "target": "ownedOnly",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects create": {
+    "method": "create",
+    "positionals": [
+      "name"
+    ],
+    "description": "Create one private native account project and verify its persisted fields; creation memory scope is unset (default), global or project_v2.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--emoji": {
+        "target": "emoji",
+        "type": "string"
+      },
+      "--theme": {
+        "target": "theme",
+        "type": "string"
+      },
+      "--memory-scope": {
+        "target": "memoryScope",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects delete": {
+    "method": "delete",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Permanently delete a project and ALL its chats after fresh delete-permission checks. Saved Library/Space files are retained. Requires exact ID confirmation and --delete-chats.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--delete-chats": {
+        "target": "deleteChats",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm",
+      "deleteChats"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "projectId"
+      ]
+    ],
+    "set": "account-projects"
+  },
+  "account projects files attach-library": {
+    "method": "attachLibrary",
+    "positionals": [
+      "projectId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--ids": {
+        "target": "libraryFileIds",
+        "type": "list"
+      }
+    },
+    "required": [
+      "accountId",
+      "libraryFileIds"
+    ],
+    "description": "Attach existing ready native Library files after fresh identity, project permission, private/default-memory and file-limit checks.",
+    "set": "project-files"
+  },
+  "account projects files list": {
+    "method": "list",
+    "positionals": [
+      "projectId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "List project file membership and current file capacity without reading file contents.",
+    "set": "project-files"
+  },
+  "account projects files remove": {
+    "method": "remove",
+    "positionals": [
+      "projectId",
+      "fileId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "fileId"
+      ]
+    ],
+    "description": "Remove one exact project source. Sends no Library or general Files deletion; confirm its project file ID.",
+    "set": "project-files"
+  },
+  "account projects files upload": {
+    "method": "upload",
+    "positionals": [
+      "projectId",
+      "file"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "path"
+      },
+      "--mime": {
+        "target": "mimeType",
+        "type": "string"
+      },
+      "--resume-parts": {
+        "target": "resumeParts",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "description": "Upload a local file through the native project-specific reservation, transfer, processing and membership flow, recording a private recovery journal.",
+    "set": "project-upload"
+  },
+  "account projects files upload-reconcile": {
+    "method": "reconcile",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "description": "Reconcile an uncertain native project upload through read-only checks; never reserve, process or attach again.",
+    "set": "project-upload"
+  },
+  "account projects files upload-status": {
+    "method": "status",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "accountId",
+      "stateFile"
+    ],
+    "description": "Inspect a private project-upload journal without replaying its writes.",
+    "set": "project-upload"
+  },
+  "account projects get": {
+    "method": "get",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Read one native g-p- project with safe file metadata and instructions.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects list": {
+    "method": "list",
+    "positionals": [],
+    "description": "List native account projects with cursor pagination; defaults to owned projects. Verified page-size range: 1–50.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--pages": {
+        "target": "pages",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--owned-only": {
+        "target": "ownedOnly",
+        "type": "boolean"
+      },
+      "--all-accessible": {
+        "target": "ownedOnly",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects memory get": {
+    "method": "get",
+    "positionals": [
+      "projectId"
+    ],
+    "required": [
+      "accountId"
+    ],
+    "description": "Read project memory configuration and current service-readable eligibility.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "set": "project-memory"
+  },
+  "account projects memory set": {
+    "method": "set",
+    "positionals": [
+      "projectId",
+      "scope"
+    ],
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "projectId"
+      ]
+    ],
+    "description": "Change an eligible private project to global or project_v2 memory and verify the stored setting; conversation behavior may propagate later.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "set": "project-memory"
+  },
+  "account projects pin": {
+    "method": "pin",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Pin a freshly verified readable project and confirm the pin list.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects pinned": {
+    "method": "pinned",
+    "positionals": [],
+    "description": "List pinned native account projects.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects saves create": {
+    "method": "create",
+    "positionals": [
+      "projectId",
+      "conversationId",
+      "messageId"
+    ],
+    "description": "Save an eligible visible assistant response from this project; an existing save is returned unchanged.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-saves"
+  },
+  "account projects saves get": {
+    "method": "get",
+    "positionals": [
+      "projectId",
+      "saveId"
+    ],
+    "description": "Read one saved response through its fully paginated project source collection.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-saves"
+  },
+  "account projects saves list": {
+    "method": "list",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "List native project saved-response metadata with cursor pagination and the native 100-item page size.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--pages": {
+        "target": "pages",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-saves"
+  },
+  "account projects saves remove": {
+    "method": "remove",
+    "positionals": [
+      "projectId",
+      "saveId"
+    ],
+    "description": "Remove a saved response from the project for everyone with access. Requires the exact saved-response ID.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "saveId"
+      ]
+    ],
+    "set": "project-saves"
+  },
+  "account projects saves rename": {
+    "method": "rename",
+    "positionals": [
+      "projectId",
+      "saveId",
+      "title"
+    ],
+    "description": "Rename one project saved response with a trimmed title of 1 to 200 characters.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-saves"
+  },
+  "account projects sharing access": {
+    "method": "access",
+    "positionals": [
+      "projectId",
+      "access"
+    ],
+    "description": "Set private (invited people retain access), link, or workspace_link access. Work conversations block expansion. First sharing may detach Library sources after acknowledgment.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--detach-library-files": {
+        "target": "detachLibraryFiles",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "projectId"
+      ]
+    ],
+    "set": "project-sharing"
+  },
+  "account projects sharing get": {
+    "method": "get",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Read fresh project sharing subjects, roles, link audience and native workspace permissions.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sharing"
+  },
+  "account projects sharing invite": {
+    "method": "invite",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Invite explicit recipients using --subjects JSON [{\"type\":\"email\",\"email\":\"person@example.com\"}] or workspace user/userId and group/groupId records; roles are chat or edit (default). May send invitations.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--detach-library-files": {
+        "target": "detachLibraryFiles",
+        "type": "boolean"
+      },
+      "--subjects": {
+        "target": "subjects",
+        "type": "json"
+      },
+      "--subjects-file": {
+        "target": "subjects",
+        "type": "jsonFile"
+      },
+      "--role": {
+        "target": "role",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "projectId"
+      ]
+    ],
+    "set": "project-sharing"
+  },
+  "account projects sharing remove": {
+    "method": "remove",
+    "positionals": [
+      "projectId",
+      "subject"
+    ],
+    "description": "Remove a current user:, group: or email: subject. They lose access to all project content. Requires exact project confirmation.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--detach-library-files": {
+        "target": "detachLibraryFiles",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "projectId"
+      ]
+    ],
+    "set": "project-sharing"
+  },
+  "account projects sharing role": {
+    "method": "role",
+    "positionals": [
+      "projectId",
+      "subject",
+      "role"
+    ],
+    "description": "Change a current user:, group: or email: subject to chat or edit after fresh owner and sharing-permission checks.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--detach-library-files": {
+        "target": "detachLibraryFiles",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "projectId"
+      ]
+    ],
+    "set": "project-sharing"
+  },
+  "account projects sources add": {
+    "method": "sourceAdd",
+    "positionals": [
+      "projectId",
+      "connectorType",
+      "url"
+    ],
+    "description": "Add a website, google_drive, slack or linear source; verify persistence and start eligible connector sync.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--wait": {
+        "target": "wait",
+        "type": "boolean"
+      },
+      "--timeout": {
+        "target": "timeout",
+        "type": "number"
+      },
+      "--interval": {
+        "target": "interval",
+        "type": "number"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sources"
+  },
+  "account projects sources get": {
+    "method": "sourceGet",
+    "positionals": [
+      "projectId",
+      "scopeId"
+    ],
+    "description": "Read one exact project source with current synchronization metadata.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sources"
+  },
+  "account projects sources list": {
+    "method": "sourcesList",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "List visible native connector and website project sources, 100 per page.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--pages": {
+        "target": "pages",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sources"
+  },
+  "account projects sources providers": {
+    "method": "sourceProviders",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Check existing provider connections using the native CHATGPT_PROJECTS product scope.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--type": {
+        "target": "connectorType",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sources"
+  },
+  "account projects sources remove": {
+    "method": "sourceRemove",
+    "positionals": [
+      "projectId",
+      "scopeId"
+    ],
+    "description": "Remove a source from this project and verify absence. Shared changes affect every member.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--shared": {
+        "target": "shared",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "scopeId"
+      ]
+    ],
+    "set": "project-sources"
+  },
+  "account projects sources sync": {
+    "method": "sourceSync",
+    "positionals": [
+      "projectId",
+      "scopeId"
+    ],
+    "description": "Request one native connector synchronization; accepted and completed states remain distinct.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--wait": {
+        "target": "wait",
+        "type": "boolean"
+      },
+      "--timeout": {
+        "target": "timeout",
+        "type": "number"
+      },
+      "--interval": {
+        "target": "interval",
+        "type": "number"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sources"
+  },
+  "account projects sources wait": {
+    "method": "sourceWait",
+    "positionals": [
+      "projectId",
+      "scopeId"
+    ],
+    "description": "Wait for an existing connector synchronization without restarting it; website sources do not synchronize.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--timeout": {
+        "target": "timeout",
+        "type": "number"
+      },
+      "--interval": {
+        "target": "interval",
+        "type": "number"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "project-sources"
+  },
+  "account projects unpin": {
+    "method": "unpin",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Unpin a freshly verified readable project and confirm the pin list.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account projects update": {
+    "method": "update",
+    "positionals": [
+      "projectId"
+    ],
+    "description": "Update name, emoji, native palette color or instructions after fresh write-permission checks; existing memory scope is preserved.",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--emoji": {
+        "target": "emoji",
+        "type": "string"
+      },
+      "--theme": {
+        "target": "theme",
+        "type": "string"
+      },
+      "--name": {
+        "target": "name",
+        "type": "string"
+      },
+      "--instructions": {
+        "target": "instructions",
+        "type": "string"
+      },
+      "--instructions-file": {
+        "target": "instructions",
+        "type": "textFile"
+      },
+      "--clear-emoji": {
+        "target": "clearEmoji",
+        "type": "boolean"
+      },
+      "--clear-theme": {
+        "target": "clearTheme",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "set": "account-projects"
+  },
+  "account reference-photos add": {
+    "method": "uploadReferencePhoto",
+    "positionals": [
+      "file"
+    ],
+    "flags": {
+      "--kind": {
+        "target": "kind",
+        "type": "string"
+      }
+    },
+    "description": "Upload and save a self or full_body_likeness reference photo.",
+    "set": "dot-extras"
+  },
+  "account reference-photos delete": {
+    "method": "removeReferencePhoto",
+    "positionals": [
+      "imageTagId"
+    ],
+    "flags": {
+      "--confirm": {
+        "target": "confirmImageTagId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirmImageTagId"
+    ],
+    "confirmMatch": [
+      [
+        "confirmImageTagId",
+        "imageTagId"
+      ]
+    ],
+    "description": "Delete a saved reference-photo tag with exact ID confirmation.",
+    "set": "dot-extras"
+  },
+  "account reference-photos list": {
+    "method": "listReferencePhotos",
+    "positionals": [],
+    "flags": {},
+    "description": "List saved account reference-photo identities and asset pointers.",
+    "set": "dot-extras"
+  },
+  "account reference-photos replace": {
+    "method": "updateReferencePhoto",
+    "positionals": [
+      "imageTagId",
+      "file"
+    ],
+    "flags": {},
+    "description": "Replace the image in an existing account reference-photo tag.",
+    "set": "dot-extras"
+  },
+  "account settings get": {
+    "method": "settingsGet",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read supported account settings and their allowed feature names.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account settings set": {
+    "method": "settingsSet",
+    "positionals": [
+      "feature"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--value": {
+        "target": "value",
+        "type": "json"
+      }
+    },
+    "required": [
+      "accountId",
+      "value"
+    ],
+    "description": "Set one verified account feature with a typed JSON value.",
+    "set": "account"
+  },
+  "account summary actions": {
+    "method": "summarySelectionActions",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read the supported summary selection actions.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary checksum": {
+    "method": "summaryChecksum",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read memory-summary cache freshness.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary clear": {
+    "method": "summaryClear",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "accountId"
+      ]
+    ],
+    "description": "Disable account memory and clear its summary cache; confirm the account ID.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary correct": {
+    "method": "summaryCorrect",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--text": {
+        "target": "correction",
+        "type": "string"
+      },
+      "--text-file": {
+        "target": "correction",
+        "type": "textFile"
+      },
+      "--section": {
+        "target": "targetSectionId",
+        "type": "string"
+      },
+      "--selection": {
+        "target": "targetText",
+        "type": "string"
+      },
+      "--conversation": {
+        "target": "conversationId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "correction"
+    ],
+    "stream": true,
+    "description": "Correct the current memory summary with optional section/selection targeting.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary forget": {
+    "method": "summaryForget",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--text": {
+        "target": "correction",
+        "type": "string"
+      },
+      "--text-file": {
+        "target": "correction",
+        "type": "textFile"
+      },
+      "--section": {
+        "target": "targetSectionId",
+        "type": "string"
+      },
+      "--selection": {
+        "target": "targetText",
+        "type": "string"
+      },
+      "--conversation": {
+        "target": "conversationId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "correction",
+      "confirm"
+    ],
+    "stream": true,
+    "description": "Ask memory to forget a selected section or topic; confirm its section or account ID.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary get": {
+    "method": "summaryGet",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--context": {
+        "target": "contextualHint",
+        "type": "json"
+      },
+      "--context-file": {
+        "target": "contextualHint",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Retrieve the account memory summary; the API may generate its cache.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary regenerate": {
+    "method": "summaryRegenerate",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--context": {
+        "target": "contextualHint",
+        "type": "json"
+      },
+      "--context-file": {
+        "target": "contextualHint",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "stream": true,
+    "description": "Explicitly regenerate the account memory summary once.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account summary stream": {
+    "method": "summaryStream",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--context": {
+        "target": "contextualHint",
+        "type": "json"
+      },
+      "--context-file": {
+        "target": "contextualHint",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "stream": true,
+    "description": "Stream the visible memory-summary sections once.",
+    "positionals": [],
+    "set": "account"
+  },
+  "account voices": {
+    "method": "voices",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--language": {
+        "target": "language",
+        "type": "string"
+      },
+      "--mode": {
+        "target": "mode",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "language"
+    ],
+    "description": "Read voice choices and safe preview links for a language; mode is standard, advanced (default), or wingman. No audio is fetched.",
+    "positionals": [],
+    "set": "account"
+  },
+  "actions native approve-email-code": {
+    "method": "approveEmailOtp",
+    "positionals": [
+      "messageId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--request": {
+        "target": "requestId",
+        "type": "string"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "requestId",
+      "requestFingerprint",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "requestId"
+      ]
+    ],
+    "description": "Approve the exact browser email-code request without reading or printing the code.",
+    "set": "native-actions"
+  },
+  "actions native complete": {
+    "method": "complete",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--session-file": {
+        "target": "sessionFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "sessionFile"
+    ],
+    "description": "Verify that human review resolved the exact native request; performs no approval write.",
+    "set": "native-actions"
+  },
+  "actions native inspect": {
+    "method": "inspect",
+    "positionals": [
+      "messageId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--request": {
+        "target": "requestId",
+        "type": "string"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      }
+    },
+    "description": "Inspect native approval metadata without exposing device challenges or email-code handles.",
+    "set": "native-actions"
+  },
+  "actions native start": {
+    "method": "start",
+    "positionals": [
+      "messageId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--request": {
+        "target": "requestId",
+        "type": "string"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      },
+      "--session-file": {
+        "target": "sessionFile",
+        "type": "path"
+      },
+      "--no-open": {
+        "target": "noOpen",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "requestId",
+      "requestFingerprint",
+      "sessionFile"
+    ],
+    "description": "Open exact first-party human review for location, identity, wallet, or browser approval.",
+    "set": "native-actions"
+  },
+  "actions native status": {
+    "method": "status",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--session-file": {
+        "target": "sessionFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "sessionFile"
+    ],
+    "description": "Read the bound native request status without resending its response.",
+    "set": "native-actions"
+  },
+  "connector admin get": {
+    "method": "get",
+    "positionals": [
+      "connectorId"
+    ],
+    "description": "Inspect the complete connector schema and actions.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin mcp-create": {
+    "method": "createMcp",
+    "positionals": [],
+    "description": "Create a personal custom MCP connector.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--name": {
+        "target": "name",
+        "type": "string"
+      },
+      "--description": {
+        "target": "description",
+        "type": "string"
+      },
+      "--target": {
+        "target": "target",
+        "type": "json"
+      },
+      "--auth-config": {
+        "target": "authRequest",
+        "type": "jsonFile"
+      },
+      "--client-secret-file": {
+        "target": "clientSecretFile",
+        "type": "secretPath"
+      },
+      "--logo": {
+        "target": "logoFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "name",
+      "target",
+      "authRequest"
+    ],
+    "specFields": [
+      "name",
+      "description",
+      "target",
+      "authRequest"
+    ],
+    "set": "connectors-admin"
+  },
+  "connector admin mcp-update": {
+    "method": "updateMcp",
+    "positionals": [
+      "connectorId",
+      "field"
+    ],
+    "description": "Update a custom MCP name, description, or PNG logo.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--value": {
+        "target": "value",
+        "type": "string"
+      },
+      "--logo": {
+        "target": "logoFile",
+        "type": "path"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin mfa": {
+    "method": "mfaRequirement",
+    "positionals": [
+      "connectorId"
+    ],
+    "description": "Read connector MFA requirements.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin oauth": {
+    "method": "startOAuth",
+    "positionals": [
+      "connectorId"
+    ],
+    "description": "Start browser OAuth with explicit scopes and companion apps.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--actions": {
+        "target": "actionNames",
+        "type": "list"
+      },
+      "--scopes": {
+        "target": "requestedScopes",
+        "type": "list"
+      },
+      "--link-params": {
+        "target": "linkParams",
+        "type": "json"
+      },
+      "--companions": {
+        "target": "companionConnectorIds",
+        "type": "list"
+      },
+      "--slack-team": {
+        "target": "slackTeamId",
+        "type": "string"
+      }
+    },
+    "specFields": [
+      "actionNames",
+      "requestedScopes",
+      "linkParams",
+      "companionConnectorIds",
+      "slackTeamId"
+    ],
+    "set": "connectors-admin"
+  },
+  "connector admin oauth-callback": {
+    "method": "oauthCallback",
+    "positionals": [],
+    "description": "Get the registered MCP OAuth callback ID.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--target": {
+        "target": "target",
+        "type": "json"
+      }
+    },
+    "required": [
+      "target"
+    ],
+    "specFields": [
+      "target"
+    ],
+    "set": "connectors-admin"
+  },
+  "connector admin oauth-clients": {
+    "method": "oauthClients",
+    "positionals": [
+      "service"
+    ],
+    "description": "List existing OAuth client metadata for a service.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin oauth-config": {
+    "method": "discoverOAuth",
+    "positionals": [],
+    "description": "Discover MCP OAuth configuration.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--target": {
+        "target": "target",
+        "type": "json"
+      }
+    },
+    "required": [
+      "target"
+    ],
+    "specFields": [
+      "target"
+    ],
+    "set": "connectors-admin"
+  },
+  "connector admin privacy": {
+    "method": "setPrivacy",
+    "positionals": [
+      "connectorId",
+      "linkId",
+      "policy"
+    ],
+    "description": "Set the selected connection privacy policy.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin refresh-actions": {
+    "method": "refreshActions",
+    "positionals": [
+      "connectorId",
+      "linkId"
+    ],
+    "description": "Refresh a custom MCP connection action catalog.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin tos": {
+    "method": "tos",
+    "positionals": [
+      "connectorId"
+    ],
+    "description": "Read connector terms of service.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin tunnels": {
+    "method": "tunnels",
+    "positionals": [],
+    "description": "List available personal MCP tunnels.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector admin unlink-all": {
+    "method": "unlinkAll",
+    "positionals": [
+      "connectorId"
+    ],
+    "description": "Disconnect every account for one connector.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmConnectorId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirmConnectorId"
+    ],
+    "confirmMatch": [
+      [
+        "confirmConnectorId",
+        "connectorId"
+      ]
+    ],
+    "set": "connectors-admin"
+  },
+  "connector service-account api-key": {
+    "method": "serviceAccountApiKey",
+    "positionals": [
+      "serviceAccountUserId",
+      "connectorId"
+    ],
+    "description": "Connect a service account using a private API-key file.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--key-file": {
+        "target": "keyFile",
+        "type": "secretPath"
+      },
+      "--actions": {
+        "target": "actionNames",
+        "type": "list"
+      },
+      "--link-params": {
+        "target": "linkParams",
+        "type": "json"
+      }
+    },
+    "required": [
+      "keyFile"
+    ],
+    "set": "connectors-admin"
+  },
+  "connector service-account links": {
+    "method": "serviceAccountLinks",
+    "positionals": [
+      "serviceAccountUserId"
+    ],
+    "description": "List visible connector links on one service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector service-account no-auth": {
+    "method": "serviceAccountNoAuth",
+    "positionals": [
+      "serviceAccountUserId",
+      "connectorId"
+    ],
+    "description": "Connect a no-auth connector on one service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector service-account oauth": {
+    "method": "serviceAccountOAuth",
+    "positionals": [
+      "serviceAccountUserId",
+      "connectorId"
+    ],
+    "description": "Start OAuth for a selected service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--actions": {
+        "target": "actionNames",
+        "type": "list"
+      },
+      "--scopes": {
+        "target": "requestedScopes",
+        "type": "list"
+      },
+      "--link-params": {
+        "target": "linkParams",
+        "type": "json"
+      }
+    },
+    "specFields": [
+      "actionNames",
+      "requestedScopes",
+      "linkParams"
+    ],
+    "set": "connectors-admin"
+  },
+  "connector service-account read-only": {
+    "method": "setServiceAccountReadOnly",
+    "positionals": [
+      "serviceAccountUserId",
+      "linkId"
+    ],
+    "description": "Restrict a selected service-account connector link to reads.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "readOnly": true
+    },
+    "set": "connectors-admin"
+  },
+  "connector service-account read-write": {
+    "method": "setServiceAccountReadOnly",
+    "positionals": [
+      "serviceAccountUserId",
+      "linkId"
+    ],
+    "description": "Allow writes on a selected service-account connector link.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "readOnly": false
+    },
+    "set": "connectors-admin"
+  },
+  "connector service-account unlink": {
+    "method": "serviceAccountUnlink",
+    "positionals": [
+      "serviceAccountUserId",
+      "connectorId",
+      "linkId"
+    ],
+    "description": "Disconnect a selected service-account link.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmLinkId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirmLinkId"
+    ],
+    "confirmMatch": [
+      [
+        "confirmLinkId",
+        "linkId"
+      ]
+    ],
+    "set": "connectors-admin"
+  },
+  "connector service-account workspace-connections": {
+    "method": "serviceAccountConnections",
+    "positionals": [
+      "serviceAccountUserId",
+      "teamId"
+    ],
+    "description": "List workspace connections assigned to one service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "connectors-admin"
+  },
+  "connector service-account workspace-disable": {
+    "method": "setServiceAccountConnection",
+    "positionals": [
+      "serviceAccountUserId",
+      "teamId",
+      "linkId"
+    ],
+    "description": "Disable a workspace connection on one service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "enabled": false
+    },
+    "set": "connectors-admin"
+  },
+  "connector service-account workspace-enable": {
+    "method": "setServiceAccountConnection",
+    "positionals": [
+      "serviceAccountUserId",
+      "teamId",
+      "linkId"
+    ],
+    "description": "Enable a workspace connection on one service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "enabled": true
+    },
+    "set": "connectors-admin"
+  },
+  "conversation archive": {
+    "method": "archive",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Archive an account conversation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation batch": {
+    "method": "batch",
+    "positionals": [],
+    "description": "Read exact account conversation metadata.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--ids": {
+        "target": "conversationIds",
+        "type": "list"
+      }
+    },
+    "required": [
+      "conversationIds"
+    ],
+    "set": "conversations"
+  },
+  "conversation clear-async-status": {
+    "method": "clearAsyncStatus",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Clear account conversation unread activity status.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation delete": {
+    "method": "delete",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Delete an account conversation with exact-ID confirmation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "conversationId"
+      ]
+    ],
+    "set": "conversations"
+  },
+  "conversation get": {
+    "method": "get",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Read the selected visible account conversation branch.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation history": {
+    "method": "historyPages",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Read visible account history with native pagination.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--before": {
+        "target": "before",
+        "type": "string"
+      },
+      "--turns": {
+        "target": "numTurns",
+        "type": "number"
+      },
+      "--pages": {
+        "target": "pages",
+        "type": "number"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation inbox list": {
+    "method": "inbox",
+    "positionals": [],
+    "description": "Read the account activity inbox.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--unread-only": {
+        "target": "unreadOnly",
+        "type": "boolean"
+      },
+      "--all-items": {
+        "target": "unreadOnly",
+        "type": "boolean",
+        "value": false
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation inbox mark-read": {
+    "method": "markRead",
+    "positionals": [],
+    "description": "Mark exact account inbox items as read.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--ids": {
+        "target": "itemIds",
+        "type": "list"
+      }
+    },
+    "required": [
+      "itemIds"
+    ],
+    "set": "conversations"
+  },
+  "conversation list": {
+    "method": "list",
+    "positionals": [],
+    "description": "List account conversations by last update with native filters; --order accepts updated only.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--offset": {
+        "target": "offset",
+        "type": "number"
+      },
+      "--order": {
+        "target": "order",
+        "type": "string"
+      },
+      "--origin": {
+        "target": "conversationOrigin",
+        "type": "string"
+      },
+      "--exclude-origin": {
+        "target": "excludeConversationOrigin",
+        "type": "string"
+      },
+      "--expand": {
+        "target": "expand",
+        "type": "boolean"
+      },
+      "--hide-snorlax": {
+        "target": "hideSnorlax",
+        "type": "boolean"
+      },
+      "--show-snorlax": {
+        "target": "hideSnorlax",
+        "type": "boolean",
+        "value": false
+      },
+      "--archived": {
+        "target": "archived",
+        "type": "boolean"
+      },
+      "--not-archived": {
+        "target": "archived",
+        "type": "boolean",
+        "value": false
+      },
+      "--starred": {
+        "target": "starred",
+        "type": "boolean"
+      },
+      "--not-starred": {
+        "target": "starred",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation move-project": {
+    "method": "moveProject",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Move an account conversation to a project or account root.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--project": {
+        "target": "projectId",
+        "type": "string"
+      },
+      "--root": {
+        "target": "root",
+        "type": "boolean"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation pin": {
+    "method": "pin",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Pin an account conversation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation rename": {
+    "method": "rename",
+    "positionals": [
+      "conversationId",
+      "title"
+    ],
+    "description": "Rename an account conversation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation responses": {
+    "method": "responses",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "List visible response variants with their selected-branch state.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation search": {
+    "method": "search",
+    "positionals": [
+      "query"
+    ],
+    "description": "Search account conversations; omit internal match snippets.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation select-response": {
+    "method": "selectResponse",
+    "positionals": [
+      "conversationId",
+      "nodeId"
+    ],
+    "description": "Select a visible assistant response branch.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation shares create": {
+    "method": "shareCreate",
+    "positionals": [
+      "conversationId",
+      "nodeId"
+    ],
+    "description": "Create a visible conversation snapshot; --publish creates a public link.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--publish": {
+        "target": "publish",
+        "type": "boolean"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "conversationId"
+      ]
+    ],
+    "set": "conversations"
+  },
+  "conversation shares get": {
+    "method": "shareGet",
+    "positionals": [
+      "shareId"
+    ],
+    "description": "Read share metadata without exposing its raw transcript.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation shares list": {
+    "method": "shareList",
+    "positionals": [],
+    "description": "List the signed-in account’s owned conversation shares.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation shares revoke": {
+    "method": "shareRevoke",
+    "positionals": [
+      "shareId"
+    ],
+    "description": "Revoke an owned account conversation link.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "shareId"
+      ]
+    ],
+    "set": "conversations"
+  },
+  "conversation shares update": {
+    "method": "shareUpdate",
+    "positionals": [
+      "shareId",
+      "nodeId"
+    ],
+    "description": "Update a verified owned conversation share with exact-ID confirmation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--title": {
+        "target": "title",
+        "type": "string"
+      },
+      "--publish": {
+        "target": "publish",
+        "type": "boolean"
+      },
+      "--unpublish": {
+        "target": "publish",
+        "type": "boolean",
+        "value": false
+      },
+      "--visible": {
+        "target": "visible",
+        "type": "boolean"
+      },
+      "--hide": {
+        "target": "visible",
+        "type": "boolean",
+        "value": false
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "shareId"
+      ]
+    ],
+    "set": "conversations"
+  },
+  "conversation unarchive": {
+    "method": "unarchive",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Unarchive an account conversation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "conversation unpin": {
+    "method": "unpin",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "Unpin an account conversation.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "conversations"
+  },
+  "dot avatar-default": {
+    "method": "avatar",
+    "positionals": [
+      "dotId",
+      "avatar"
+    ],
+    "flags": {},
+    "defaults": {
+      "onlyIfDefault": true
+    },
+    "description": "Set a legacy avatar only while the Dot still has its default avatar.",
+    "set": "dot-extras"
+  },
+  "dot onboarding create": {
+    "method": "create",
+    "positionals": [],
+    "flags": {
+      "--state-file": {
+        "target": "operationFile",
+        "type": "path"
+      },
+      "--name": {
+        "target": "name",
+        "type": "string"
+      },
+      "--avatar": {
+        "target": "avatar",
+        "type": "string"
+      },
+      "--first-dot": {
+        "target": "createAdditional",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "required": [
+      "operationFile"
+    ],
+    "description": "Create and initialize a Dot using the native server flow, with a private recovery journal.",
+    "set": "onboarding"
+  },
+  "dot onboarding eligibility": {
+    "method": "eligibility",
+    "positionals": [],
+    "flags": {},
+    "description": "Read selected-account Dot availability. Eligibility does not establish permission to create a Dot.",
+    "set": "onboarding"
+  },
+  "dot onboarding resume": {
+    "method": "resume",
+    "positionals": [
+      "operationFile"
+    ],
+    "flags": {
+      "--dot": {
+        "target": "dotId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmDotId",
+        "type": "string"
+      },
+      "--retry-room": {
+        "target": "retryRoom",
+        "type": "boolean"
+      }
+    },
+    "confirmMatch": [
+      [
+        "confirmDotId",
+        "dotId"
+      ]
+    ],
+    "description": "Reconcile a saved onboarding operation and finish its messaging room; never replay Dot creation.",
+    "set": "onboarding"
+  },
+  "dot onboarding status": {
+    "method": "status",
+    "positionals": [
+      "operationFile"
+    ],
+    "flags": {},
+    "description": "Read onboarding recovery status and new candidate identities without creating or sending.",
+    "set": "onboarding"
+  },
+  "dot primary-thread": {
+    "method": "setPrimaryThread",
+    "positionals": [
+      "threadId"
+    ],
+    "flags": {},
+    "description": "Select the primary Dot through the legacy thread-ID route.",
+    "set": "dot-extras"
+  },
+  "dot recover-deletion": {
+    "method": "recoverDeletions",
+    "positionals": [],
+    "flags": {
+      "--confirm": {
+        "target": "confirm",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "description": "Retry pending deletion finalization; this does not restore deleted Dots.",
+    "set": "dot-extras"
+  },
+  "library browse": {
+    "method": "browse",
+    "positionals": [],
+    "description": "Browse account Library files, folders, provider roots, and Pages.",
+    "flags": {
+      "--directory": {
+        "target": "directoryId",
+        "type": "string"
+      },
+      "--query": {
+        "target": "query",
+        "type": "string"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--categories": {
+        "target": "categories",
+        "type": "list"
+      },
+      "--category": {
+        "target": "categories",
+        "type": "list"
+      },
+      "--folders-only": {
+        "target": "foldersOnly",
+        "type": "boolean"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--include-files": {
+        "target": "includeFiles",
+        "type": "boolean"
+      },
+      "--include-saved-entities": {
+        "target": "includeSavedEntities",
+        "type": "boolean"
+      },
+      "--include-provider-roots": {
+        "target": "includeProviderRoots",
+        "type": "boolean"
+      },
+      "--include-pages": {
+        "target": "includePages",
+        "type": "boolean"
+      },
+      "--include-sites": {
+        "target": "includeSites",
+        "type": "boolean"
+      },
+      "--include-folder-counts": {
+        "target": "includeFolderCounts",
+        "type": "boolean"
+      },
+      "--include-onedrive": {
+        "target": "includeOneDrive",
+        "type": "boolean"
+      },
+      "--hydrate-folder-thumbnails": {
+        "target": "hydrateFolderThumbnails",
+        "type": "boolean"
+      },
+      "--files-and-folders": {
+        "target": "foldersOnly",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-files": {
+        "target": "includeFiles",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-saved-entities": {
+        "target": "includeSavedEntities",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-provider-roots": {
+        "target": "includeProviderRoots",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-pages": {
+        "target": "includePages",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-sites": {
+        "target": "includeSites",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-folder-counts": {
+        "target": "includeFolderCounts",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-onedrive": {
+        "target": "includeOneDrive",
+        "type": "boolean",
+        "value": false
+      },
+      "--no-hydrate-folder-thumbnails": {
+        "target": "hydrateFolderThumbnails",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "set": "library-providers"
+  },
+  "library content": {
+    "method": "content",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--output": {
+        "target": "output",
+        "type": "path"
+      },
+      "--overwrite": {
+        "target": "overwrite",
+        "type": "boolean"
+      },
+      "--max-bytes": {
+        "target": "maxBytes",
+        "type": "number"
+      },
+      "--range": {
+        "target": "range",
+        "type": "string"
+      },
+      "--page": {
+        "target": "pageId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "output"
+    ],
+    "description": "Save Library content privately, with optional byte range.",
+    "set": "library-content"
+  },
+  "library conversation-favorites": {
+    "method": "conversationFavorites",
+    "positionals": [
+      "conversationId"
+    ],
+    "description": "List Library favorites originating from an account conversation.",
+    "flags": {
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "set": "library-providers"
+  },
+  "library create-directory": {
+    "method": "createDirectory",
+    "positionals": [
+      "name"
+    ],
+    "flags": {
+      "--parent": {
+        "target": "parentDirectoryId",
+        "type": "string"
+      }
+    },
+    "description": "Create a Library folder; omitting --parent selects the root.",
+    "set": "library-content"
+  },
+  "library create-inline": {
+    "method": "createInline",
+    "positionals": [
+      "fileName"
+    ],
+    "flags": {
+      "--content-file": {
+        "target": "content",
+        "type": "textFile"
+      },
+      "--content": {
+        "target": "content",
+        "type": "string"
+      },
+      "--directory": {
+        "target": "directoryId",
+        "type": "string"
+      },
+      "--create-key": {
+        "target": "createKey",
+        "type": "string"
+      }
+    },
+    "required": [
+      "content"
+    ],
+    "key": "createKey",
+    "description": "Create a Library note from text, at most 1 MiB.",
+    "set": "library-content"
+  },
+  "library deep-research": {
+    "method": "deepResearch",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {},
+    "description": "Read visible saved-report preview state.",
+    "set": "library-content"
+  },
+  "library deep-research-export": {
+    "method": "deepResearchExport",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--args": {
+        "target": "args",
+        "type": "json"
+      },
+      "--output": {
+        "target": "output",
+        "type": "path"
+      },
+      "--overwrite": {
+        "target": "overwrite",
+        "type": "boolean"
+      }
+    },
+    "description": "Request report export; optionally save filtered result JSON.",
+    "set": "library-content"
+  },
+  "library deep-research-images": {
+    "method": "deepResearchImages",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--args": {
+        "target": "args",
+        "type": "json"
+      }
+    },
+    "description": "Read saved-report inline image data.",
+    "set": "library-content"
+  },
+  "library deep-research-state": {
+    "method": "deepResearchState",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--args": {
+        "target": "args",
+        "type": "json"
+      }
+    },
+    "description": "Read visible saved-report state through its native tool.",
+    "set": "library-content"
+  },
+  "library delete-batch": {
+    "method": "deleteBatch",
+    "positionals": [],
+    "flags": {
+      "--files": {
+        "target": "fileIds",
+        "type": "list"
+      },
+      "--confirm-files": {
+        "target": "confirmFileIds",
+        "type": "list"
+      }
+    },
+    "required": [
+      "fileIds",
+      "confirmFileIds"
+    ],
+    "description": "Soft-delete up to 25 exact, explicitly confirmed Library file IDs.",
+    "set": "library-content"
+  },
+  "library delete-directory": {
+    "method": "deleteDirectory",
+    "positionals": [
+      "directoryId"
+    ],
+    "flags": {
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "directoryId"
+      ]
+    ],
+    "description": "Delete a Library folder using its exact ID confirmation.",
+    "set": "library-content"
+  },
+  "library delete-permanently": {
+    "method": "permanentDelete",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "fileId"
+      ]
+    ],
+    "description": "Permanently delete one regular Library file or current, unshared native saved chat snapshot by exact ID; snapshot removal preserves its source conversation.",
+    "set": "library-content"
+  },
+  "library directory-path": {
+    "method": "directoryPath",
+    "positionals": [
+      "directoryId"
+    ],
+    "minPositionals": 0,
+    "flags": {
+      "--root": {
+        "target": "root",
+        "type": "boolean"
+      }
+    },
+    "description": "Read a folder path or the Library root path.",
+    "set": "library-navigation"
+  },
+  "library download": {
+    "method": "download",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--output": {
+        "target": "output",
+        "type": "path"
+      },
+      "--overwrite": {
+        "target": "overwrite",
+        "type": "boolean"
+      },
+      "--max-bytes": {
+        "target": "maxBytes",
+        "type": "number"
+      },
+      "--range": {
+        "target": "range",
+        "type": "string"
+      },
+      "--page": {
+        "target": "pageId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "output"
+    ],
+    "description": "Save Library download bytes privately, up to 100 MiB.",
+    "set": "library-content"
+  },
+  "library empty-trash": {
+    "method": "emptyTrash",
+    "positionals": [],
+    "flags": {
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "description": "Permanently clear Library file trash; requires EMPTY LIBRARY TRASH.",
+    "set": "library-content"
+  },
+  "library global-search": {
+    "method": "globalSearch",
+    "positionals": [
+      "query"
+    ],
+    "description": "Run a federated Library, files, and Pages search.",
+    "flags": {
+      "--query-id": {
+        "target": "queryId",
+        "type": "string"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--entrypoint": {
+        "target": "entrypoint",
+        "type": "string"
+      },
+      "--providers": {
+        "target": "providers",
+        "type": "list"
+      },
+      "--external-accounts": {
+        "target": "externalAccountKeys",
+        "type": "json"
+      },
+      "--lanes": {
+        "target": "lanes",
+        "type": "list"
+      },
+      "--directory": {
+        "target": "directoryId",
+        "type": "string"
+      },
+      "--file-types": {
+        "target": "fileTypes",
+        "type": "list"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--allowlist": {
+        "target": "allowlistIds",
+        "type": "list"
+      },
+      "--include-sites": {
+        "target": "includeSites",
+        "type": "boolean"
+      },
+      "--include-pages": {
+        "target": "includePages",
+        "type": "boolean"
+      },
+      "--page-source": {
+        "target": "spaceSearchSource",
+        "type": "string"
+      },
+      "--include-space-files": {
+        "target": "includeSpaceFiles",
+        "type": "boolean"
+      },
+      "--ownership": {
+        "target": "ownership",
+        "type": "string"
+      },
+      "--page-search-target": {
+        "target": "pageSearchTarget",
+        "type": "string"
+      },
+      "--exclude-sites": {
+        "target": "includeSites",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-pages": {
+        "target": "includePages",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-space-files": {
+        "target": "includeSpaceFiles",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "set": "library-providers"
+  },
+  "library image-favorites add": {
+    "method": "imageFavorite",
+    "positionals": [],
+    "description": "Save an image source to account Library favorites.",
+    "flags": {
+      "--source": {
+        "target": "source",
+        "type": "json"
+      }
+    },
+    "required": [
+      "source"
+    ],
+    "set": "library-providers"
+  },
+  "library image-favorites status": {
+    "method": "imageFavoriteStatus",
+    "positionals": [],
+    "description": "Read favorite state for up to 50 image sources.",
+    "flags": {
+      "--sources": {
+        "target": "sources",
+        "type": "json"
+      }
+    },
+    "required": [
+      "sources"
+    ],
+    "set": "library-providers"
+  },
+  "library move": {
+    "method": "move",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--directory": {
+        "target": "directoryId",
+        "type": "string"
+      },
+      "--root": {
+        "target": "root",
+        "type": "boolean"
+      }
+    },
+    "description": "Move an account file into a folder or to the Library root.",
+    "set": "library-navigation"
+  },
+  "library move-directory": {
+    "method": "moveDirectory",
+    "positionals": [
+      "directoryId"
+    ],
+    "flags": {
+      "--parent": {
+        "target": "parentDirectoryId",
+        "type": "string"
+      },
+      "--root": {
+        "target": "root",
+        "type": "boolean"
+      }
+    },
+    "description": "Move a folder into a parent or to the Library root.",
+    "set": "library-navigation"
+  },
+  "library opened": {
+    "method": "markOpened",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {},
+    "description": "Record a Library file as opened.",
+    "set": "library-content"
+  },
+  "library plan-summary": {
+    "method": "planSummary",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {},
+    "description": "Read a saved learning-plan summary.",
+    "set": "library-content"
+  },
+  "library providers capabilities": {
+    "method": "mountedCapabilities",
+    "positionals": [],
+    "description": "Inspect account-linked provider and link browsing capabilities.",
+    "flags": {
+      "--provider": {
+        "target": "provider",
+        "type": "string"
+      },
+      "--link": {
+        "target": "linkId",
+        "type": "string"
+      }
+    },
+    "set": "library-providers"
+  },
+  "library providers materialize": {
+    "method": "materialize",
+    "positionals": [
+      "fileId",
+      "name"
+    ],
+    "description": "Materialize a mounted file; retrieval indexing is opt-in.",
+    "flags": {
+      "--mime": {
+        "target": "mimeType",
+        "type": "string"
+      },
+      "--index": {
+        "target": "indexForRetrieval",
+        "type": "boolean"
+      },
+      "--no-index": {
+        "target": "indexForRetrieval",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "set": "library-providers"
+  },
+  "library providers metadata": {
+    "method": "fileMetadata",
+    "positionals": [
+      "provider",
+      "fileId"
+    ],
+    "description": "Read provider metadata for an exact mounted file.",
+    "flags": {},
+    "set": "library-providers"
+  },
+  "library providers onedrive-status": {
+    "method": "oneDriveCapability",
+    "positionals": [],
+    "description": "Inspect the native OneDrive capability state.",
+    "flags": {},
+    "set": "library-providers"
+  },
+  "library providers preview": {
+    "method": "preview",
+    "positionals": [
+      "provider",
+      "fileId"
+    ],
+    "description": "Request a provider preview, exposing only sanitized source links.",
+    "flags": {},
+    "set": "library-providers"
+  },
+  "library providers resolve": {
+    "method": "resolve",
+    "positionals": [
+      "provider"
+    ],
+    "description": "Resolve a provider URL or a Google Drive/Box native file ID.",
+    "flags": {
+      "--url": {
+        "target": "url",
+        "type": "string"
+      },
+      "--native-id": {
+        "target": "nativeFileId",
+        "type": "string"
+      }
+    },
+    "set": "library-providers"
+  },
+  "library providers search": {
+    "method": "search",
+    "positionals": [
+      "query"
+    ],
+    "description": "Search selected mounted file providers.",
+    "flags": {
+      "--providers": {
+        "target": "providers",
+        "type": "list"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      }
+    },
+    "required": [
+      "providers"
+    ],
+    "set": "library-providers"
+  },
+  "library providers search-cache": {
+    "method": "searchCache",
+    "positionals": [
+      "query"
+    ],
+    "description": "Read one provider search cache without implicit live fallback.",
+    "flags": {
+      "--provider": {
+        "target": "provider",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      }
+    },
+    "required": [
+      "provider"
+    ],
+    "set": "library-providers"
+  },
+  "library recents": {
+    "method": "recents",
+    "positionals": [],
+    "flags": {
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--providers": {
+        "target": "providers",
+        "type": "list"
+      },
+      "--external-accounts": {
+        "target": "externalAccountKeys",
+        "type": "json"
+      }
+    },
+    "description": "List recently opened account Library files.",
+    "set": "library-content"
+  },
+  "library references add": {
+    "method": "createReferenceImage",
+    "positionals": [
+      "assetPointer"
+    ],
+    "description": "Save an already uploaded sediment image as a named reference.",
+    "flags": {
+      "--name": {
+        "target": "entityName",
+        "type": "string"
+      },
+      "--type": {
+        "target": "entityType",
+        "type": "string"
+      },
+      "--idempotency-key": {
+        "target": "idempotencyKey",
+        "type": "string"
+      }
+    },
+    "required": [
+      "entityName",
+      "entityType"
+    ],
+    "key": "idempotencyKey",
+    "set": "library-providers"
+  },
+  "library references add-suggestion": {
+    "method": "createReferenceImage",
+    "positionals": [],
+    "description": "Save an exact account reference-image suggestion.",
+    "flags": {},
+    "required": [
+      "entityName",
+      "entityType",
+      "entityDescription",
+      "libraryFileId",
+      "sourceConversationId",
+      "sourceMessageId",
+      "suggestionMessageId"
+    ],
+    "defaults": {
+      "requestKind": "suggestion_library"
+    },
+    "specFields": [
+      "entityName",
+      "entityType",
+      "entityDescription",
+      "imageIndex",
+      "libraryFileId",
+      "sourceConversationId",
+      "sourceMessageId",
+      "suggestionMessageId"
+    ],
+    "set": "library-providers"
+  },
+  "library references delete": {
+    "method": "deleteReferenceImage",
+    "positionals": [
+      "referenceImageId"
+    ],
+    "description": "Delete a saved reference image using exact-ID confirmation.",
+    "flags": {
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "referenceImageId"
+      ]
+    ],
+    "set": "library-providers"
+  },
+  "library references list": {
+    "method": "referenceImages",
+    "positionals": [],
+    "description": "List saved account reference-image metadata.",
+    "flags": {
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "set": "library-providers"
+  },
+  "library references thumbnail": {
+    "method": "referenceThumbnail",
+    "positionals": [
+      "referenceImageId"
+    ],
+    "description": "Inspect thumbnail availability or save it privately.",
+    "flags": {
+      "--output": {
+        "target": "output",
+        "type": "path"
+      },
+      "--overwrite": {
+        "target": "overwrite",
+        "type": "boolean"
+      },
+      "--no-overwrite": {
+        "target": "overwrite",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "set": "library-providers"
+  },
+  "library references update": {
+    "method": "updateReferenceImage",
+    "positionals": [
+      "referenceImageId"
+    ],
+    "description": "Update an existing reference-image name and type.",
+    "flags": {
+      "--name": {
+        "target": "entityName",
+        "type": "string"
+      },
+      "--type": {
+        "target": "entityType",
+        "type": "string"
+      }
+    },
+    "required": [
+      "entityName",
+      "entityType"
+    ],
+    "set": "library-providers"
+  },
+  "library register-upload": {
+    "method": "registerUpload",
+    "positionals": [
+      "fileId",
+      "fileName"
+    ],
+    "flags": {
+      "--parent": {
+        "target": "parentDirectoryId",
+        "type": "string"
+      },
+      "--mime": {
+        "target": "mimeType",
+        "type": "string"
+      }
+    },
+    "required": [
+      "parentDirectoryId"
+    ],
+    "description": "Finalize an external-provider upload in an eligible existing provider folder. Requires its general Files ID and --parent; native and room uploads are already registered. Provider finalization remains live-unverified.",
+    "set": "library-content"
+  },
+  "library saved capabilities": {
+    "method": "capabilities",
+    "description": "Describe native account Library saved-entity operations and typed constructors.",
+    "positionals": [],
+    "flags": {},
+    "set": "saved-entities"
+  },
+  "library saved get": {
+    "method": "get",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Read one native saved-entity Library node and verify its current saved status.",
+    "set": "saved-entities"
+  },
+  "library saved move": {
+    "method": "move",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--directory": {
+        "target": "directoryId",
+        "type": "string"
+      },
+      "--root": {
+        "target": "root",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "description": "Move a saved entity to an accessible native folder or the Library root; verify status.",
+    "set": "saved-entities"
+  },
+  "library saved remove": {
+    "method": "remove",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "fileId"
+      ]
+    ],
+    "description": "Remove a saved entity using its exact confirmed Library node; verify it is no longer saved.",
+    "set": "saved-entities"
+  },
+  "library saved save": {
+    "method": "save",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--file": {
+        "target": "spec",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId",
+      "spec"
+    ],
+    "description": "Save one typed product/local-business spec and verify the returned Library ID.",
+    "positionals": [],
+    "set": "saved-entities"
+  },
+  "library saved status": {
+    "method": "status",
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--specs-file": {
+        "target": "specs",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId",
+      "specs"
+    ],
+    "description": "Read saved status for 1 to 100 typed product/local-business specs.",
+    "positionals": [],
+    "set": "saved-entities"
+  },
+  "library search": {
+    "method": "librarySearch",
+    "positionals": [],
+    "description": "Search Library files; --providers selects external services and --include-native-files includes native entries.",
+    "flags": {
+      "--query": {
+        "target": "query",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--categories": {
+        "target": "categories",
+        "type": "list"
+      },
+      "--category": {
+        "target": "categories",
+        "type": "list"
+      },
+      "--trash": {
+        "target": "trash",
+        "type": "boolean"
+      },
+      "--state": {
+        "target": "state",
+        "type": "string"
+      },
+      "--source": {
+        "target": "source",
+        "type": "string"
+      },
+      "--ranking": {
+        "target": "ranking",
+        "type": "string"
+      },
+      "--providers": {
+        "target": "providers",
+        "type": "list"
+      },
+      "--external-accounts": {
+        "target": "externalAccountKeys",
+        "type": "json"
+      },
+      "--allowlist": {
+        "target": "allowlistIds",
+        "type": "list"
+      },
+      "--include-native-files": {
+        "target": "includeNativeFiles",
+        "type": "boolean"
+      },
+      "--include-uploaded-files": {
+        "target": "includeUploadedFiles",
+        "type": "boolean"
+      },
+      "--include-imagegen-files": {
+        "target": "includeImagegenFiles",
+        "type": "boolean"
+      },
+      "--include-saved-entities": {
+        "target": "includeSavedEntities",
+        "type": "boolean"
+      },
+      "--include-pages": {
+        "target": "includePages",
+        "type": "boolean"
+      },
+      "--include-sites": {
+        "target": "includeSites",
+        "type": "boolean"
+      },
+      "--exclude-space-roots": {
+        "target": "excludeSpaceRoots",
+        "type": "boolean"
+      },
+      "--not-trash": {
+        "target": "trash",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-native-files": {
+        "target": "includeNativeFiles",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-uploaded-files": {
+        "target": "includeUploadedFiles",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-imagegen-files": {
+        "target": "includeImagegenFiles",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-saved-entities": {
+        "target": "includeSavedEntities",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-pages": {
+        "target": "includePages",
+        "type": "boolean",
+        "value": false
+      },
+      "--exclude-sites": {
+        "target": "includeSites",
+        "type": "boolean",
+        "value": false
+      },
+      "--include-space-roots": {
+        "target": "excludeSpaceRoots",
+        "type": "boolean",
+        "value": false
+      }
+    },
+    "set": "library-providers"
+  },
+  "library shared-search": {
+    "method": "sharedSearch",
+    "positionals": [
+      "query"
+    ],
+    "description": "Search files and folders shared with the account.",
+    "flags": {},
+    "set": "library-providers"
+  },
+  "library sharing accept": {
+    "method": "acceptInvitation",
+    "positionals": [
+      "invitationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--resource": {
+        "target": "resourceId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "invitationId"
+      ]
+    ],
+    "description": "Accept one pending invitation; requires invitation confirmation.",
+    "set": "sharing"
+  },
+  "library sharing apply": {
+    "method": "applyAccessChange",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--preview": {
+        "target": "preview",
+        "type": "jsonFile"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm",
+      "preview"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "specFields": [
+      "preview"
+    ],
+    "description": "Revalidate and apply a saved access preview; requires resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing capabilities": {
+    "method": "capabilities",
+    "positionals": [],
+    "flags": {},
+    "description": "Describe audited Library sharing capabilities and guards.",
+    "set": "sharing"
+  },
+  "library sharing collaborators": {
+    "method": "collaborators",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--request-ids": {
+        "target": "accessRequestIds",
+        "type": "list"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "Read collaborators and optional access-request context.",
+    "set": "sharing"
+  },
+  "library sharing decide": {
+    "method": "decideAccessRequest",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--request": {
+        "target": "requestId",
+        "type": "string"
+      },
+      "--recipient": {
+        "target": "recipient",
+        "type": "json"
+      },
+      "--decision": {
+        "target": "decision",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm",
+      "requestId",
+      "recipient",
+      "decision"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "specFields": [
+      "requestId",
+      "recipient",
+      "decision"
+    ],
+    "description": "Approve or decline one pending recipient request; requires owner and resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing decline": {
+    "method": "declineInvitation",
+    "positionals": [
+      "invitationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--resource": {
+        "target": "resourceId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "invitationId"
+      ]
+    ],
+    "description": "Decline one pending invitation; requires invitation confirmation.",
+    "set": "sharing"
+  },
+  "library sharing effective": {
+    "method": "effectiveAccess",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "Read effective collaborator access.",
+    "set": "sharing"
+  },
+  "library sharing grant": {
+    "method": "createShare",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--recipient": {
+        "target": "recipient",
+        "type": "json"
+      },
+      "--role": {
+        "target": "role",
+        "type": "string"
+      },
+      "--expected-share": {
+        "target": "expectedInvitationId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm",
+      "recipient",
+      "role"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "specFields": [
+      "recipient",
+      "role",
+      "expectedInvitationId"
+    ],
+    "description": "Invite a recipient or update an observed direct share; requires resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing identity": {
+    "method": "identity",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "Discover the actual server user principal for an accessible Library resource within the selected account.",
+    "set": "sharing"
+  },
+  "library sharing invitation": {
+    "method": "invitation",
+    "positionals": [
+      "invitationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--resource": {
+        "target": "resourceId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "description": "Inspect a received Library invitation.",
+    "set": "sharing"
+  },
+  "library sharing invitations": {
+    "method": "invitations",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "description": "List received Library invitations in the selected account.",
+    "set": "sharing"
+  },
+  "library sharing leave": {
+    "method": "removeReceivedShare",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--share": {
+        "target": "shareId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "description": "Leave a direct share or remove its Shared With Me entry; requires resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing link": {
+    "method": "updateLinkAccess",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--mode": {
+        "target": "mode",
+        "type": "string"
+      },
+      "--role": {
+        "target": "role",
+        "type": "string"
+      },
+      "--workspace": {
+        "target": "workspaceId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm",
+      "mode"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "description": "Set workspace or collaborators-only link access; requires owner and resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing preview": {
+    "method": "previewAccessChange",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--recipient": {
+        "target": "recipient",
+        "type": "json"
+      },
+      "--role": {
+        "target": "desiredRole",
+        "type": "json"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "recipient",
+      "desiredRole"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "Preview a permission change with a server fingerprint.",
+    "set": "sharing"
+  },
+  "library sharing request": {
+    "method": "createAccessRequest",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--recipients": {
+        "target": "recipients",
+        "type": "json"
+      },
+      "--role": {
+        "target": "role",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm",
+      "recipients",
+      "role"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "specFields": [
+      "recipients",
+      "role"
+    ],
+    "description": "Ask the owner to share with specified recipients; requires resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing requests": {
+    "method": "accessRequests",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--side": {
+        "target": "side",
+        "type": "string"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "List owner or requester access requests.",
+    "set": "sharing"
+  },
+  "library sharing resolve": {
+    "method": "resolveRecipient",
+    "positionals": [
+      "email"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "description": "Resolve an invitation recipient within the selected account.",
+    "set": "sharing"
+  },
+  "library sharing revoke": {
+    "method": "removeShare",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      },
+      "--share": {
+        "target": "shareId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId",
+      "confirm",
+      "shareId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "confirmMatch": [
+      [
+        "confirm",
+        "resourceId"
+      ]
+    ],
+    "description": "Remove a current direct share; requires resource confirmation.",
+    "set": "sharing"
+  },
+  "library sharing shares": {
+    "method": "shares",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "List every page of direct shares with current owner validation.",
+    "set": "sharing"
+  },
+  "library sharing state": {
+    "method": "state",
+    "positionals": [
+      "resourceId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "accountId",
+        "type": "string"
+      },
+      "--user": {
+        "target": "accountUserId",
+        "type": "string"
+      },
+      "--kind": {
+        "target": "resourceKind",
+        "type": "string"
+      }
+    },
+    "required": [
+      "accountId",
+      "accountUserId"
+    ],
+    "defaults": {
+      "resourceKind": "file"
+    },
+    "description": "Read scoped file or folder permissions.",
+    "set": "sharing"
+  },
+  "library thumbnail": {
+    "method": "thumbnail",
+    "positionals": [
+      "fileId"
+    ],
+    "flags": {
+      "--output": {
+        "target": "output",
+        "type": "path"
+      },
+      "--overwrite": {
+        "target": "overwrite",
+        "type": "boolean"
+      },
+      "--max-bytes": {
+        "target": "maxBytes",
+        "type": "number"
+      },
+      "--range": {
+        "target": "range",
+        "type": "string"
+      },
+      "--page": {
+        "target": "pageId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "output"
+    ],
+    "description": "Save a Library thumbnail privately.",
+    "set": "library-content"
+  },
+  "library update-inline": {
+    "method": "updateInline",
+    "positionals": [
+      "fileId",
+      "fileName"
+    ],
+    "flags": {
+      "--content-file": {
+        "target": "content",
+        "type": "textFile"
+      },
+      "--content": {
+        "target": "content",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "content",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "fileId"
+      ]
+    ],
+    "description": "Replace a Library note with explicit file ID confirmation.",
+    "set": "library-content"
+  },
+  "library upload": {
+    "method": "upload",
+    "positionals": [
+      "file"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "path"
+      },
+      "--directory": {
+        "target": "directoryId",
+        "type": "string"
+      },
+      "--mime": {
+        "target": "mimeType",
+        "type": "string"
+      },
+      "--resume-parts": {
+        "target": "resumeParts",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "stateFile"
+    ],
+    "description": "Upload up to512 MiB to Library with private recovery state; folder destinations stage at root before a verified move. Explicit --resume-parts repeats only unchanged uncommitted blocks; uncertain commit, processing or move is never replayed.",
+    "set": "libraryUpload"
+  },
+  "library upload-reconcile": {
+    "method": "reconcile",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "stateFile"
+    ],
+    "description": "Read back the exact uploaded file mapping after interruption; never retry an uncertain write.",
+    "set": "libraryUpload"
+  },
+  "library upload-status": {
+    "method": "status",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "stateFile"
+    ],
+    "description": "Inspect a private Library upload journal without replaying a request.",
+    "set": "libraryUpload"
+  },
+  "mail accounts": {
+    "method": "accounts",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "List connected Gmail, Outlook and contacts account readiness.",
+    "set": "mail"
+  },
+  "mail contacts": {
+    "method": "contacts",
+    "positionals": [
+      "query"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--link": {
+        "target": "linkId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "linkId"
+    ],
+    "description": "Search recipient suggestions through an explicitly selected contacts link.",
+    "set": "mail"
+  },
+  "mail send": {
+    "method": "send",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--provider": {
+        "target": "provider",
+        "type": "string"
+      },
+      "--link": {
+        "target": "linkId",
+        "type": "string"
+      },
+      "--to": {
+        "target": "to",
+        "type": "list"
+      },
+      "--cc": {
+        "target": "cc",
+        "type": "list"
+      },
+      "--bcc": {
+        "target": "bcc",
+        "type": "list"
+      },
+      "--subject": {
+        "target": "subject",
+        "type": "string"
+      },
+      "--body-file": {
+        "target": "body",
+        "type": "textFile"
+      },
+      "--send-id": {
+        "target": "sendId",
+        "type": "string"
+      },
+      "--reply": {
+        "target": "replyTo",
+        "type": "json"
+      },
+      "--source-id": {
+        "target": "sourceId",
+        "type": "string"
+      },
+      "--source-type": {
+        "target": "sourceType",
+        "type": "string"
+      }
+    },
+    "specFields": [
+      "provider",
+      "linkId",
+      "to",
+      "cc",
+      "bcc",
+      "subject",
+      "body",
+      "sendId",
+      "replyTo",
+      "sourceId",
+      "sourceType"
+    ],
+    "required": [
+      "provider",
+      "linkId",
+      "subject",
+      "body"
+    ],
+    "key": "sendId",
+    "description": "Send mail once through an explicitly selected authorized Gmail or Outlook account.",
+    "set": "mail"
+  },
+  "mail status": {
+    "method": "status",
+    "positionals": [
+      "sendId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Reconcile the original mail send ID without resending.",
+    "set": "mail"
+  },
+  "mail undo": {
+    "method": "undo",
+    "positionals": [
+      "sendId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--expires": {
+        "target": "unsendExpiresAt",
+        "type": "string"
+      }
+    },
+    "required": [
+      "unsendExpiresAt"
+    ],
+    "description": "Request undo inside the original send receipt’s undo deadline.",
+    "set": "mail"
+  },
+  "message auth complete": {
+    "method": "completeConnectorAuth",
+    "positionals": [
+      "reference"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--session-file": {
+        "target": "sessionFile",
+        "type": "path"
+      },
+      "--callback-file": {
+        "target": "callbackFile",
+        "type": "secretPath"
+      },
+      "--resume": {
+        "target": "resume",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "sessionFile"
+    ],
+    "description": "Verify a private provider callback and continue the original message.",
+    "set": "message-workflows"
+  },
+  "message auth get": {
+    "method": "connectorAuth",
+    "positionals": [
+      "reference"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--connect": {
+        "target": "connect",
+        "type": "boolean"
+      }
+    },
+    "description": "Inspect a message-bound connect or reauthentication request.",
+    "set": "message-workflows"
+  },
+  "message auth start": {
+    "method": "startConnectorAuth",
+    "positionals": [
+      "reference"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--connect": {
+        "target": "connect",
+        "type": "boolean"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      },
+      "--session-file": {
+        "target": "sessionFile",
+        "type": "path"
+      }
+    },
+    "required": [
+      "requestFingerprint",
+      "sessionFile"
+    ],
+    "description": "Start message-bound OAuth and save its capability privately.",
+    "set": "message-workflows"
+  },
+  "message plugins continue": {
+    "method": "continuePlugins",
+    "positionals": [
+      "reference"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--plugins": {
+        "target": "pluginIds",
+        "type": "list"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      }
+    },
+    "required": [
+      "pluginIds",
+      "requestFingerprint"
+    ],
+    "description": "Continue the exact message with selected connected plugin IDs.",
+    "set": "message-workflows"
+  },
+  "message plugins get": {
+    "method": "pluginSuggestions",
+    "positionals": [
+      "reference"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Inspect plugins requested by a message continuation.",
+    "set": "message-workflows"
+  },
+  "plugin batch": {
+    "method": "batch",
+    "positionals": [],
+    "description": "Inspect up to 50 hosted plugins.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--ids": {
+        "target": "pluginIds",
+        "type": "list"
+      }
+    },
+    "required": [
+      "pluginIds"
+    ],
+    "set": "plugins"
+  },
+  "plugin catalog": {
+    "method": "list",
+    "positionals": [],
+    "description": "Browse the hosted plugin catalog.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--scope": {
+        "target": "scope",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "view": "catalog"
+    },
+    "set": "plugins"
+  },
+  "plugin created": {
+    "method": "list",
+    "positionals": [],
+    "description": "List plugins created in this workspace.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "view": "created"
+    },
+    "set": "plugins"
+  },
+  "plugin delete": {
+    "method": "delete",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Delete a plugin owned by the selected account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmPluginId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirmPluginId"
+    ],
+    "confirmMatch": [
+      [
+        "confirmPluginId",
+        "pluginId"
+      ]
+    ],
+    "set": "plugins"
+  },
+  "plugin disable": {
+    "method": "setEnabled",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Disable an installed hosted plugin.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "enabled": false
+    },
+    "set": "plugins"
+  },
+  "plugin enable": {
+    "method": "setEnabled",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Enable an installed hosted plugin.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "enabled": true
+    },
+    "set": "plugins"
+  },
+  "plugin export": {
+    "method": "exportArchive",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Download a hosted plugin ZIP into a private local file.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--out": {
+        "target": "output",
+        "type": "path"
+      },
+      "--overwrite": {
+        "target": "overwrite",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "output"
+    ],
+    "set": "plugins"
+  },
+  "plugin get": {
+    "method": "get",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Inspect a hosted plugin.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin home": {
+    "method": "home",
+    "positionals": [],
+    "description": "Read featured plugin catalog sections.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin import": {
+    "method": "importArchive",
+    "positionals": [],
+    "description": "Import a bounded archive; exactly one of --state-file or --reservation-file is required.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--file": {
+        "target": "file",
+        "type": "path"
+      },
+      "--plugin": {
+        "target": "pluginId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmPluginId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      },
+      "--reservation-file": {
+        "target": "reservationFile",
+        "type": "secretPath"
+      }
+    },
+    "required": [
+      "file"
+    ],
+    "set": "plugins"
+  },
+  "plugin import-status": {
+    "method": "importStatus",
+    "positionals": [],
+    "description": "Read a private upload journal without exposing its signed URL.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--state-file": {
+        "target": "stateFile",
+        "type": "secretPath"
+      }
+    },
+    "required": [
+      "stateFile"
+    ],
+    "set": "plugins"
+  },
+  "plugin install": {
+    "method": "install",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Install a hosted plugin; provider authorization remains separate.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--request-id": {
+        "target": "installAttemptId",
+        "type": "string"
+      }
+    },
+    "key": "installAttemptId",
+    "set": "plugins"
+  },
+  "plugin list": {
+    "method": "list",
+    "positionals": [],
+    "description": "List hosted plugins installed on the selected account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--include-extensions": {
+        "target": "includeExtensions",
+        "type": "boolean"
+      }
+    },
+    "defaults": {
+      "view": "installed"
+    },
+    "set": "plugins"
+  },
+  "plugin resolve-app": {
+    "method": "resolveApp",
+    "positionals": [
+      "appId"
+    ],
+    "description": "Resolve the hosted plugin belonging to an exact app or connector ID.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin search": {
+    "method": "list",
+    "positionals": [
+      "q"
+    ],
+    "description": "Search the hosted plugin catalog.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      },
+      "--scope": {
+        "target": "scope",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "view": "catalog"
+    },
+    "set": "plugins"
+  },
+  "plugin service-account install": {
+    "method": "teamInstall",
+    "positionals": [
+      "serviceAccountUserId",
+      "teamId",
+      "pluginId"
+    ],
+    "description": "Install a plugin for a selected team service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin service-account list": {
+    "method": "teamList",
+    "positionals": [
+      "serviceAccountUserId",
+      "teamId"
+    ],
+    "description": "List plugins installed on a selected team service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin service-account uninstall": {
+    "method": "teamUninstall",
+    "positionals": [
+      "serviceAccountUserId",
+      "teamId",
+      "pluginId"
+    ],
+    "description": "Uninstall a plugin from a selected team service account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmPluginId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirmPluginId"
+    ],
+    "confirmMatch": [
+      [
+        "confirmPluginId",
+        "pluginId"
+      ]
+    ],
+    "set": "plugins"
+  },
+  "plugin share": {
+    "method": "setShares",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Replace plugin share targets and discoverability.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--targets": {
+        "target": "targets",
+        "type": "json"
+      },
+      "--discoverability": {
+        "target": "discoverability",
+        "type": "string"
+      }
+    },
+    "required": [
+      "targets"
+    ],
+    "specFields": [
+      "targets",
+      "discoverability"
+    ],
+    "set": "plugins"
+  },
+  "plugin shared": {
+    "method": "list",
+    "positionals": [],
+    "description": "List plugins shared in this workspace.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "view": "shared"
+    },
+    "set": "plugins"
+  },
+  "plugin shares": {
+    "method": "shares",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Inspect a plugin sharing policy.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin skill": {
+    "method": "skill",
+    "positionals": [
+      "pluginId",
+      "skillName"
+    ],
+    "description": "Read one plugin skill without download tokens.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "set": "plugins"
+  },
+  "plugin skill-disable": {
+    "method": "setSkillEnabled",
+    "positionals": [
+      "pluginId",
+      "skillName"
+    ],
+    "description": "Disable one hosted plugin skill.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "enabled": false
+    },
+    "set": "plugins"
+  },
+  "plugin skill-enable": {
+    "method": "setSkillEnabled",
+    "positionals": [
+      "pluginId",
+      "skillName"
+    ],
+    "description": "Enable one hosted plugin skill.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "defaults": {
+      "enabled": true
+    },
+    "set": "plugins"
+  },
+  "plugin uninstall": {
+    "method": "uninstall",
+    "positionals": [
+      "pluginId"
+    ],
+    "description": "Uninstall a hosted plugin from the selected account.",
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirmPluginId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "confirmPluginId"
+    ],
+    "confirmMatch": [
+      [
+        "confirmPluginId",
+        "pluginId"
+      ]
+    ],
+    "set": "plugins"
+  },
+  "remote auth availability": {
+    "method": "availability",
+    "positionals": [
+      "conversationId",
+      "challengeId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--trigger": {
+        "target": "trigger",
+        "type": "string"
+      }
+    },
+    "description": "Read credential availability metadata for an existing browser sign-in challenge.",
+    "set": "browser-auth"
+  },
+  "remote auth candidates": {
+    "method": "candidates",
+    "positionals": [
+      "conversationId",
+      "challengeId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "description": "List candidate account labels and origins without secret values or selection capabilities.",
+    "set": "browser-auth"
+  },
+  "remote auth claim": {
+    "method": "claim",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--message": {
+        "target": "messageId",
+        "type": "string"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      },
+      "--origin": {
+        "target": "expectedOrigin",
+        "type": "string"
+      }
+    },
+    "required": [
+      "roomId",
+      "messageId",
+      "requestFingerprint",
+      "expectedOrigin"
+    ],
+    "description": "Claim an owner-only durable operation bound to the current challenge, exact web origin and signed-in user.",
+    "set": "browser-auth-native"
+  },
+  "remote auth fill": {
+    "method": "fill",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--credentials": {
+        "target": "credentialsFile",
+        "type": "secretPath"
+      },
+      "--option": {
+        "target": "selectedOption",
+        "type": "string"
+      },
+      "--remember": {
+        "target": "remember",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "credentialsFile"
+    ],
+    "description": "Submit one private field-ID JSON input to the claimed challenge; remember explicitly requests supported credential saving.",
+    "set": "browser-auth-native"
+  },
+  "remote auth inspect": {
+    "method": "inspectChallenge",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--message": {
+        "target": "messageId",
+        "type": "string"
+      }
+    },
+    "required": [
+      "roomId",
+      "messageId"
+    ],
+    "description": "Inspect a current visible browser-auth request and its authoritative origin, fields, and fingerprint.",
+    "set": "browser-auth-native"
+  },
+  "remote auth operation": {
+    "method": "state",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Read safe status from a private browser-auth operation; never prints credential values or access handles.",
+    "set": "browser-auth-native"
+  },
+  "remote auth password-manager open": {
+    "method": "openManagerApproval",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Open the verified onepassword approval deep link in the native password manager.",
+    "set": "browser-auth-native"
+  },
+  "remote auth password-manager start": {
+    "method": "startManager",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Request 1Password access for the current claimed challenge and save its capability privately.",
+    "set": "browser-auth-native"
+  },
+  "remote auth password-manager status": {
+    "method": "managerStatus",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Check this exact 1Password approval request once; does not submit credentials.",
+    "set": "browser-auth-native"
+  },
+  "remote auth password-manager use": {
+    "method": "useManager",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Recheck approval and submit the approved 1Password access handle once to the claimed challenge.",
+    "set": "browser-auth-native"
+  },
+  "remote auth prepare": {
+    "method": "prepare",
+    "positionals": [
+      "conversationId",
+      "challengeId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Prepare an existing browser sign-in challenge; returns metadata without credentials or fill capabilities.",
+    "set": "browser-auth"
+  },
+  "remote auth qr open": {
+    "method": "qrOpen",
+    "positionals": [
+      "conversationId",
+      "challengeId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--no-open": {
+        "target": "noOpen",
+        "type": "boolean"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--message": {
+        "target": "messageId",
+        "type": "string"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      }
+    },
+    "stream": true,
+    "description": "Open a private rotating QR viewer, including its current verified request-card payload.",
+    "set": "browser-extras"
+  },
+  "remote auth qr status": {
+    "method": "qrStatus",
+    "positionals": [
+      "conversationId",
+      "challengeId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--room": {
+        "target": "roomId",
+        "type": "string"
+      },
+      "--message": {
+        "target": "messageId",
+        "type": "string"
+      },
+      "--fingerprint": {
+        "target": "requestFingerprint",
+        "type": "string"
+      }
+    },
+    "description": "Read QR availability without printing its payload; resolve a matching current request card or specify its room/message.",
+    "set": "browser-extras"
+  },
+  "remote auth reconcile": {
+    "method": "reconcile",
+    "positionals": [
+      "conversationId",
+      "challengeId",
+      "operationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Recover the fill/save status of an existing browser-auth operation.",
+    "set": "browser-auth"
+  },
+  "remote auth recover": {
+    "method": "recover",
+    "positionals": [
+      "stateFile"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Reconcile an attempted operation with the server without resubmitting its credentials.",
+    "set": "browser-auth-native"
+  },
+  "remote auth reuse": {
+    "method": "reuse",
+    "positionals": [
+      "stateFile",
+      "credentialId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Use an unexpired saved-credential selection for the exact claimed origin, without exposing its capability.",
+    "set": "browser-auth-native"
+  },
+  "remote browser": {
+    "method": "open",
+    "positionals": [
+      "conversationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--no-open": {
+        "target": "noOpen",
+        "type": "boolean"
+      }
+    },
+    "defaults": {
+      "source": "flora"
+    },
+    "stream": true,
+    "description": "Open a local WebRTC viewer for an existing cloud browser conversation.",
+    "set": "remote-control"
+  },
+  "remote browser legacy open": {
+    "method": "handoffOpen",
+    "positionals": [
+      "conversationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--no-open": {
+        "target": "noOpen",
+        "type": "boolean"
+      }
+    },
+    "stream": true,
+    "description": "Open the authenticated legacy noVNC browser inside a private local viewer.",
+    "set": "browser-extras"
+  },
+  "remote browser legacy status": {
+    "method": "handoffStatus",
+    "positionals": [
+      "conversationId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Check legacy noVNC availability without printing its authenticated URL.",
+    "set": "browser-extras"
+  },
+  "remote computer": {
+    "method": "open",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--no-open": {
+        "target": "noOpen",
+        "type": "boolean"
+      },
+      "--dot": {
+        "target": "dotId",
+        "type": "string"
+      },
+      "--thread": {
+        "target": "threadId",
+        "type": "string"
+      },
+      "--handoff-conversation": {
+        "target": "handoffConversationId",
+        "type": "string"
+      },
+      "--handoff-tab": {
+        "target": "handoffTabId",
+        "type": "string"
+      }
+    },
+    "stream": true,
+    "description": "Open a local WebRTC viewer for the Dot computer; taking control requires an explicit browser click.",
+    "set": "remote-control"
+  },
+  "remote config": {
+    "method": "config",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "Read the cloud browser approval policy, per-site origins and WebAuthn availability.",
+    "set": "browser-extras"
+  },
+  "remote config set": {
+    "method": "updateConfig",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--policy": {
+        "target": "policy",
+        "type": "string"
+      },
+      "--approval-mode": {
+        "target": "approvalMode",
+        "type": "string"
+      },
+      "--disable-auto-review": {
+        "target": "disableAutoReview",
+        "type": "boolean"
+      },
+      "--enable-auto-review": {
+        "target": "disableAutoReview",
+        "type": "boolean",
+        "value": false
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "expectedAccountId"
+      ]
+    ],
+    "description": "Set always_ask, auto_approve or always_allow browser policy; confirm the exact account ID.",
+    "set": "browser-extras"
+  },
+  "remote cookies clear": {
+    "method": "clearCookies",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--surface": {
+        "target": "surface",
+        "type": "string"
+      },
+      "--target-fingerprint": {
+        "target": "targetFingerprint",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "targetFingerprint",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "expectedAccountId"
+      ]
+    ],
+    "description": "Clear a fingerprint-pinned cookie store; confirm the exact account ID.",
+    "set": "browser-extras"
+  },
+  "remote cookies delete": {
+    "method": "deleteCookies",
+    "positionals": [
+      "hostname"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--surface": {
+        "target": "surface",
+        "type": "string"
+      },
+      "--include-subdomains": {
+        "target": "includeSubdomains",
+        "type": "boolean"
+      },
+      "--target-fingerprint": {
+        "target": "targetFingerprint",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "targetFingerprint",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "hostname"
+      ]
+    ],
+    "description": "Delete one reviewed cookie host from a fingerprint-pinned store; confirm the exact hostname.",
+    "set": "browser-extras"
+  },
+  "remote cookies list": {
+    "method": "cookies",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--surface": {
+        "target": "surface",
+        "type": "string"
+      }
+    },
+    "description": "List cookie host counts and a target fingerprint; default surface is Orbit (Dot).",
+    "set": "browser-extras"
+  },
+  "remote origins list": {
+    "method": "origins",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "List saved website origin patterns and allow/deny permissions.",
+    "set": "browser-extras"
+  },
+  "remote origins remove": {
+    "method": "removeOrigin",
+    "positionals": [
+      "pattern"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "expectedAccountId"
+      ]
+    ],
+    "description": "Remove one existing website origin permission; confirm the exact account ID.",
+    "set": "browser-extras"
+  },
+  "remote origins set": {
+    "method": "setOrigin",
+    "positionals": [
+      "pattern"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--decision": {
+        "target": "decision",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "decision",
+      "expectedAccountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "expectedAccountId"
+      ]
+    ],
+    "description": "Set one native website origin permission to allow or deny; confirm the exact account ID.",
+    "set": "browser-extras"
+  },
+  "remote passkeys delete": {
+    "method": "deletePasskey",
+    "positionals": [
+      "credentialId"
+    ],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      },
+      "--confirm": {
+        "target": "confirm",
+        "type": "string"
+      }
+    },
+    "required": [
+      "expectedAccountId",
+      "confirm"
+    ],
+    "confirmMatch": [
+      [
+        "confirm",
+        "credentialId"
+      ]
+    ],
+    "description": "Delete one freshly verified saved browser passkey and check its absence; confirm the exact credential ID.",
+    "set": "browser-extras"
+  },
+  "remote passkeys list": {
+    "method": "passkeys",
+    "positionals": [],
+    "flags": {
+      "--account": {
+        "target": "expectedAccountId",
+        "type": "string"
+      }
+    },
+    "description": "List saved cloud-browser passkey metadata without credential key material.",
+    "set": "browser-extras"
+  },
+  "routine import-prompt": {
+    "method": "creationPrompt",
+    "positionals": [
+      "postId"
+    ],
+    "flags": {
+      "--title": {
+        "target": "title",
+        "type": "string"
+      },
+      "--prompt": {
+        "target": "prompt",
+        "type": "string"
+      },
+      "--prompt-file": {
+        "target": "prompt",
+        "type": "textFile"
+      },
+      "--schedule": {
+        "target": "schedule",
+        "type": "string"
+      },
+      "--timing-mode": {
+        "target": "timingMode",
+        "type": "string"
+      }
+    },
+    "specFields": [
+      "title",
+      "prompt",
+      "schedule",
+      "timingMode"
+    ],
+    "required": [
+      "title",
+      "prompt",
+      "schedule",
+      "timingMode"
+    ],
+    "description": "Prepare a shared-routine creation prompt; this does not create or run a routine.",
+    "set": "routine-management"
+  },
+  "routine query": {
+    "method": "query",
+    "positionals": [],
+    "flags": {
+      "--scope": {
+        "target": "scope",
+        "type": "string"
+      },
+      "--query": {
+        "target": "query",
+        "type": "string"
+      },
+      "--status": {
+        "target": "status",
+        "type": "string"
+      },
+      "--sort": {
+        "target": "sort",
+        "type": "string"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "description": "Search, filter and sort personal, team or all accessible cloud routines.",
+    "set": "routine-management"
+  },
+  "routine share create": {
+    "method": "createShare",
+    "positionals": [
+      "routineId"
+    ],
+    "flags": {},
+    "description": "Publish a public share link for the selected routine.",
+    "set": "routine-management"
+  },
+  "routine share current": {
+    "method": "currentShare",
+    "positionals": [
+      "routineId"
+    ],
+    "flags": {},
+    "description": "Read the selected routine’s current public share.",
+    "set": "routine-management"
+  },
+  "routine share refresh": {
+    "method": "refreshShare",
+    "positionals": [
+      "routineId"
+    ],
+    "flags": {},
+    "description": "Refresh the public share for the selected routine.",
+    "set": "routine-management"
+  },
+  "routine share revoke": {
+    "method": "revokeShare",
+    "positionals": [
+      "routineId"
+    ],
+    "flags": {},
+    "description": "Revoke the selected routine’s public share.",
+    "set": "routine-management"
+  },
+  "routine shared": {
+    "method": "shared",
+    "positionals": [
+      "postId"
+    ],
+    "flags": {},
+    "description": "Read a shared routine’s source and import metadata.",
+    "set": "routine-management"
+  },
+  "threads inventory": {
+    "method": "listThreads",
+    "positionals": [],
+    "flags": {
+      "--dot": {
+        "target": "dotId",
+        "type": "string"
+      },
+      "--include-hidden": {
+        "target": "includeHidden",
+        "type": "boolean"
+      },
+      "--limit": {
+        "target": "limit",
+        "type": "number"
+      },
+      "--cursor": {
+        "target": "cursor",
+        "type": "string"
+      }
+    },
+    "description": "List Dot thread identities; hidden threads expose metadata only.",
+    "set": "dot-extras"
+  }
+}
