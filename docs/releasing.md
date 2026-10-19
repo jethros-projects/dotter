@@ -3,7 +3,7 @@
 ## Preview channel
 
 The npm package is `@jethros-projects/dotter`; it contains the SDK and the `dotter`
-executable. Public previews use a prerelease version such as `0.6.3-next.2` and
+executable. Public previews use a prerelease version such as `0.6.3-next.3` and
 the explicit npm tag `next`. The source repository is
 [jethros-projects/dotter](https://github.com/jethros-projects/dotter).
 
@@ -50,8 +50,10 @@ on offline tests. Public previews must keep this limitation visible in the READM
 5. Pack the candidate with `npm pack --ignore-scripts`. Review its file list,
    bundled runtime dependencies and licenses. Check its exact archive in a
    fresh offline install, including CLI help and a strict SDK consumer.
-6. Record the archive SHA-256 and the source commit. Publish that same archive
-   rather than repacking an unchecked working directory.
+6. Record the archive SHA-256 and the source commit. Prepare the directory
+   publication manifest and inspect its complete metadata for private identities,
+   local paths and file URLs. Repacking the reviewed directory with scripts
+   disabled must produce the exact tested archive bytes before publication.
 
 The opt-in [live verification](SDK.md#opt-in-live-verification) is separate from
 offline checks. Record actual tested steps and retained fixtures. Never replay
@@ -64,8 +66,17 @@ npm's normal browser login and 2FA flow; never put tokens or passwords in the
 repository. The maintainer must authorize publication.
 
 ```sh
-npm publish /path/to/tested-package.tgz --access public --tag next --ignore-scripts
+npm publish . --access public --tag next --ignore-scripts
 ```
+
+Run this from the reviewed clean release directory. With npm 11.11.1,
+publishing a local tarball adds its absolute path to public `_from` and
+`_resolved` metadata. A relative tarball argument still adds an absolute
+`_resolved` path. An archive-content scan alone does not check that metadata.
+Directory publication avoids those injected source paths; inspect the prepared
+manifest as well as the archive. Check Git identities and any author,
+contributor or maintainer fields separately. npm also associates registry
+account data with publications.
 
 GitHub private vulnerability reporting must be enabled on the public repository
 before uploading the source. Confirm the [security reporting link](../SECURITY.md)
