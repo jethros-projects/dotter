@@ -127,8 +127,15 @@ test('Estuary file streaming pins account and subject and supports only its fixe
 // The request still traverses urllib/http.client and a real socket; no external
 // connection, credentials, or network service is used by this test.
 const pythonHarness = String.raw`
-import contextlib, hashlib, http.client, http.server, io, json, os, runpy, sys, threading, urllib.request
+import contextlib, faulthandler, hashlib, http.client, http.server, io, json, os, runpy, socketserver, sys, threading, urllib.request
 config = json.loads(sys.stdin.read())
+# A loopback fixture must not discover OS or environment proxies or reverse DNS.
+urllib.request.getproxies = lambda: {}
+faulthandler.dump_traceback_later(5)
+class LocalHTTPServer(http.server.HTTPServer):
+    def server_bind(self):
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = 'localhost', self.server_address[1]
 calls, read_sizes = [], []
 original_read = os.read
 def bounded_read(fd, size):
@@ -151,7 +158,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         calls.append({'path': self.path, 'method': self.command, 'headers': dict(self.headers), 'size': count, 'sha256': digest.hexdigest(), 'first': first.hex(), 'last': last.hex()})
         body = b'{}'
         self.send_response(201); self.send_header('Content-Type', 'application/json'); self.send_header('Content-Length', str(len(body))); self.end_headers(); self.wfile.write(body)
-server = http.server.HTTPServer(('127.0.0.1', 0), Handler)
+server = LocalHTTPServer(('127.0.0.1', 0), Handler)
 thread = threading.Thread(target=lambda: server.serve_forever(poll_interval=0.01), daemon=True)
 thread.start()
 class LocalHTTPSConnection(http.client.HTTPConnection):
@@ -174,13 +181,14 @@ try:
     with contextlib.redirect_stdout(out): runpy.run_path(sys.argv[1], run_name='__main__')
 finally:
     server.shutdown(); server.server_close(); thread.join()
+faulthandler.cancel_dump_traceback_later()
 sys.stdout.write(json.dumps({'envelope': json.loads(out.getvalue()), 'calls': calls, 'readMax': max(read_sizes, default=0), 'readCount': len(read_sizes)}))
 `;
 
 function python(request, options = {}) {
   const result = spawnSync('python3', ['-I', '-c', pythonHarness, fileURLToPath(new globalThis.URL('../src/http.py', import.meta.url))],
-    { input: JSON.stringify({ request, ...options }), encoding: 'utf8', timeout: 20000, maxBuffer: 2 * 1024 * 1024 });
-  assert.equal(result.status, 0, result.stderr); assert.equal(result.error, undefined); assert.equal(result.stderr, '');
+    { input: JSON.stringify({ request, ...options }), encoding: 'utf8', timeout: 20000, killSignal: 'SIGKILL', maxBuffer: 2 * 1024 * 1024 });
+  assert.equal(result.status, 0, result.stderr.slice(0, 16384)); assert.equal(result.error, undefined); assert.equal(result.stderr, '');
   return JSON.parse(result.stdout);
 }
 function fileRequest(source, patch = {}) {

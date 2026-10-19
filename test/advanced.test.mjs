@@ -215,7 +215,7 @@ test('send forwards existing and newly uploaded file IDs, reply and request key 
 test('wait preserves accepted receipt when subsequent polling fails and never resends', async () => {
   const failure = Object.assign(new Error('edge challenge'), { code: 'EDGE_CHALLENGE' });
   const { client, calls } = mockClient([{ id: 'accepted', created_at: when(0) }, failure]);
-  const result = await client.send({ roomId, text: 'Hello', idempotencyKey: key, waitSeconds: 0.005 });
+  const result = await client.send({ roomId, text: 'Hello', idempotencyKey: key, waitSeconds: 1 });
   assert.equal(result.accepted, true); assert.equal(result.messageId, 'accepted'); assert.equal(result.idempotencyKey, key);
   assert.deepEqual(result.wait, { status: 'interrupted', error: 'EDGE_CHALLENGE', messages: [] });
   assert.deepEqual(calls.map(call => call.method), ['POST', 'GET']);
@@ -224,7 +224,7 @@ test('wait preserves accepted receipt when subsequent polling fails and never re
 
 test('wait reports observed assistant reply separately from acceptance', async () => {
   const { client, calls } = mockClient([{ id: 'accepted' }, page([message('someone', 'Another user', 1), answer('reply', 'Done', 2)])]);
-  const result = await client.send({ roomId, text: 'Hello', waitSeconds: 0.005 });
+  const result = await client.send({ roomId, text: 'Hello', waitSeconds: 1 });
   assert.equal(result.accepted, true); assert.equal(result.wait.status, 'observed');
   assert.deepEqual(result.wait.messages.map(item => item.id), ['reply']);
   assert.match(result.wait.correlation, /after accepted send/);
@@ -239,7 +239,7 @@ test('wait drains hidden and visible cursor pages before checking for assistant 
     page([message('someone', 'Another user', 2)], { next_cursor: 'reply_page' }),
     page([answer('reply', 'Completed after the backlog', 3)]),
   ]);
-  const result = await client.send({ roomId, text: 'Hello', waitSeconds: 0.005 });
+  const result = await client.send({ roomId, text: 'Hello', waitSeconds: 1 });
   assert.equal(result.accepted, true); assert.equal(result.wait.status, 'observed');
   assert.deepEqual(result.wait.messages.map(item => item.id), ['reply']);
   assert.deepEqual(calls.slice(1).map(call => call.query.after), ['accepted', 'hidden_page', 'reply_page']);
@@ -252,7 +252,7 @@ test('wait preserves the accepted receipt when reply pagination loops or fails',
     [page([], { next_cursor: 'second' }), Object.assign(new Error('Read failed'), { code: 'RATE_LIMITED' })],
   ]) {
     const { client, calls } = mockClient([{ id: 'accepted' }, ...responses]);
-    const result = await client.send({ roomId, text: 'Hello', waitSeconds: 0.005 });
+    const result = await client.send({ roomId, text: 'Hello', waitSeconds: 1 });
     assert.equal(result.accepted, true); assert.equal(result.messageId, 'accepted');
     assert.equal(result.wait.status, 'interrupted');
     assert.equal(result.wait.error, responses[1] instanceof Error ? 'RATE_LIMITED' : 'CURSOR_LOOP');
@@ -265,7 +265,7 @@ test('wait stops after 100 reply pages and retains its acceptance receipt', asyn
     { id: 'accepted' },
     ...Array.from({ length: 100 }, (_, index) => page([], { next_cursor: `page_${index + 1}` })),
   ]);
-  const result = await client.send({ roomId, text: 'Hello', waitSeconds: 0.005 });
+  const result = await client.send({ roomId, text: 'Hello', waitSeconds: 1 });
   assert.equal(result.accepted, true); assert.equal(result.messageId, 'accepted');
   assert.equal(result.wait.status, 'interrupted'); assert.equal(result.wait.error, 'PAGE_LIMIT');
   assert.equal(calls.length, 101); assert.equal(calls.filter(call => call.method === 'POST').length, 1);

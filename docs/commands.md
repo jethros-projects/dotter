@@ -1,4 +1,4 @@
-# Dotter 0.6.3-next.1 command reference
+# Dotter 0.6.3-next.2 command reference
 
 Generated from the installed command definitions. Run `npm run docs` after changing a command.
 

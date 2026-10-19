@@ -1,6 +1,6 @@
 {
   "name": "@jethros-projects/dotter",
-  "version": "0.6.3-next.1",
+  "version": "0.6.3-next.2",
   "description": "A typed SDK and command-line companion for OpenAI Dot",
   "repository": {
     "type": "git",

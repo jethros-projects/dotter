@@ -13,7 +13,7 @@
   <a href="https://github.com/jethros-projects/dotter/blob/main/CONTRIBUTING.md">Contributing</a>
 </p>
 
-[![Dotter command overview in a terminal](https://raw.githubusercontent.com/jethros-projects/dotter/v0.6.3-next.1/docs/assets/dotter-terminal.png)](https://github.com/jethros-projects/dotter/blob/main/docs/commands.md)
+[![Dotter command overview in a terminal](https://raw.githubusercontent.com/jethros-projects/dotter/v0.6.3-next.2/docs/assets/dotter-terminal.png)](https://github.com/jethros-projects/dotter/blob/main/docs/commands.md)
 <p align="center"><sub>Actual <code>dotter --help</code> output. No account data.</sub></p>
 
 Build a client around your dot. Bring a conversation into a script. Give a coding agent a JSON interface to messages and files. One package provides the typed SDK and the CLI built on it.

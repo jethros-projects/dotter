@@ -11,11 +11,16 @@ const missing = Buffer.from('{"detail":"Not Found"}');
 // Redirect only HTTPSConnection after the helper's origin checks. urllib and
 // http.client parse real wire bytes from a loopback socket, including duplicates.
 const harness = String.raw`
-import base64,contextlib,faulthandler,http.client,http.server,io,json,runpy,sys,threading,urllib.request
+import base64,contextlib,faulthandler,http.client,http.server,io,json,runpy,socketserver,sys,threading,urllib.request
 config=json.loads(sys.argv[2]); calls=[]
 # A loopback fixture must not discover OS or environment proxies.
 urllib.request.getproxies=lambda:{}
 faulthandler.dump_traceback_later(5)
+# HTTPServer's default bind performs a reverse DNS lookup, even for loopback.
+class LocalHTTPServer(http.server.HTTPServer):
+ def server_bind(self):
+  socketserver.TCPServer.server_bind(self)
+  self.server_name,self.server_port='localhost',self.server_address[1]
 class Handler(http.server.BaseHTTPRequestHandler):
  def log_message(self,*args): pass
  def do_GET(self): self.respond()
@@ -27,7 +32,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
   try: self.wfile.write(wire);self.wfile.flush()
   except (BrokenPipeError,ConnectionResetError): pass
   self.close_connection=True
-server=http.server.HTTPServer(('127.0.0.1',0),Handler)
+server=LocalHTTPServer(('127.0.0.1',0),Handler)
 thread=threading.Thread(target=lambda:server.serve_forever(poll_interval=0.01),daemon=True);thread.start()
 class LocalHTTPSConnection(http.client.HTTPConnection):
  def __init__(self,host,timeout=30,**kwargs): super().__init__('127.0.0.1',server.server_port,timeout=timeout)

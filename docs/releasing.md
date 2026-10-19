@@ -3,7 +3,7 @@
 ## Preview channel
 
 The npm package is `@jethros-projects/dotter`; it contains the SDK and the `dotter`
-executable. Public previews use a prerelease version such as `0.6.3-next.1` and
+executable. Public previews use a prerelease version such as `0.6.3-next.2` and
 the explicit npm tag `next`. The source repository is
 [jethros-projects/dotter](https://github.com/jethros-projects/dotter).
 
