@@ -17,8 +17,11 @@ const identity = (body = json, status = 200) => ({ status, body: body.toString('
 // Only HTTPSConnection is redirected after the helper's destination checks.
 // urllib/http.client use a real loopback socket; no external API is contacted.
 const harness = String.raw`
-import base64,contextlib,http.client,http.server,io,json,runpy,sys,threading
+import base64,contextlib,faulthandler,http.client,http.server,io,json,runpy,sys,threading,urllib.request
 config=json.loads(sys.argv[2]); calls=[]
+# A loopback fixture must not discover OS or environment proxies.
+urllib.request.getproxies=lambda:{}
+faulthandler.dump_traceback_later(5)
 class Handler(http.server.BaseHTTPRequestHandler):
  def log_message(self,*args): pass
  def do_GET(self): self.respond()
@@ -42,6 +45,7 @@ output=io.StringIO()
 try:
  with contextlib.redirect_stdout(output): runpy.run_path(sys.argv[1],run_name='__main__')
 finally: server.shutdown();server.server_close();thread.join()
+faulthandler.cancel_dump_traceback_later()
 sys.stderr.write(json.dumps(calls));sys.stderr.flush()
 sys.stdout.write(output.getvalue());sys.stdout.flush()
 `;
@@ -51,9 +55,12 @@ function fixture(responses) {
  function child(selectedHelper, options) {
   return (_cmd, _args, childOptions) => {
    calls.push({ method: options.method, path: new URL(options.url).pathname }); assert.ok(responses.length, 'Unexpected request after terminal response');
-   const process = spawn('python3', ['-I', '-c', harness, selectedHelper, JSON.stringify(responses.shift())], { ...childOptions, stdio: ['pipe','pipe','pipe'] });
-   let audit = ''; process.stderr.on('data', chunk => { audit += chunk; });
-   pending.push(new Promise((resolve,reject) => process.once('close', () => { try { if(audit)audits.push(...JSON.parse(audit)); resolve(); } catch(error) {reject(error);} }))); return process;
+   const process = spawn('python3', ['-I', '-c', harness, selectedHelper, JSON.stringify(responses.shift())], { ...childOptions, stdio: ['pipe','pipe','pipe'], timeout: 10000, killSignal: 'SIGKILL' });
+   let audit = ''; process.stderr.on('data', chunk => { audit = (audit + chunk).slice(0, 16384); });
+   pending.push(new Promise((resolve,reject) => process.once('close', (code, signal) => {
+    if (signal || audit.startsWith('Timeout (')) console.error(`Loopback Python fixture stopped (${signal ?? code}):\n${audit}`);
+    try { if(audit)audits.push(...JSON.parse(audit)); resolve(); } catch(error) {reject(error);}
+   }))); return process;
   };
  }
  const transport = new Transport({ authLoader, fetchImpl: (url, options) => pythonFetch(url, options, { spawnImpl: child(helper, { ...options, url }) }) });

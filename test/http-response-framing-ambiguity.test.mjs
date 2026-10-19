@@ -11,8 +11,11 @@ const missing=Buffer.from('{"detail":"Not Found"}');
 // Real HTTP bytes travel over loopback. Only HTTPSConnection's destination is
 // replaced, after the production helper has checked the first-party URL.
 const harness=String.raw`
-import base64,contextlib,http.client,http.server,io,json,runpy,sys,threading
+import base64,contextlib,faulthandler,http.client,http.server,io,json,runpy,sys,threading,urllib.request
 c=json.loads(sys.argv[2]);calls=[]
+# A loopback fixture must not discover OS or environment proxies.
+urllib.request.getproxies=lambda:{}
+faulthandler.dump_traceback_later(5)
 class Handler(http.server.BaseHTTPRequestHandler):
  def log_message(self,*args):pass
  def do_GET(self):self.respond()
@@ -34,6 +37,7 @@ out=io.StringIO()
 try:
  with contextlib.redirect_stdout(out):runpy.run_path(sys.argv[1],run_name='__main__')
 finally:server.shutdown();server.server_close();thread.join()
+faulthandler.cancel_dump_traceback_later()
 sys.stdout.write(out.getvalue());sys.stderr.write(json.dumps(calls))
 `;
 const response=(headers,status=404,body=missing)=>({status,headers:[['Content-Type','application/json'],...headers],body:body.toString('base64')});
@@ -41,7 +45,10 @@ function client(responses){
  const pending=[],calls=[],wire=[];
  const transport=new Transport({authLoader:async()=>({accountId:'synthetic-account',accessToken:'synthetic-token'}),fetchImpl:(url,options)=>pythonFetch(url,options,{spawnImpl:(_cmd,_args,childOptions)=>{
   calls.push({method:options.method,path:new URL(url).pathname});assert.ok(responses.length,'Unexpected second request');
-  const c=spawn('python3',['-I','-c',harness,helper,JSON.stringify(responses.shift())],{...childOptions,stdio:['pipe','pipe','pipe']});let audit='';c.stderr.on('data',v=>{audit+=v;});pending.push(new Promise((resolve,reject)=>c.once('close',()=>{try{wire.push(...JSON.parse(audit));resolve();}catch(e){reject(e);}})));return c;
+  const c=spawn('python3',['-I','-c',harness,helper,JSON.stringify(responses.shift())],{...childOptions,stdio:['pipe','pipe','pipe'],timeout:10000,killSignal:'SIGKILL'});let audit='';c.stderr.on('data',v=>{audit=(audit+v).slice(0,16384);});pending.push(new Promise((resolve,reject)=>c.once('close',(code,signal)=>{
+   if(signal||audit.startsWith('Timeout ('))console.error(`Loopback Python fixture stopped (${signal??code}):\n${audit}`);
+   try{wire.push(...JSON.parse(audit));resolve();}catch(e){reject(e);}
+  })));return c;
  }} )});
  return{transport,calls,async done(expected=1){await Promise.all(pending);assert.equal(calls.length,expected);assert.equal(wire.length,expected);}};
 }

@@ -11,8 +11,11 @@ const missing = Buffer.from('{"detail":"Not Found"}');
 // Redirect only HTTPSConnection after the helper's origin checks. urllib and
 // http.client parse real wire bytes from a loopback socket, including duplicates.
 const harness = String.raw`
-import base64,contextlib,http.client,http.server,io,json,runpy,sys,threading
+import base64,contextlib,faulthandler,http.client,http.server,io,json,runpy,sys,threading,urllib.request
 config=json.loads(sys.argv[2]); calls=[]
+# A loopback fixture must not discover OS or environment proxies.
+urllib.request.getproxies=lambda:{}
+faulthandler.dump_traceback_later(5)
 class Handler(http.server.BaseHTTPRequestHandler):
  def log_message(self,*args): pass
  def do_GET(self): self.respond()
@@ -35,6 +38,7 @@ try:
   try: runpy.run_path(sys.argv[1],run_name='__main__')
   except SystemExit as error: exit_code=error.code
 finally: server.shutdown();server.server_close();thread.join()
+faulthandler.cancel_dump_traceback_later()
 # The JS consumer may intentionally close on the first rejection. Flush the
 # request audit before records, so that cancellation cannot erase evidence.
 sys.stderr.write(json.dumps(calls));sys.stderr.flush()
@@ -54,12 +58,13 @@ function fixture(value) {
     opens++;
     assert.equal(opens, 1, 'The helper must not retry a framing failure');
     const child = spawn('python3', ['-I', '-c', harness, helper, JSON.stringify(value)], {
-      ...childOptions, stdio: ['pipe', 'pipe', 'pipe']
+      ...childOptions, stdio: ['pipe', 'pipe', 'pipe'], timeout: 10000, killSignal: 'SIGKILL'
     });
     let audit = '', output = '';
-    child.stderr.on('data', chunk => { audit += chunk; });
+    child.stderr.on('data', chunk => { audit = (audit + chunk).slice(0, 16384); });
     child.stdout.on('data', chunk => { output += chunk; });
-    pending.push(new Promise((resolve, reject) => child.once('close', () => {
+    pending.push(new Promise((resolve, reject) => child.once('close', (code, signal) => {
+      if (signal || audit.startsWith('Timeout (')) console.error(`Loopback Python fixture stopped (${signal ?? code}):\n${audit}`);
       try {
         assert.ok(audit, 'The loopback request audit must survive early cancellation');
         audits.push(...JSON.parse(audit));
