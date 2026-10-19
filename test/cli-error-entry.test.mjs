@@ -1,13 +1,11 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
-import { chmod, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { nativeCliFixture } from './helpers/native-cli-fixture.mjs';
 
 const entrypoint = fileURLToPath(new URL('../bin/dotter.mjs', import.meta.url));
-const httpHelper = fileURLToPath(new URL('../src/http.py', import.meta.url));
 const advancedURL = new URL('../src/advanced.mjs', import.meta.url).href;
 const accountId = 'synthetic-entry-account';
 const token = 'synthetic-entry-token';
@@ -16,34 +14,21 @@ const key = 'a9c1e164-089b-44f7-9d7c-dc4dd2790123';
 const secret = 'private-diagnostic-must-not-be-printed';
 
 // Exercise the actual executable, parser, auth loader, request serialization,
-// transport error classification and final process exit. Only the python3
-// executable is replaced; it cannot contact a service. Use CommonJS for the
-// extensionless executable so this also works with Node 22.0.
+// native Node transport, error classification, and process exit. The fixture
+// redirects the final connection to loopback; PATH contains no Python.
 async function cli(t, args, {
-  json = false, auth = 'valid', helper = true,
-  status = 200, headers = { 'content-type': 'application/json' },
-  value = {}, raw, envelope, unexpected = false, literal,
+  json = false, auth = 'valid', status = 200,
+  headers = { 'content-type': 'application/json' }, value = {}, raw,
+  networkFailure = false, unexpected = false, literal,
 } = {}) {
-  const directory = await mkdtemp(join(tmpdir(), 'dot-cli-error-entry-'));
-  t.after(() => rm(directory, { recursive: true, force: true }));
+  const fixture = await nativeCliFixture(t, { status, headers, value, raw, networkFailure });
+  const { directory, calls } = fixture;
   const authFile = join(directory, 'auth.json');
-  const logFile = join(directory, 'requests.ndjson');
-  const executable = join(directory, 'python3');
   if (auth !== 'missing') {
     const authData = auth === 'invalid' ? '{not JSON'
       : JSON.stringify(auth === 'api-key' ? { auth_mode: 'apikey', OPENAI_API_KEY: secret }
         : { auth_mode: 'chatgpt', tokens: { account_id: accountId, access_token: token } });
     await writeFile(authFile, authData, { mode: 0o600 });
-  }
-  if (helper) {
-    const reply = envelope ?? { status, headers, body: Buffer.from(raw ?? JSON.stringify(value)).toString('base64') };
-    await writeFile(executable, `#!${process.execPath}
-const { appendFileSync, readFileSync } = require('node:fs');
-const request = JSON.parse(readFileSync(0, 'utf8'));
-appendFileSync(${JSON.stringify(logFile)}, JSON.stringify({ args: process.argv.slice(2), request }) + '\\n', { mode: 0o600 });
-process.stdout.write(${JSON.stringify(JSON.stringify(reply))});
-`, { mode: 0o700 });
-    await chmod(executable, 0o700);
   }
   const nodeArgs = [];
   if (unexpected) {
@@ -62,24 +47,10 @@ FullDotClient.prototype.primary = async function () {
     nodeArgs.push('--import', preload);
   }
   nodeArgs.push(entrypoint, ...args, '--auth-file', authFile, ...(json ? ['--json'] : []), ...(literal ? ['--', ...literal] : []));
-  const result = await new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, nodeArgs, {
-      cwd: directory,
-      env: { PATH: directory, LANG: 'C.UTF-8' },
-      stdio: ['ignore', 'pipe', 'pipe'],
-      timeout: 10_000,
-    });
-    let stdout = '', stderr = '';
-    child.stdout.setEncoding('utf8').on('data', chunk => { stdout += chunk; });
-    child.stderr.setEncoding('utf8').on('data', chunk => { stderr += chunk; });
-    child.once('error', reject);
-    child.once('close', (code, signal) => resolve({ code, signal, stdout, stderr, authFile }));
-  });
+  const result = await fixture.run(nodeArgs);
+  result.authFile = authFile;
   assert.equal(result.signal, null, 'the CLI must finish without a timeout or signal');
   assert.doesNotMatch(result.stdout + result.stderr, new RegExp(`${secret}|${token}|${accountId}`));
-  let calls = [];
-  try { calls = (await readFile(logFile, 'utf8')).trim().split('\n').filter(Boolean).map(line => JSON.parse(line)); }
-  catch (error) { if (error.code !== 'ENOENT') throw error; }
   return { ...result, calls };
 }
 
@@ -96,12 +67,11 @@ function outputError(result, { code, exit, message, json, details = {}, prefix =
 
 function oneRead(result) {
   assert.equal(result.calls.length, 1, 'an error must not cause an automatic retry');
-  const { args, request } = result.calls[0];
-  assert.deepEqual(args, ['-I', httpHelper]);
+  const { request } = result.calls[0];
   assert.equal(request.method, 'GET');
   assert.equal(request.url, 'https://chatgpt.com/backend-api/tbo/primary');
-  assert.equal(request.headers.Authorization, `Bearer ${token}`);
-  assert.equal(request.headers['ChatGPT-Account-Id'], accountId);
+  assert.equal(request.headers.authorization, `Bearer ${token}`);
+  assert.equal(request.headers['chatgpt-account-id'], accountId);
 }
 
 for (const json of [false, true]) {
@@ -154,15 +124,19 @@ for (const json of [false, true]) {
   }
 
   test(`binary CLI routes a network failure to ${mode} output with exit 5`, async t => {
-    const result = await cli(t, ['status'], { json, envelope: { error: secret } });
+    const result = await cli(t, ['status'], { json, networkFailure: true });
     outputError(result, { code: 'NETWORK_ERROR', exit: 5, message: 'The HTTPS request failed before a complete response was received.', json, details: { delivery: 'unknown' } });
     oneRead(result);
   });
 
-  test(`binary CLI reports a missing transport in ${mode} mode without trying a fallback`, async t => {
-    const result = await cli(t, ['status'], { json, helper: false });
-    outputError(result, { code: 'PYTHON_REQUIRED', exit: 1, message: 'Python 3 is required for the HTTPS transport. Install Python 3 and try again.', json, details: { delivery: 'not_sent' } });
-    assert.deepEqual(result.calls, []);
+  test(`binary CLI reads through the native transport with Python absent in ${mode} mode`, async t => {
+    const result = await cli(t, ['status'], {
+      json, value: { selection: { available: true, aeon_id: 'synthetic_primary', messaging_room_id: roomId } },
+    });
+    assert.equal(result.code, 0);
+    assert.equal(result.stderr, '');
+    assert.equal(JSON.parse(result.stdout).id, 'synthetic_primary');
+    oneRead(result);
   });
 
   test(`binary CLI sanitizes an unexpected exception in ${mode} mode with exit 1`, async t => {
@@ -185,22 +159,27 @@ for (const json of [false, true]) {
 }
 
 for (const json of [false, true]) {
-  test(`binary CLI preserves not-sent delivery and the request key when Python is missing in ${json ? 'JSON' : 'human'} mode`, async t => {
-    const result = await cli(t, ['send', 'synthetic message', '--room', roomId, '--key', key], { json, helper: false });
-    const message = 'Python 3 is required for the HTTPS transport. Install Python 3 and try again.';
-    const prefix = `Request key: ${key}\n`;
-    if (json) outputError(result, { code: 'PYTHON_REQUIRED', exit: 1, message, json, prefix, details: { delivery: 'not_sent', idempotencyKey: key } });
-    else {
-      assert.equal(result.code, 1);
-      assert.equal(result.stdout, '');
-      assert.equal(result.stderr, `${prefix}Dotter: ${message}\nDelivery: not_sent. Request key: ${key}\n`);
-    }
-    assert.deepEqual(result.calls, []);
+  test(`binary CLI sends with Python absent and preserves its request key in ${json ? 'JSON' : 'human'} mode`, async t => {
+    const result = await cli(t, ['send', 'synthetic message', '--room', roomId, '--key', key], {
+      json, value: { id: 'synthetic_message_1' },
+    });
+    assert.equal(result.code, 0);
+    assert.equal(result.stderr, `Request key: ${key}\n`);
+    assert.deepEqual(JSON.parse(result.stdout), {
+      accepted: true, roomId, messageId: 'synthetic_message_1', idempotencyKey: key, createdAt: null,
+    });
+    assert.equal(result.calls.length, 1, 'native sends are never retried');
+    const { request } = result.calls[0];
+    assert.equal(request.method, 'POST');
+    assert.equal(request.url, `https://chatgpt.com/backend-api/messaging/rooms/${roomId}/messages`);
+    assert.deepEqual(JSON.parse(request.body).content, { text: 'synthetic message' });
+    assert.equal(JSON.parse(request.body).request_id, key);
+    assert.equal(JSON.parse(request.body).idempotency_token, key);
   });
 
   for (const response of [
     { label: 'forbidden response', status: 403, value: { error: secret }, code: 'FORBIDDEN', exit: 4, message: 'This request is not permitted. Reads and sends may have different requirements.', details: { status: 403 } },
-    { label: 'lost response', envelope: { error: secret }, code: 'NETWORK_ERROR', exit: 5, message: 'The HTTPS request failed before a complete response was received.', details: {} },
+    { label: 'lost response', networkFailure: true, code: 'NETWORK_ERROR', exit: 5, message: 'The HTTPS request failed before a complete response was received.', details: {} },
     { label: 'unconfirmed acknowledgement', value: { token: secret }, code: 'INVALID_RESPONSE', exit: 1, message: 'The server did not return a message acknowledgment. Check history before trying again.', details: {} },
   ]) {
     test(`binary CLI preserves the send request key and uncertain delivery after ${response.label} in ${json ? 'JSON' : 'human'} mode`, async t => {

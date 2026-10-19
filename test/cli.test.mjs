@@ -15,6 +15,13 @@ function output() {
 function dependencies(client = {}) {
   return { stdout: output(), stderr: output(), createClient: () => client };
 }
+function requestArguments(options) {
+  const { signal, onAccepted, ...request } = options;
+  assert.ok(signal instanceof AbortSignal);
+  assert.equal(signal.aborted, false, 'The SDK must invoke an operation with an active signal');
+  if (Object.hasOwn(options, 'onAccepted')) assert.equal(typeof onAccepted, 'function');
+  return request;
+}
 async function temporary(callback) {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'dot-cli-test-'));
   try { return await callback(directory); }
@@ -88,13 +95,32 @@ test('status and dots call only the relevant discovery operation', async () => {
 });
 
 test('history forwards paging options and prints the normalized response', async () => {
-  const result = { roomId: 'room', messages: [{ id: 'm1', role: 'user', text: 'hello' }], prevCursor: 'before', nextCursor: null };
+  const result = { roomId: 'room', messages: [{ id: 'm1', role: 'user', text: 'hello', inProgress: false, replyTo: null }], prevCursor: 'before', nextCursor: null };
   let received;
-  const deps = dependencies({ async history(args) { received = args; return result; } });
+  const deps = dependencies({ async history(args) { received = requestArguments(args); return result; } });
   deps.signal = new AbortController().signal;
   await run(['history', '--room', 'room', '--after', 'cursor', '--json'], deps);
-  assert.deepEqual(received, { roomId: 'room', limit: 20, before: undefined, after: 'cursor', signal: deps.signal });
+  assert.deepEqual(received, { roomId: 'room', limit: 20, before: undefined, after: 'cursor' });
   assert.deepEqual(JSON.parse(deps.stdout.text), result);
+});
+
+test('history forwards cancellation through the SDK without printing a partial result', async () => {
+  const controller = new AbortController();
+  let started;
+  const ready = new Promise(resolve => { started = resolve; });
+  const deps = dependencies({ async history(options) {
+    requestArguments(options);
+    return new Promise((resolve, reject) => {
+      options.signal.addEventListener('abort', () => reject(options.signal.reason), { once: true });
+      started();
+    });
+  } });
+  deps.signal = controller.signal;
+  const running = run(['history', '--json'], deps);
+  await ready;
+  controller.abort();
+  await assert.rejects(running, error => error.code === 'ABORTED');
+  assert.equal(deps.stdout.text, '');
 });
 
 test('readable message output removes terminal sequences and control characters', async () => {
@@ -114,7 +140,7 @@ test('send validates input, announces the key before one request, and prints rec
   const deps = dependencies({ async send(args) {
     calls++;
     assert.match(deps.stderr.text, new RegExp(KEY));
-    assert.deepEqual(args, { roomId: 'room', text: 'hello', idempotencyKey: KEY, signal: undefined });
+    assert.deepEqual(requestArguments(args), { roomId: 'room', text: 'hello', idempotencyKey: KEY });
     return { accepted: true, messageId: 'm1', idempotencyKey: args.idempotencyKey };
   } });
   deps.uuid = () => KEY;
@@ -174,13 +200,14 @@ test('malformed, missing, and oversized source input fails before auth/client cr
 test('watch emits NDJSON and detaches signal handlers after cancellation', async () => {
   const signals = new EventEmitter();
   const external = new AbortController();
-  const message = { id: 'm1', role: 'user', text: 'hello\nworld' };
+  const message = { id: 'm1', role: 'user', text: 'hello\nworld', inProgress: false, replyTo: null };
   const deps = dependencies({ async watch(args) {
     assert.equal(args.roomId, 'room');
     assert.equal(args.intervalMs, 2000);
     assert.equal(args.fromStart, true);
     await args.onReady({ roomId: 'room', initialCount: 0 });
     await args.onMessage(message);
+    await new Promise(setImmediate);
     external.abort();
     assert.equal(args.signal.aborted, true);
     throw new DOMException('aborted', 'AbortError');
@@ -209,6 +236,7 @@ test('watch stops cleanly for SIGINT with readable ready and message output', as
   const deps = dependencies({ async watch(args) {
     await args.onReady({ roomId: 'room\x1b[31m', initialCount: 0 });
     await args.onMessage({ id: 'one', role: 'assistant', text: 'hello' });
+    await new Promise(setImmediate);
     signals.emit('SIGINT');
     assert.equal(args.signal.aborted, true);
   } });

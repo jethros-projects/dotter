@@ -4,6 +4,7 @@ import fs, { mkdtemp, readFile, readdir, realpath, rm, stat, writeFile } from 'n
 import { syncBuiltinESMExports } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { setImmediate as nextTurn } from 'node:timers/promises';
 import { run } from '../src/cli.mjs';
 import { FullDotClient } from '../src/advanced.mjs';
 
@@ -61,21 +62,72 @@ for (const format of ['json', 'md']) test(`CLI ${format} history export writes o
 
 for (const format of ['json', 'md']) for (const overwrite of [false, true]) {
   for (const [label, reason] of [['false', false], ['zero', 0], ['empty string', ''], ['null', null], ['Error', new Error('caller cancelled export')]]) {
-    test(`CLI ${format} export cancellation during flush preserves ${overwrite ? 'existing output' : 'no output'} and exact ${label} reason`, async t => {
+    test(`CLI ${format} export cancellation during flush preserves ${overwrite ? 'existing output' : 'no output'} for ${label} cancellation`, async t => {
       const f = await fixture(t, format, overwrite), controller = new AbortController();
       const io = abortDuringFlush(t, f.directory, controller, reason);
       const outcome = await f.run(controller.signal).then(value => ({ value }), error => ({ error }));
       assert.equal(io.flushed, 1, 'cancellation must occur after real file write and flush');
       assert.equal(io.handles.length, 1);
       assert.equal(Object.hasOwn(outcome, 'error'), true, 'cancelled export must reject');
-      assert.equal(outcome.error, reason);
+      assert.equal(outcome.error.code, 'ABORTED');
       assert.equal(f.stdout.text, '', 'cancelled export must not print a successful receipt');
       assert.equal(f.stderr.text, '');
       if (overwrite) assert.equal(await readFile(f.output, 'utf8'), 'original bytes');
       else await assert.rejects(readFile(f.output), { code: 'ENOENT' });
       assert.deepEqual(await readdir(f.directory), overwrite ? [`history.${format}`] : []);
       for (const handle of io.handles) await assert.rejects(handle.stat(), { code: 'EBADF' });
-      assert.equal(f.calls.length, 1); assert.equal(f.calls[0].options.signal, controller.signal);
+      assert.equal(f.calls.length, 1);
+      assert.ok(f.calls[0].options.signal instanceof AbortSignal);
+      assert.equal(f.calls[0].options.signal.aborted, true);
     });
   }
 }
+
+test('CLI export cancellation waits for its temporary file cleanup before rejecting', async t => {
+  const f = await fixture(t, 'json', true), controller = new AbortController();
+  const io = abortDuringFlush(t, f.directory, controller, 0);
+  const originalUnlink = fs.unlink;
+  let cleanupStarted, releaseCleanup;
+  const started = new Promise(resolve => { cleanupStarted = resolve; });
+  const release = new Promise(resolve => { releaseCleanup = resolve; });
+  fs.unlink = async (path, ...args) => {
+    if (typeof path === 'string' && path.startsWith(`${f.directory}/.dot-cli-`) && path.endsWith('.tmp')) {
+      cleanupStarted(); await release;
+    }
+    return originalUnlink(path, ...args);
+  };
+  syncBuiltinESMExports();
+  t.after(() => { releaseCleanup(); fs.unlink = originalUnlink; syncBuiltinESMExports(); });
+  let settled = false;
+  const operation = f.run(controller.signal).then(value => { settled = true; return { value }; }, error => { settled = true; return { error }; });
+  try {
+    await started;
+    await nextTurn();
+    assert.equal(settled, false, 'the SDK must not report cancellation before cleanup finishes');
+    assert.ok((await readdir(f.directory)).some(name => name.endsWith('.tmp')));
+  } finally { releaseCleanup(); }
+  const outcome = await operation;
+  assert.equal(outcome.error.code, 'ABORTED');
+  assert.equal(await readFile(f.output, 'utf8'), 'original bytes');
+  assert.deepEqual(await readdir(f.directory), ['history.json']);
+  for (const handle of io.handles) await assert.rejects(handle.stat(), { code: 'EBADF' });
+  assert.equal(f.stdout.text, '');
+});
+
+for (const overwrite of [false, true]) test(`CLI export keeps its receipt when cancellation follows atomic ${overwrite ? 'rename' : 'link'}`, async t => {
+  const f = await fixture(t, 'json', overwrite), controller = new AbortController();
+  const method = overwrite ? 'rename' : 'link', original = fs[method];
+  fs[method] = async (source, destination, ...args) => {
+    const result = await original(source, destination, ...args);
+    if (destination === f.output) controller.abort(0);
+    return result;
+  };
+  syncBuiltinESMExports();
+  t.after(() => { fs[method] = original; syncBuiltinESMExports(); });
+  const result = await f.run(controller.signal);
+  assert.equal(controller.signal.aborted, true);
+  assert.deepEqual(result, { path: f.output, format: 'json', messageCount: 1, pagesRead: 1, truncated: false });
+  assert.deepEqual(JSON.parse(f.stdout.text), result);
+  assert.match(await readFile(f.output, 'utf8'), /Visible export content/);
+  assert.deepEqual(await readdir(f.directory), ['history.json']);
+});

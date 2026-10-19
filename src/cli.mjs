@@ -10,6 +10,9 @@ import { parseV4Args, prepareV4Options, runV4Command, isV4Streaming, v4Commands,
 export { CliError } from './commands.mjs';
 import { HELP, FULL_HELP, commandHelp, requestedHelp } from './help.mjs';
 import { basicCommandOptions } from './cli-options.mjs';
+import { createClient as createSdkClient, DotterClient } from './sdk.mjs';
+import { cliClient } from './cli-client.mjs';
+import { cliError } from './sdk-error.mjs';
 export { HELP, FULL_HELP } from './help.mjs';
 
 const MAX_TEXT_CHARS = 64_000;
@@ -281,11 +284,11 @@ export async function run(argv, deps = {}) {
     const { validateSendContext } = await import('./client.mjs');
     validateSendContext(prepared);
   }
-  const createClient = deps.createClient ?? (async config => {
-    const { FullDotClient } = await import('./advanced.mjs');
-    return new FullDotClient(config);
-  });
-  const client = await createClient({ authFile: options.authFile });
+  const createClient = deps.createClient ?? createSdkClient;
+  const suppliedClient = await createClient({ authFile: options.authFile });
+  const sdk = suppliedClient instanceof DotterClient ? suppliedClient : createSdkClient({ nativeClient: suppliedClient });
+  const client = cliClient(sdk);
+  try {
   if (options.command === 'status' || options.command === 'dots') {
     const result = await (options.command === 'status' ? client.primary() : client.listDots());
     printJSON(stdout, result);
@@ -358,7 +361,7 @@ export async function run(argv, deps = {}) {
         },
       });
     } catch (error) {
-      if (!controller.signal.aborted || error?.name !== 'AbortError' && error !== controller.signal.reason) throw error;
+      if (!controller.signal.aborted || error?.name !== 'AbortError' && error?.code !== 'ABORTED' && error !== controller.signal.reason) throw error;
     } finally {
       clearTimeout(timer);
       signals.removeListener('SIGINT', interrupt);
@@ -371,4 +374,6 @@ export async function run(argv, deps = {}) {
   const result = await runner(client, prepared, { ...deps, stdout, stderr, stdin: deps.stdin ?? process.stdin, uuid: deps.uuid ?? randomUUID });
   if (options.command !== 'chat' && !isV3Streaming(prepared) && !isV4Streaming(prepared)) printJSON(stdout, result);
   return result;
+  } catch (error) { throw cliError(error); }
+  finally { await sdk.close(); }
 }

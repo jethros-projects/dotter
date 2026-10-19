@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { CliError, run, stripTerminalControls } from '../src/cli.mjs';
 import { DotError } from '../src/errors.mjs';
+import { DotterError } from '../src/sdk-error.mjs';
 
 const args = process.argv.slice(2);
 const optionEnd = args.indexOf('--');
@@ -10,10 +11,11 @@ try {
   const result = await run(args);
   if (result?.status === 'unavailable') process.exitCode = 3;
 } catch (error) {
-  const known = error instanceof CliError || error instanceof DotError;
+  const domainError = error instanceof DotError || error instanceof DotterError;
+  const known = error instanceof CliError || domainError;
   const message = known ? stripTerminalControls(error.message) : 'Unexpected failure. Run dotter --help or retry.';
   if (jsonErrors) {
-    process.stdout.write(`${JSON.stringify(error instanceof DotError ? error.toJSON() : { error: { code: known ? error.code : 'UNEXPECTED', message } })}\n`);
+    process.stdout.write(`${JSON.stringify(domainError ? error.toJSON() : { error: { code: known ? error.code : 'UNEXPECTED', message } })}\n`);
   } else {
     process.stderr.write(`Dotter: ${message}\n`);
     if (error instanceof DotError && error.details.idempotencyKey) process.stderr.write(`Delivery: ${error.details.delivery}. Request key: ${error.details.idempotencyKey}\n`);

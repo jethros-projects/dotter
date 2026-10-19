@@ -1,34 +1,38 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtemp, readFile, writeFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
 import { runChat } from '../src/chat.mjs';
+import { nativeCliFixture } from './helpers/native-cli-fixture.mjs';
 
 const cli = fileURLToPath(new URL('../bin/dotter.mjs', import.meta.url));
 async function fixture(t, holdWatch = false) {
-  const directory = await mkdtemp(join(tmpdir(), 'dotter-cli-'));
-  t.after(() => rm(directory, { recursive: true, force: true }));
-  const auth = join(directory, 'auth.json'), log = join(directory, 'requests.ndjson');
+  const native = await nativeCliFixture(t, {
+    respond(request, response) {
+      const path = new URL(request.url).pathname;
+      const watch = request.method === 'GET' && path === '/backend-api/messaging/rooms/room_test/messages';
+      if (holdWatch && watch) return;
+      const body = request.method === 'POST' ? { id: 'synthetic-message' }
+        : watch ? { items: [], next_cursor: null, prev_cursor: null }
+        : { id: 'room_test', members: [] };
+      response.writeHead(200, { 'content-type': 'application/json' });
+      response.end(JSON.stringify(body));
+    },
+  });
+  const auth = join(native.directory, 'auth.json');
   await writeFile(auth, JSON.stringify({ auth_mode: 'chatgpt', tokens: { access_token: 'synthetic-chat-token', account_id: 'synthetic-chat-account' } }), { mode: 0o600 });
-  await writeFile(join(directory, 'python3'), `#!${process.execPath}
-const fs = require('node:fs');
-const request = JSON.parse(fs.readFileSync(0, 'utf8'));
-const url = new URL(request.url);
-fs.appendFileSync(${JSON.stringify(log)}, JSON.stringify({ method: request.method, path: url.pathname, body: request.body ? JSON.parse(request.body) : null, pid: process.pid }) + '\\n');
-const watch = request.method === 'GET' && url.pathname === '/backend-api/messaging/rooms/room_test/messages';
-if (${holdWatch} && watch) setInterval(() => {}, 1000);
-else {
-  const body = request.method === 'POST' ? { id: 'synthetic-message' } : watch ? { items: [], next_cursor: null, prev_cursor: null } : { id: 'room_test', members: [] };
-  process.stdout.write(JSON.stringify({ status: 200, headers: { 'content-type': 'application/json' }, body: Buffer.from(JSON.stringify(body)).toString('base64') }));
-}
-`, { mode: 0o700 });
-  return { directory, log, env: { PATH: directory, LANG: 'C.UTF-8' }, args: [cli, 'chat', '--room', 'room_test', '--auth-file', auth, '--interval', '1'],
-    async calls() { try { return (await readFile(log, 'utf8')).trim().split('\n').filter(Boolean).map(line => JSON.parse(line)); } catch (error) { if (error.code === 'ENOENT') return []; throw error; } } };
+  return { directory: native.directory, log: native.logFile, env: native.env,
+    args: [...native.nodeArgs, cli, 'chat', '--room', 'room_test', '--auth-file', auth, '--interval', '1'],
+    nativeCalls: native.calls, nativeConnections: native.connections,
+    async calls() {
+      return native.calls.map(({ request }) => ({ method: request.method, path: new URL(request.url).pathname,
+        body: request.body ? JSON.parse(request.body) : null }));
+    },
+  };
 }
 async function piped(f, input) {
   return new Promise((resolve, reject) => {
@@ -64,9 +68,20 @@ test('real chat CLI clears a failed attachment attempt before the next explicit 
   assert.equal(keys.length, 2); assert.notEqual(keys[0], keys[1]);
 });
 
-// A real controlling terminal exercises readline's raw-key handling. The
-// child can only invoke our local HTTP stub, with synthetic auth. Any owned
-// stub left alive by a failing assertion is killed before the harness exits.
+test('real chat CLI reuses a native connection for sequential sends and releases its pool on exit', async t => {
+  const f = await fixture(t), result = await piped(f, 'First message\nSecond message\nThird message\n/quit\n');
+  assert.equal(result.code, 0); assert.equal(result.signal, null);
+  assert.deepEqual(messages(await f.calls()), ['First message', 'Second message', 'Third message']);
+  const sends = f.nativeCalls.filter(({ request }) => request.method === 'POST');
+  assert.ok(new Set(sends.map(call => call.connectionId)).size < sends.length,
+    'sequential sends must reuse a native connection');
+  assert.ok(f.nativeConnections.every(connection => connection.closed),
+    'normal CLI exit must release every active and idle pooled connection');
+});
+
+// Python provides an offline controlling terminal for readline's raw keys.
+// The Node CLI itself runs without Python on PATH; its native requests use
+// the same loopback fixture, including a real pending watcher socket.
 const terminalHarness = String.raw`
 import errno, fcntl, json, os, pty, select, signal, subprocess, sys, termios, time
 config = json.load(sys.stdin)
@@ -99,12 +114,13 @@ def interrupted(_signum, _frame): raise SystemExit(124)
 try:
     signal.signal(signal.SIGTERM, interrupted)
     signal.signal(signal.SIGINT, interrupted)
-    ready = pump(lambda: b'You> ' in output and (not config['holdWatch'] or bool(calls())), 5)
+    ready = pump(lambda: b'You> ' in output and (not config['holdWatch'] or any(call['request']['method'] == 'GET' and call['request']['url'].split('?', 1)[0].endswith('/rooms/room_test/messages') for call in calls())), 5)
     if ready:
         if config['operation'] == 'ctrl-c': os.write(master, b'\x03')
+        elif config['operation'] == 'quit': os.write(master, b'/quit\r')
         elif config['operation'] == 'edited-message':
             os.write(master, b'hellx\x7fo\r')
-            if not pump(lambda: any(call['method'] == 'POST' for call in calls()), 5):
+            if not pump(lambda: any(call['request']['method'] == 'POST' for call in calls()), 5):
                 raise RuntimeError('Edited terminal message was not submitted')
             os.write(master, b'/quit\r')
         else: os.kill(child.pid, signal.SIGTERM)
@@ -113,23 +129,13 @@ try:
     if timed_out:
         os.kill(child.pid, signal.SIGKILL)
     code = child.wait(timeout=2)
-    worker_alive = []
-    for call in calls():
-        try:
-            if os.getpgid(call['pid']) == child.pid:
-                os.kill(call['pid'], 0); worker_alive.append(call['pid'])
-        except ProcessLookupError: pass
-    print(json.dumps({'ready': ready, 'code': code, 'timedOut': timed_out, 'workerAlive': worker_alive, 'output': output.decode('utf-8', errors='replace')}))
+    print(json.dumps({'ready': ready, 'code': code, 'timedOut': timed_out, 'output': output.decode('utf-8', errors='replace')}))
 finally:
     if child.poll() is None: child.kill(); child.wait()
-    for call in calls():
-        try:
-            if os.getpgid(call['pid']) == child.pid: os.kill(call['pid'], signal.SIGKILL)
-        except ProcessLookupError: pass
     os.close(master)
 `;
 
-for (const operation of ['ctrl-c', 'sigterm', 'edited-message']) test(`real chat CLI handles ${operation} and closes its watcher subprocess`, async t => {
+for (const operation of ['ctrl-c', 'sigterm', 'quit', 'edited-message']) test(`real chat CLI handles ${operation} and closes its native watcher socket`, async t => {
   const holdWatch = operation !== 'edited-message', f = await fixture(t, holdWatch);
   const result = await new Promise((resolve, reject) => {
     const child = spawn('python3', ['-I', '-c', terminalHarness], { stdio: ['pipe', 'pipe', 'pipe'], timeout: 20000 });
@@ -142,7 +148,12 @@ for (const operation of ['ctrl-c', 'sigterm', 'edited-message']) test(`real chat
   const observed = JSON.parse(result.stdout);
   assert.equal(observed.ready, true, observed.output); assert.equal(observed.timedOut, false, observed.output);
   assert.equal(observed.code, 0, observed.output);
-  assert.deepEqual(observed.workerAlive, [], 'aborting chat must terminate its active HTTP child');
+  const watchers = f.nativeCalls.filter(({ request }) => request.method === 'GET'
+    && new URL(request.url).pathname === '/backend-api/messaging/rooms/room_test/messages');
+  if (holdWatch) assert.ok(watchers.length > 0, 'the terminal must cancel a real pending watcher request');
+  assert.ok(watchers.every(call => call.closed), 'exiting chat must close its native watcher socket');
+  assert.ok(f.nativeConnections.every(connection => connection.closed),
+    'terminal exit must release active and idle pooled connections');
   assert.deepEqual(messages(await f.calls()), operation === 'edited-message' ? ['hello'] : []);
 });
 

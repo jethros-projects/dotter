@@ -1,0 +1,37 @@
+name: Bug report
+description: Report a reproducible problem in Dotter.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use synthetic data. Never include tokens, auth caches, callback URLs,
+        private messages or account identifiers. For security issues, use
+        SECURITY.md instead of a public report.
+  - type: input
+    id: version
+    attributes:
+      label: Dotter version
+      description: Output of dotter --version.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system and Node.js version.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Commands or a small SDK example using synthetic inputs.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual behavior
+      description: Include a sanitized error code if available. Do not paste raw service traces.
+    validations:
+      required: true

@@ -1,10 +1,37 @@
 {
-  "name": "dotter-cli",
-  "version": "0.5.22",
-  "description": "An independent command-line companion for OpenAI Dot",
+  "name": "@jethros-projects/dotter",
+  "version": "0.6.3-next.0",
+  "description": "A typed SDK and command-line companion for OpenAI Dot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jethros-projects/dotter.git"
+  },
+  "homepage": "https://github.com/jethros-projects/dotter#readme",
+  "bugs": {
+    "url": "https://github.com/jethros-projects/dotter/issues"
+  },
+  "keywords": [
+    "dotter",
+    "chatgpt",
+    "dot",
+    "sdk",
+    "cli",
+    "typescript",
+    "agents"
+  ],
   "type": "module",
   "main": "./src/index.mjs",
-  "exports": "./src/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.mjs"
+    },
+    "./advanced": {
+      "types": "./src/advanced.d.ts",
+      "import": "./src/native.mjs"
+    },
+    "./package.json": "./package.json"
+  },
   "engines": {
     "node": ">=22"
   },
@@ -19,7 +46,9 @@
     "docs": "node scripts/build-cli-reference.mjs",
     "coverage:docs": "node scripts/build-coverage.mjs",
     "test:package": "node scripts/test-package.mjs",
-    "verify": "npm run check && npm test && npm run test:package"
+    "verify": "npm run check && npm run typecheck && npm test && npm run test:package",
+    "typecheck": "node scripts/typecheck.mjs",
+    "test:e2e": "node scripts/e2e-sdk.mjs"
   },
   "files": [
     "bin/",
@@ -33,7 +62,15 @@
     "THIRD_PARTY_NOTICES.md",
     "docs/architecture.md",
     "CONTRIBUTING.md",
-    "SECURITY.md"
+    "SECURITY.md",
+    "docs/SDK.md",
+    "docs/agents.md",
+    "AGENTS.md",
+    "scripts/e2e-sdk.mjs",
+    "scripts/e2e-sdk-checks.mjs",
+    "docs/assets/dotter-terminal.png",
+    "docs/assets/README.md",
+    "docs/releasing.md"
   ],
   "dependencies": {
     "ajv": "8.20.0",
@@ -49,6 +86,11 @@
   ],
   "license": "MIT",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "next"
+  },
+  "types": "./src/index.d.ts",
+  "devDependencies": {
+    "typescript": "7.0.2"
   }
 }

@@ -1,54 +1,24 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
-import { chmod, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { nativeCliFixture } from './helpers/native-cli-fixture.mjs';
 
 const entrypoint = fileURLToPath(new URL('../bin/dotter.mjs', import.meta.url));
-const httpHelper = fileURLToPath(new URL('../src/http.py', import.meta.url));
 const accountId = 'synthetic-navigation-account';
 const token = 'synthetic-navigation-token';
 const base = '/backend-api/files/library';
 
-// Execute the source checkout's real entry point, parser, command registry,
-// wrappers, authentication loader, Transport, and pythonFetch envelope logic.
-// A local Python-executable stub returns controlled responses without running
-// http.py or contacting the service. PATH only selects the local stub; it is
-// not a general network sandbox.
+// Run the real entry point through the parser, registry, authentication, SDK,
+// and native HTTP transport. Only the socket destination changes to loopback;
+// no Python executable is available and no request can reach the service.
 async function cli(t, args, { status = 200, value = {}, raw, missingAuth = false } = {}) {
-  const directory = await mkdtemp(join(tmpdir(), 'dot-library-navigation-cli-'));
-  t.after(() => rm(directory, { recursive: true, force: true }));
+  const fixture = await nativeCliFixture(t, { status, value, raw });
+  const { directory, calls } = fixture;
   const authFile = join(directory, 'auth.json');
-  const logFile = join(directory, 'requests.ndjson');
-  const executable = join(directory, 'python3');
   if (!missingAuth) await writeFile(authFile, JSON.stringify({ auth_mode: 'chatgpt', tokens: { account_id: accountId, access_token: token } }), { mode: 0o600 });
-  const reply = { status, headers: { 'content-type': 'application/json' }, body: Buffer.from(raw ?? JSON.stringify(value)).toString('base64') };
-  // Node 22.0 treats this extensionless executable as CommonJS.
-  await writeFile(executable, `#!${process.execPath}
-const { appendFileSync, readFileSync } = require('node:fs');
-const request = JSON.parse(readFileSync(0, 'utf8'));
-appendFileSync(${JSON.stringify(logFile)}, JSON.stringify({ args: process.argv.slice(2), request }) + '\\n', { mode: 0o600 });
-process.stdout.write(${JSON.stringify(JSON.stringify(reply))});
-`, { mode: 0o700 });
-  await chmod(executable, 0o700);
-  const result = await new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [entrypoint, ...args, '--auth-file', authFile, '--json'], {
-      cwd: directory,
-      env: { PATH: directory, LANG: 'C.UTF-8' },
-      stdio: ['ignore', 'pipe', 'pipe'],
-      timeout: 10_000,
-    });
-    let stdout = '', stderr = '';
-    child.stdout.setEncoding('utf8').on('data', chunk => { stdout += chunk; });
-    child.stderr.setEncoding('utf8').on('data', chunk => { stderr += chunk; });
-    child.once('error', reject);
-    child.once('close', (code, signal) => resolve({ code, signal, stdout, stderr }));
-  });
-  let calls = [];
-  try { calls = (await readFile(logFile, 'utf8')).trim().split('\n').filter(Boolean).map(line => JSON.parse(line)); }
-  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  const result = await fixture.run([entrypoint, ...args, '--auth-file', authFile, '--json']);
   assert.equal(result.signal, null, 'CLI must complete without a signal or timeout');
   assert.equal(result.stderr, '', 'JSON mode must not leak diagnostics to stderr');
   assert.doesNotMatch(result.stdout, new RegExp(`${token}|${accountId}|server-secret|signed-secret`));
@@ -58,29 +28,24 @@ process.stdout.write(${JSON.stringify(JSON.stringify(reply))});
 function request(result, method, pathname, body, query = {}) {
   assert.equal(result.calls.length, 1, 'one command must send exactly one request, with no retries or discovery');
   const call = result.calls[0];
-  assert.deepEqual(call.args, ['-I', httpHelper]);
   const url = new URL(call.request.url);
   assert.equal(url.origin, 'https://chatgpt.com');
   assert.equal(url.pathname, pathname);
   assert.deepEqual(Object.fromEntries(url.searchParams), query);
   assert.equal(url.hash, '');
   assert.equal(call.request.method, method);
-  assert.equal(call.request.headers.Authorization, `Bearer ${token}`);
-  assert.equal(call.request.headers['ChatGPT-Account-Id'], accountId);
-  assert.equal(call.request.headers.Accept, 'application/json');
+  assert.equal(call.request.headers.authorization, `Bearer ${token}`);
+  assert.equal(call.request.headers['chatgpt-account-id'], accountId);
+  assert.equal(call.request.headers.accept, 'application/json');
   assert.equal(call.request.headers['chatgpt-project-id'], undefined, 'Library navigation is account-scoped');
-  assert.equal(call.request.headers['OAI-Product-Sku'], undefined);
-  assert.equal(call.request.headers['Idempotency-Key'], undefined);
-  assert.equal(call.request.maxBytes, 256 * 1024);
-  assert.equal(call.request.timeoutMs, 30_000);
-  assert.equal(call.request.signedFile, false);
-  assert.equal(call.request.signedUpload, false);
+  assert.equal(call.request.headers['oai-product-sku'], undefined);
+  assert.equal(call.request.headers['idempotency-key'], undefined);
   if (body === undefined) {
     assert.equal(call.request.body, undefined);
-    assert.equal(call.request.headers['Content-Type'], undefined);
+    assert.equal(call.request.headers['content-type'], undefined);
   } else {
     assert.deepEqual(JSON.parse(call.request.body), body);
-    assert.equal(call.request.headers['Content-Type'], 'application/json');
+    assert.equal(call.request.headers['content-type'], 'application/json');
   }
 }
 

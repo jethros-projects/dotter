@@ -30,6 +30,8 @@ test('CLI SIGINT during reply wait preserves the accepted receipt and detaches h
   const result = await run(['send', 'marker', '--room', 'room', '--key', key, '--wait', '30'], {
     signals, stdout, stderr, createClient: async () => ({ send: async args => {
       passed = args.signal;
+      assert.equal(typeof args.onAccepted, 'function');
+      args.onAccepted({ accepted: true, roomId: 'room', messageId: 'accepted-message', idempotencyKey: key, createdAt: null });
       const interrupted = new Promise(resolve => args.signal?.addEventListener('abort', () => resolve({ accepted: true, messageId: 'accepted-message', idempotencyKey: key, wait: { status: 'interrupted', error: 'INTERRUPTED', messages: [] } }), { once: true }));
       queueMicrotask(() => signals.emit('SIGINT'));
       return Promise.race([interrupted, delay(75).then(() => ({ broken: true }))]);
@@ -37,6 +39,7 @@ test('CLI SIGINT during reply wait preserves the accepted receipt and detaches h
   });
   assert.equal(passed?.aborted, true);
   assert.equal(result.accepted, true); assert.equal(JSON.parse(stdout.text).messageId, 'accepted-message');
+  assert.equal(result.wait.status, 'interrupted');
   assert.equal(signals.listenerCount('SIGINT'), 0); assert.equal(signals.listenerCount('SIGTERM'), 0);
   assert.match(stderr.text, new RegExp(key));
 });
@@ -123,7 +126,7 @@ test('CLI SIGTERM and external cancellation detach wait handlers even when send 
         if (trigger === 'external') controller.abort(); else signals.emit('SIGTERM');
         assert.equal(signal.aborted, true); throw new Error('No receipt was received');
       } }) });
-    await assert.rejects(work, /No receipt was received/);
+    await assert.rejects(work, error => error.code === 'ABORTED' && error.requestId === key && error.deliveryState === 'unknown');
     assert.equal(stdout.text, ''); assert.equal(signals.listenerCount('SIGINT'), 0); assert.equal(signals.listenerCount('SIGTERM'), 0);
     assert.equal(getEventListeners(controller.signal, 'abort').length, 0);
   }

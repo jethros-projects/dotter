@@ -5,6 +5,25 @@ an official OpenAI SDK and cannot guarantee service availability or contract
 stability. Access depends on the account, workspace, connected provider, and
 service rollout.
 
+## Availability
+
+Dot access is separate from a successful Codex login. OpenAI's current Pro
+rollout excludes the EEA, UK and Switzerland; Business Premium and Enterprise
+have worldwide rollouts, with Enterprise requiring administrator enablement.
+Eligible accounts may still be waiting for rollout. Check
+[OpenAI's availability documentation](https://learn.chatgpt.com/docs/dots#access)
+for the current policy rather than treating it as a fixed SDK contract.
+
+Authenticated requests can receive a Cloudflare challenge instead of the
+expected API response. A 403 with `cf-mitigated: challenge` identifies that
+edge response; it does not identify the security rule or establish invalid
+credentials. A JSON 404 without that header is a different response and does
+not, by itself, prove a geographic decision. Do not automatically replay
+mutations or assume a new login resolves either case.
+
+The current preview has not completed one clean full real-account run.
+See the [release gate](releasing.md) for the measured limits.
+
 ## Authentication and scope
 
 Authentication uses a ChatGPT Codex login. API-key login is unsupported. No

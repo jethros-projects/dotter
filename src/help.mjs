@@ -29,10 +29,10 @@ Groups: auth, dot, account, activity, actions, browser, computer, connection,
 
 Common options: --json, --auth-file PATH. Message commands accept --room ID;
 otherwise they use your primary Dot. Quote message text as one argument.
-Requires Node.js 22+, Python 3, and Codex. Uses an internal API that may change.
+Requires Node.js 22+ and Codex; advanced SSE uses Python 3. Uses an internal API.
 `;
 
-export const FULL_HELP = `Dotter — Node.js 22+, Python 3
+export const FULL_HELP = `Dotter — Node.js 22+; Python 3 for advanced SSE
 
 Usage:
   dotter auth status [--auth-file PATH] [--json]

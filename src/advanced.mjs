@@ -241,6 +241,7 @@ export class FullDotClient extends DotClient {
     for (const file of files) attachmentIds.push((await this.upload({ roomId, file, signal: options.signal })).fileId);
     options.signal?.throwIfAborted();
     const receipt = await super.send({ ...options, roomId, attachmentIds });
+    options.onAccepted?.(receipt);
     if (!waitSeconds) return receipt;
     const deadline = Date.now() + waitSeconds * 1000, observed = new Map(), controller = new AbortController();
     const interrupt = () => controller.abort(options.signal.reason);

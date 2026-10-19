@@ -65,11 +65,13 @@ async function reservationState(file, { allowMissing = false } = {}) {
 
 export class DotPlugins {
   constructor(client) { if (typeof client?.transport?.request !== 'function') throw new TypeError('DotPlugins requires a DotClient.'); this.transport = client.transport; }
-  async account(expectedAccountId) {
+  async account(expectedAccountId, signal) {
+    signal?.throwIfAborted();
     if (expectedAccountId !== undefined) text(expectedAccountId, 'expectedAccountId', 1024);
     let accountId = expectedAccountId;
     if (typeof this.transport.authLoader === 'function') {
-      const auth = await this.transport.authLoader({ authFile: this.transport.authFile });
+      const auth = await this.transport.authLoader({ authFile: this.transport.authFile, signal });
+      signal?.throwIfAborted();
       if (expectedAccountId !== undefined && auth.accountId !== expectedAccountId) fail('The current account differs from the selected account.', 'ACCOUNT_CHANGED');
       this.transport.assertIdentity?.(auth);
       accountId = auth.accountId;
@@ -184,10 +186,10 @@ export class DotPlugins {
   }
   async exportArchive({ pluginId, output, overwrite = false, expectedAccountId, signal } = {}) {
     id(pluginId, 'pluginId'); text(output, 'output', 4096); bool(overwrite, 'overwrite');
-    const accountId = await this.account(expectedAccountId); await this.raw(pluginId, accountId, signal);
+    const accountId = await this.account(expectedAccountId, signal); await this.raw(pluginId, accountId, signal);
     const bytes = await this.transport.requestBytes('GET', `${ROOT}/${part(pluginId)}/archive`, { headers: HEADERS, expectedAccountId: accountId, maxBytes: MAX_ARCHIVE, signal });
     if (!Buffer.isBuffer(bytes) || bytes.length > MAX_ARCHIVE || !archiveMagic(bytes, 'plugin.zip')) fail('The API returned an invalid plugin ZIP archive.', 'INVALID_RESPONSE');
-    const path = await writePrivate(output, bytes, { overwrite }); return { pluginId, path, sizeBytes: bytes.length };
+    const path = await writePrivate(output, bytes, { overwrite, signal }); return { pluginId, path, sizeBytes: bytes.length };
   }
   async importArchive({ file, pluginId, confirmPluginId, stateFile, reservationFile, expectedAccountId, signal } = {}) {
     if (pluginId !== undefined) { id(pluginId, 'pluginId'); if (confirmPluginId !== pluginId) fail('confirmPluginId must match pluginId to replace its source archive.'); }

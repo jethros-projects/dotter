@@ -2,21 +2,24 @@
 
 ## Install and sign in
 
-Requirements: Node.js 22+, Python 3, and Codex CLI signed in with ChatGPT. Dot
-operations require a Dot in that account. Interactive voice and remote control
+Requirements: Node.js 22+ and Codex CLI signed in with ChatGPT. Core requests use
+native Node HTTPS; advanced activity/room-live/account-summary SSE still uses
+Python 3. Dot operations require a Dot in that account. Interactive voice and remote control
 also require a browser with WebRTC support. Automatic browser opening uses
 macOS `open`; use `--no-open` to open the printed local URL yourself.
 
 ```sh
-npm install --global /path/to/dotter-cli-0.5.22.tgz
+npm install --global @jethros-projects/dotter@next --ignore-scripts
 dotter --version
 dotter auth status
 dotter status
 dotter --help
 ```
 
-From source, run `npm ci --ignore-scripts` first, then use
-`node bin/dotter.mjs` or `npm install --global .`. There are no install scripts. `capabilities` and the per-area capability commands work
+For the SDK, run `npm install @jethros-projects/dotter@next --ignore-scripts`
+in your application. From source, run `npm ci --ignore-scripts`, then
+`npm install --global . --ignore-scripts`. For a local archive, use
+`npm install --global /path/to/package.tgz --ignore-scripts` with its actual filename. There are no install scripts. `capabilities` and the per-area capability commands work
 without API calls.
 
 ```sh
@@ -254,8 +257,9 @@ saved-credential reuse and 1Password are alternatives; claim a fresh journal
 for a different sign-in attempt. A shared private claim ledger prevents a
 second journal from replaying the same claimed challenge. Its default is
 `~/Library/Application Support/dot-cli/browser-auth-claims` on macOS and
-`~/.local/state/dot-cli/browser-auth-claims` elsewhere; `DOT_CLI_STATE_DIR`
-sets the parent directory. Shared claims never expire or reclaim automatically.
+`~/.local/state/dot-cli/browser-auth-claims` elsewhere; `DOTTER_STATE_DIR`
+sets the parent directory and takes precedence over the legacy `DOT_CLI_STATE_DIR`
+override. Shared claims never expire or reclaim automatically.
 
 New operation locks record their local owner. Recovery reclaims a lock only
 after confirming that process is gone; active, unverifiable and legacy locks

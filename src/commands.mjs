@@ -296,7 +296,6 @@ export async function prepareAdvancedOptions(options) {
 export async function runAdvancedCommand(client, options, deps = {}) {
   const { command, authFile, json, contentFile, argsFile, specFile, spec, ...args } = options;
   const config = { ...args, signal: deps.signal };
-  if (command === 'upload' && config.stateFile) return (await import('./uploads.mjs')).uploadRecoverable(client, config);
   const clientMethods = {
     search: 'search', thread: 'thread', outline: 'outline', export: 'exportHistory',
     upload: 'upload', download: 'download', artifacts: 'artifacts',

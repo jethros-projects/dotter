@@ -78,8 +78,12 @@ async function readUpload(file, signal) {
   } finally { await handle?.close(); }
 }
 
-export async function uploadFile(client, { roomId, file, signal } = {}) {
+export async function uploadFile(client, { roomId, file, name, mimeType, signal } = {}) {
+  if (name !== undefined) validName(name);
+  if (mimeType !== undefined && mime(mimeType) === undefined) throw new DotError('INVALID_ARGUMENT', 'mimeType must be a MIME media type.');
   const payload = await readUpload(file, signal);
+  if (name !== undefined) payload.name = name;
+  if (mimeType !== undefined) payload.mimeType = mimeType;
   if (typeof client.transport.requestMultipart !== 'function') throw new DotError('UNSUPPORTED_TRANSPORT', 'The transport does not support multipart file uploads.');
   roomId = await room(client, roomId, signal);
   const data = await client.transport.requestMultipart('POST', `/backend-api/messaging/rooms/${roomId}/files`, { file: payload, signal });
@@ -158,6 +162,7 @@ async function atomicSave(destination, bytes, overwrite, signal) {
       await link(temp, destination.path);
     } else {
       const current = await currentTarget(destination.path);
+      throwIfAborted(signal);
       if (destination.existing && (!current || current.dev !== destination.existing.dev || current.ino !== destination.existing.ino)
         || !destination.existing && current) throw new DotError('OUTPUT_CHANGED', 'The destination changed while the file was downloading; it was not replaced.');
       await rename(temp, destination.path);

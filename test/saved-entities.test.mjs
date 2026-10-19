@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SavedEntities, buildSavedEntityRequest } from '../src/saved-entities.mjs';
 import { FullDotClient } from '../src/advanced.mjs';
-import * as api from '../src/index.mjs';
+import * as api from '../src/native.mjs';
 import { run } from '../src/cli.mjs';
 import { parseV4Args } from '../src/v4-commands.mjs';
 

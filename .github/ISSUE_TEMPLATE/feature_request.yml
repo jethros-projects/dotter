@@ -1,0 +1,17 @@
+name: Feature request
+description: Describe something you want to build with Dotter.
+body:
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What are you trying to do?
+      description: Describe the client, workflow or problem.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested API or command
+      description: A small example helps. Use synthetic inputs and no account data.
+    validations:
+      required: false

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as api from '../src/index.mjs';
+import * as api from '../src/native.mjs';
 import { HELP, parseArgs, run } from '../src/cli.mjs';
 import { v4Commands, runV4Command, v4Help } from '../src/v4-commands.mjs';
 import { commands } from '../src/command-sets/widgets.mjs';

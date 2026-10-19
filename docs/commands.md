@@ -1,4 +1,4 @@
-# Dotter 0.5.22 command reference
+# Dotter 0.6.3-next.0 command reference
 
 Generated from the installed command definitions. Run `npm run docs` after changing a command.
 
@@ -7,7 +7,7 @@ All API commands accept `--auth-file PATH` and `--json`. Account-wide operations
 ## Established commands
 
 ```text
-Dotter — Node.js 22+, Python 3
+Dotter — Node.js 22+; Python 3 for advanced SSE
 
 Usage:
   dotter auth status [--auth-file PATH] [--json]

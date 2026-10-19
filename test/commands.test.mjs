@@ -16,6 +16,13 @@ const buffer = () => ({ text: '', write(value) { this.text += value; } });
 function dependencies(client = {}) {
   return { stdout: buffer(), stderr: buffer(), createClient: async () => client, uuid: () => KEY };
 }
+function requestArguments(options) {
+  const { signal, onAccepted, ...request } = options;
+  assert.ok(signal instanceof AbortSignal);
+  assert.equal(signal.aborted, false, 'The SDK must invoke an operation with an active signal');
+  if (Object.hasOwn(options, 'onAccepted')) assert.equal(typeof onAccepted, 'function');
+  return request;
+}
 async function temporary(callback) {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'dot-commands-'));
   try { return await callback(directory); }
@@ -68,37 +75,41 @@ test('advanced help aliases and ISO dates parse without opening a client', () =>
 });
 
 test('all advanced read and write commands map to exactly the intended client operation', async () => {
-  const cases = [
-    { argv: ['search', '--query', 'Banana', '--all', '--pages', '4', '--since', '2026-10-01T00:00:00Z', '--until', '2026-10-17T00:00:00Z'], method: 'search', expected: { query: 'Banana', all: true, pages: 4, since: '2026-10-01T00:00:00Z', until: '2026-10-17T00:00:00Z' } },
-    { argv: ['thread', 'm_1', '--room', 'r_1', '--pages', '2'], method: 'thread', expected: { messageId: 'm_1', roomId: 'r_1', pages: 2 } },
-    { argv: ['outline', '--room', 'r_1'], method: 'outline', expected: { roomId: 'r_1' } },
-    { argv: ['export', '--output', './history.md', '--format', 'md', '--overwrite'], method: 'exportHistory', expected: { output: path.resolve('./history.md'), format: 'md', overwrite: true } },
-    { argv: ['upload', './file.txt'], method: 'upload', expected: { file: path.resolve('./file.txt') } },
-    { argv: ['download', 'f_1', '--output', './file.txt', '--overwrite'], method: 'download', expected: { fileId: 'f_1', output: path.resolve('./file.txt'), overwrite: true } },
-    { argv: ['artifacts', '--pages', '3'], method: 'artifacts', expected: { pages: 3 } },
-    { argv: ['actions', '--limit', '5', '--before', 'cursor'], method: 'actions', expected: { limit: 5, before: 'cursor' } },
-    { argv: ['action', 'inspect', 'm_1'], method: 'elicitation', expected: { messageId: 'm_1' } },
-    { argv: ['action', 'respond', 'm_1', '--request-id', 'req_1', '--fingerprint', 'fp_1', '--action', 'decline'], method: 'respond', expected: { messageId: 'm_1', requestId: 'req_1', requestFingerprint: 'fp_1', action: 'decline' } },
-    { argv: ['react', 'm_1', '--emoji', '🍌'], method: 'react', expected: { messageId: 'm_1', reaction: '🍌' } },
-    { argv: ['react', 'm_1', '--clear'], method: 'react', expected: { messageId: 'm_1', reaction: null } },
-    { argv: ['read', 'm_1'], method: 'markRead', expected: { messageId: 'm_1' } },
-    { argv: ['email', 'm_1'], method: 'email', expected: { messageId: 'm_1' } },
-    { argv: ['profile', '--dot', 'd_1'], method: 'profile', expected: { dotId: 'd_1' } },
-    { argv: ['rename', 'New Dot', '--dot', 'd_1'], method: 'renameDot', expected: { name: 'New Dot', dotId: 'd_1' } },
-    { argv: ['pause', '--dot', 'd_1'], method: 'pauseDot', expected: { dotId: 'd_1' } },
-    { argv: ['resume', '--dot', 'd_1'], method: 'resumeDot', expected: { dotId: 'd_1' } },
-  ];
-  for (const entry of cases) {
-    const calls = [];
-    const expectedResult = { command: entry.method, completed: true };
-    const deps = dependencies({ async [entry.method](options) { calls.push(options); return expectedResult; } });
-    const signal = new AbortController().signal;
-    deps.signal = signal;
-    const result = await run([...entry.argv, '--json'], deps);
-    assert.deepEqual(calls, [{ ...entry.expected, signal }], entry.argv.join(' '));
-    assert.equal(result, expectedResult);
-    assert.deepEqual(JSON.parse(deps.stdout.text), expectedResult);
-  }
+  await temporary(async directory => {
+    const file = path.join(directory, 'file.txt');
+    await writeFile(file, 'Fixture attachment');
+    const cases = [
+      { argv: ['search', '--query', 'Banana', '--all', '--pages', '4', '--since', '2026-10-01T00:00:00Z', '--until', '2026-10-17T00:00:00Z'], method: 'search', expected: { query: 'Banana', all: true, pages: 4, since: '2026-10-01T00:00:00Z', until: '2026-10-17T00:00:00Z', roomId: undefined } },
+      { argv: ['thread', 'm_1', '--room', 'r_1', '--pages', '2'], method: 'thread', expected: { messageId: 'm_1', roomId: 'r_1', pages: 2 } },
+      { argv: ['outline', '--room', 'r_1'], method: 'outline', expected: { roomId: 'r_1' } },
+      { argv: ['export', '--output', './history.md', '--format', 'md', '--overwrite'], method: 'exportHistory', expected: { output: path.resolve('./history.md'), format: 'md', overwrite: true } },
+      { argv: ['upload', file], method: 'upload', expected: { file, roomId: undefined } },
+      { argv: ['download', 'f_1', '--output', file, '--overwrite'], method: 'download', expected: { fileId: 'f_1', output: file, overwrite: true, roomId: undefined } },
+      { argv: ['artifacts', '--pages', '3'], method: 'artifacts', expected: { pages: 3, roomId: undefined } },
+      { argv: ['actions', '--limit', '5', '--before', 'cursor'], method: 'actions', expected: { limit: 5, before: 'cursor' } },
+      { argv: ['action', 'inspect', 'm_1'], method: 'elicitation', expected: { messageId: 'm_1' } },
+      { argv: ['action', 'respond', 'm_1', '--request-id', 'req_1', '--fingerprint', 'fp_1', '--action', 'decline'], method: 'respond', expected: { messageId: 'm_1', requestId: 'req_1', requestFingerprint: 'fp_1', action: 'decline' } },
+      { argv: ['react', 'm_1', '--emoji', '🍌'], method: 'react', expected: { messageId: 'm_1', reaction: '🍌' } },
+      { argv: ['react', 'm_1', '--clear'], method: 'react', expected: { messageId: 'm_1', reaction: null } },
+      { argv: ['read', 'm_1'], method: 'markRead', expected: { messageId: 'm_1' } },
+      { argv: ['email', 'm_1'], method: 'email', expected: { messageId: 'm_1' } },
+      { argv: ['profile', '--dot', 'd_1'], method: 'profile', expected: { dotId: 'd_1' } },
+      { argv: ['rename', 'New Dot', '--dot', 'd_1'], method: 'renameDot', expected: { name: 'New Dot', dotId: 'd_1' } },
+      { argv: ['pause', '--dot', 'd_1'], method: 'pauseDot', expected: { dotId: 'd_1' } },
+      { argv: ['resume', '--dot', 'd_1'], method: 'resumeDot', expected: { dotId: 'd_1' } },
+    ];
+    for (const entry of cases) {
+      const calls = [];
+      const expectedResult = { command: entry.method, completed: true, ...(entry.method === 'search' ? { matches: [] } : {}) };
+      const deps = dependencies({ async [entry.method](options) { calls.push(requestArguments(options)); return expectedResult; } });
+      const signal = new AbortController().signal;
+      deps.signal = signal;
+      const result = await run([...entry.argv, '--json'], deps);
+      assert.deepEqual(calls, [entry.expected], entry.argv.join(' '));
+      assert.deepEqual(result, expectedResult);
+      assert.deepEqual(JSON.parse(deps.stdout.text), expectedResult);
+    }
+  });
 });
 
 test('task, routine, tool, and resource commands dispatch only the selected operations method', async () => {
@@ -127,9 +138,9 @@ test('task, routine, tool, and resource commands dispatch only the selected oper
   ];
   for (const entry of cases) {
     const calls = [], expectedResult = { method: entry.method };
-    const deps = dependencies({ operations: { async [entry.method](options) { calls.push(options); return expectedResult; } } });
+    const deps = dependencies({ operations: { async [entry.method](options) { calls.push(requestArguments(options)); return expectedResult; } } });
     await run(entry.argv, deps);
-    assert.deepEqual(calls, [{ ...entry.expected, signal: undefined }], entry.argv.join(' '));
+    assert.deepEqual(calls, [entry.expected], entry.argv.join(' '));
     assert.deepEqual(JSON.parse(deps.stdout.text), expectedResult);
   }
 });
@@ -158,10 +169,10 @@ test('file-based action content, routine specifications, and tool arguments rema
     for (const entry of checks) {
       await writeFile(filename, JSON.stringify(entry.data));
       let received;
-      const methods = { async [entry.method](options) { received = options; return { ok: true }; } };
+      const methods = { async [entry.method](options) { received = requestArguments(options); return { ok: true }; } };
       const deps = dependencies(entry.operation ? { operations: methods } : methods);
       await run(entry.argv, deps);
-      assert.deepEqual(received, { ...entry.expected, signal: undefined });
+      assert.deepEqual(received, entry.expected);
     }
   });
 });
@@ -237,28 +248,45 @@ test('unreadable, oversized, non-object, invalid UTF-8, and unsafe routine JSON 
 });
 
 test('extended send supports attachments, replies, wait time, and file-only messages without altering the basic shape', async () => {
-  const cases = [
-    { argv: ['send', 'Hello', '--attach', './one.png', '--attach=./two.pdf', '--reply-to', 'm_1', '--wait', '2.5'], expected: { text: 'Hello', files: [path.resolve('./one.png'), path.resolve('./two.pdf')], replyTo: 'm_1', waitSeconds: 2.5 } },
-    { argv: ['send', '--attach', './one.txt'], expected: { text: '', files: [path.resolve('./one.txt')] } },
-    { argv: ['send', '', '--attach', './one.txt', '--wait', '0'], expected: { text: '', files: [path.resolve('./one.txt')], waitSeconds: 0 } },
-  ];
-  for (const entry of cases) {
-    let received;
-    const deps = dependencies({ async send(options) { received = options; return { accepted: true }; } });
-    deps.signals = new EventEmitter();
-    await run(entry.argv, deps);
-    const { signal, ...request } = received;
-    assert.deepEqual(request, { ...entry.expected, roomId: undefined, idempotencyKey: KEY });
-    if (entry.expected.waitSeconds > 0) {
-      assert.ok(signal instanceof AbortSignal);
-      assert.equal(signal.aborted, false);
-    } else assert.equal(signal, undefined);
-    assert.equal(deps.signals.listenerCount('SIGINT'), 0);
-    assert.equal(deps.signals.listenerCount('SIGTERM'), 0);
-  }
-  const deps = dependencies({ async send(options) { assert.equal(options.text, ''); return { accepted: true }; } });
-  deps.stdin = Readable.from(['']);
-  await run(['send', '--stdin', '--attach', './one.txt'], deps);
+  await temporary(async directory => {
+    const onePng = path.join(directory, 'one.png');
+    const twoPdf = path.join(directory, 'two.pdf');
+    const oneTxt = path.join(directory, 'one.txt');
+    await Promise.all([onePng, twoPdf, oneTxt].map(file => writeFile(file, 'Fixture attachment')));
+    const cases = [
+      { argv: ['send', 'Hello', '--attach', onePng, `--attach=${twoPdf}`, '--reply-to', 'm_1', '--wait', '2.5'], files: [onePng, twoPdf], expected: { text: 'Hello', attachmentIds: ['file_1', 'file_2'], replyTo: 'm_1', waitSeconds: 2.5 } },
+      { argv: ['send', '--attach', oneTxt], files: [oneTxt], expected: { text: '', attachmentIds: ['file_1'] } },
+      { argv: ['send', '', '--attach', oneTxt, '--wait', '0'], files: [oneTxt], expected: { text: '', attachmentIds: ['file_1'] } },
+    ];
+    for (const entry of cases) {
+      let received;
+      const uploaded = [];
+      const deps = dependencies({
+        async upload(options) {
+          const request = requestArguments(options);
+          assert.deepEqual(request, { file: entry.files[uploaded.length], roomId: undefined });
+          uploaded.push(request.file);
+          return { fileId: `file_${uploaded.length}` };
+        },
+        async send(options) {
+          assert.deepEqual(uploaded, entry.files, 'Every attachment must be uploaded before sending');
+          received = requestArguments(options);
+          return { accepted: true };
+        },
+      });
+      deps.signals = new EventEmitter();
+      await run(entry.argv, deps);
+      assert.deepEqual(received, { ...entry.expected, roomId: undefined, idempotencyKey: KEY });
+      assert.equal(deps.signals.listenerCount('SIGINT'), 0);
+      assert.equal(deps.signals.listenerCount('SIGTERM'), 0);
+    }
+    const deps = dependencies({
+      async upload(options) { assert.equal(options.file, oneTxt); return { fileId: 'file_1' }; },
+      async send(options) { assert.equal(options.text, ''); assert.deepEqual(options.attachmentIds, ['file_1']); return { accepted: true }; },
+    });
+    deps.stdin = Readable.from(['']);
+    await run(['send', '--stdin', '--attach', oneTxt], deps);
+  });
   for (const argv of [
     ['send', 'x', '--wait', '-1'], ['send', 'x', '--wait', '301'], ['send', 'x', '--wait', 'NaN'],
     ['send', 'x', '--reply-to', 'one', '--reply-to', 'two'],
@@ -269,7 +297,7 @@ test('extended send supports attachments, replies, wait time, and file-only mess
 test('paged history uses historyPages and watch forwards persistent cursor path', async () => {
   const deps = dependencies({
     async historyPages(options) {
-      assert.deepEqual(options, { roomId: 'r', limit: 20, before: undefined, after: 'anchor', pages: 7, signal: undefined });
+      assert.deepEqual(requestArguments(options), { roomId: 'r', limit: 20, before: undefined, after: 'anchor', pages: 7 });
       return { messages: [], pagesRead: 7 };
     },
     async watch(options) { assert.equal(options.cursorFile, path.resolve('./cursor.json')); },
@@ -290,7 +318,7 @@ test('watch all dispatches the shared callbacks to watchAll and excludes room an
     ['watch', '--all', '--all'], ['watch', '--all=true'],
   ]) assert.throws(() => parseArgs(argv), CliError);
   const signals = new EventEmitter();
-  const message = { roomId: 'room_1', id: 'm_1', role: 'assistant', text: 'Hello' };
+  const message = { roomId: 'room_1', id: 'm_1', role: 'assistant', text: 'Hello', inProgress: false, replyTo: null };
   let calls = 0;
   const deps = dependencies({
     async watch() { assert.fail('watch --all must use watchAll'); },
@@ -302,6 +330,7 @@ test('watch all dispatches the shared callbacks to watchAll and excludes room an
       assert.equal(options.fromStart, true);
       await options.onReady({ roomCount: 2 });
       await options.onMessage(message);
+      await new Promise(setImmediate);
       signals.emit('SIGINT');
       assert.equal(options.signal.aborted, true);
     },
@@ -316,18 +345,22 @@ test('watch all dispatches the shared callbacks to watchAll and excludes room an
 });
 
 test('interactive chat receives streams and signal without a trailing JSON receipt', async () => {
-  const client = {};
+  let historyCalls = 0;
+  const client = { async history(options) { historyCalls++; assert.deepEqual(requestArguments(options), { roomId: 'r' }); return { messages: [] }; } };
   const deps = dependencies(client);
   const signal = new AbortController().signal;
   deps.signal = signal;
   deps.stdin = Readable.from([]);
   deps.chat = async (receivedClient, options) => {
-    assert.equal(receivedClient, client);
+    assert.equal(typeof receivedClient.send, 'function');
+    assert.equal(typeof receivedClient.watch, 'function');
+    assert.deepEqual(await receivedClient.history({ roomId: 'r' }), { messages: [] });
     assert.deepEqual(options, { roomId: 'r', intervalMs: 2000, signal, input: deps.stdin, output: deps.stdout, error: deps.stderr });
     options.output.write('Dot> Ready\n');
     return { sentCount: 0, reason: 'quit' };
   };
   const result = await run(['chat', '--room', 'r', '--interval', '2'], deps);
   assert.equal(result.reason, 'quit');
+  assert.equal(historyCalls, 1);
   assert.equal(deps.stdout.text, 'Dot> Ready\n');
 });

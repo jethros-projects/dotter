@@ -1,6 +1,6 @@
 import { loadAuth } from './auth.mjs';
 import { DotError } from './errors.mjs';
-import { pythonFetch } from './http.mjs';
+import { createNodeFetch } from './node-http.mjs';
 import { randomUUID } from 'node:crypto';
 import { USER_AGENT } from './version.mjs';
 
@@ -190,9 +190,13 @@ async function readBounded(response, maxBytes = MAX_BODY, bytes = false, classif
 }
 
 export class Transport {
-  constructor({ authFile, fetchImpl = pythonFetch, authLoader = loadAuth, timeoutMs = 30_000 } = {}) {
-    this.authFile = authFile; this.fetchImpl = fetchImpl; this.authLoader = authLoader; this.timeoutMs = timeoutMs;
+  constructor({ authFile, fetchImpl, authLoader = loadAuth, timeoutMs = 30_000 } = {}) {
+    this._closed = false;
+    this._ownedFetch = fetchImpl === undefined ? createNodeFetch() : undefined;
+    this.authFile = authFile; this.fetchImpl = fetchImpl ?? this._ownedFetch; this.authLoader = authLoader; this.timeoutMs = timeoutMs;
   }
+  _assertOpen() { if (this._closed) throw new DotError('CLOSED', 'The transport is closed.', { delivery: 'not_sent' }); }
+  async close() { this._closed = true; await this._ownedFetch?.close(); }
   assertIdentity(auth) {
     let subject = null;
     try { const payload = JSON.parse(Buffer.from(auth.accessToken.split('.')[1], 'base64url').toString('utf8')); if (typeof payload.sub === 'string') subject = payload.sub; } catch {}
@@ -201,6 +205,7 @@ export class Transport {
     this.sessionIdentity ??= identity;
   }
   async request(method, route, { query, body, bodyBytes, bodyFile, contentType, headers: extraHeaders = {}, expectedAccountId, signal, idempotencyKey, responseType = 'json', includeResponse = false, allowNull = false, range, maxBytes = MAX_BODY, timeoutMs } = {}) {
+    this._assertOpen();
     if (!['GET', 'POST', 'PATCH', 'PUT', 'DELETE'].includes(method)) throw new DotError('INVALID_METHOD', 'Unsupported HTTP method.');
     if (!Number.isInteger(maxBytes) || maxBytes < 1 || maxBytes > 100 * 1024 * 1024) throw new DotError('INVALID_ARGUMENT', 'Response limit must be 1 byte to 100 MiB.');
     const duration = timeoutDuration(timeoutMs ?? this.timeoutMs);
@@ -248,7 +253,10 @@ export class Transport {
       storageUploadUrl(metadata.uploadUrl);
       streamingBody = { ...fileBody(bodyFile), multipart: { boundary: metadata.boundary, name: metadata.name, mimeType: metadata.mimeType, uploadUrl: metadata.uploadUrl } };
     }
-    const auth = await this.authLoader({ authFile: this.authFile });
+    signal?.throwIfAborted();
+    const auth = await this.authLoader({ authFile: this.authFile, signal });
+    this._assertOpen();
+    signal?.throwIfAborted();
     if (expectedAccountId !== undefined && (typeof expectedAccountId !== 'string' || !expectedAccountId || expectedAccountId !== auth.accountId)) {
       throw new DotError('ACCOUNT_CHANGED', 'The current Codex account differs from the selected account.');
     }
@@ -310,6 +318,7 @@ export class Transport {
     return this.request(method, route, { ...options, responseType: 'bytes' });
   }
   async fetchSigned(value, { signal, range, includeResponse = false, maxBytes = 20 * 1024 * 1024 } = {}) {
+    this._assertOpen();
     let url;
     try { url = new URL(value); } catch { throw new DotError('INVALID_FILE_URL', 'Invalid file download URL.'); }
     const regionalAzure = /^sdmntpr[a-z0-9-]+\.oaiusercontent\.com$/.test(url.hostname) && !!url.searchParams.get('sig');
@@ -382,6 +391,7 @@ export class Transport {
   }
 
   async _uploadStorage(url, { bytes, bodyFile, headers, signal, timeoutMs, azureMultipart } = {}) {
+    this._assertOpen();
     signal?.throwIfAborted();
     const duration = timeoutDuration(timeoutMs ?? this.timeoutMs);
     const timeout = AbortSignal.timeout(duration), combined = signal ? AbortSignal.any([signal, timeout]) : timeout;
@@ -400,10 +410,12 @@ export class Transport {
   }
 
   async requestRealtimeSdp({ source, threadId, aeonId, conversationId, sdp, expectedAccountId, signal } = {}) {
+    this._assertOpen();
     const validId = value => typeof value === 'string' && /^[A-Za-z0-9_.~:-]{1,1024}$/.test(value) && !['.', '..'].includes(value);
     if (!['aeon', 'flora'].includes(source) || source === 'aeon' && (!validId(threadId) || !validId(aeonId)) || source === 'flora' && !validId(conversationId)
       || typeof sdp !== 'string' || !/^v=0\r?\n/.test(sdp) || sdp.includes('\0') || Buffer.byteLength(sdp) > 256 * 1024) throw new DotError('INVALID_ARGUMENT', 'Realtime control requires a verified target and bounded SDP offer.');
     const auth = await this.authLoader({ authFile: this.authFile });
+    this._assertOpen();
     if (!expectedAccountId || expectedAccountId !== auth.accountId) throw new DotError('ACCOUNT_CHANGED', 'Realtime control requires the pinned Codex account.');
     this.assertIdentity(auth);
     const url = new URL('https://realtime.chatgpt.com/v1/cua'); url.searchParams.set('source', source);
