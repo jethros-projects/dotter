@@ -8,8 +8,14 @@ the explicit npm tag `next`. The source repository is
 [jethros-projects/dotter](https://github.com/jethros-projects/dotter).
 
 A preview exposes the current implementation with documented limits. It is not
-a claim of complete live verification. Do not promote a release to `latest`
-until the clean live gate below passes.
+a claim of complete live verification. Do not deliberately promote a release
+to `latest` until the clean live gate below passes.
+
+On the first publication, npm automatically assigned both `next` and `latest`
+to `0.6.3-next.2`, despite the explicit `--tag next`. Removing `latest` after
+authentication returned HTTP 400, matching [npm/cli issue #8490](https://github.com/npm/cli/issues/8490).
+The version remains a preview; use the explicit `@next` install instructions.
+Record actual registry tags rather than treating a tag as proof of live verification.
 
 ## Clean live gate
 
@@ -66,7 +72,12 @@ before uploading the source. Confirm the [security reporting link](../SECURITY.m
 works, push the reviewed source and matching prerelease tag, and check CI.
 GitHub publication and npm publication are distinct actions.
 
-After publishing, verify the registry metadata and `next` tag, download the
+npm scans uploaded versions before making them installable. A successful
+publish can temporarily return 404 from package queries while the version
+page shows `Validating`; wait for review before retrying. See the
+[publish-time scanning announcement](https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/).
+
+After publishing, verify the registry metadata and actual tags, download the
 published archive and compare its hash to the tested artifact. Test an install
 by the published package/version and inspect the README image on npm.
 A local terminal publish does not generate hosted CI provenance; do not claim it.
