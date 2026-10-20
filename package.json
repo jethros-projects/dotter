@@ -48,7 +48,9 @@
     "test:package": "node scripts/test-package.mjs",
     "verify": "npm run check && npm run typecheck && npm test && npm run test:package",
     "typecheck": "node scripts/typecheck.mjs",
-    "test:e2e": "node scripts/e2e-sdk.mjs"
+    "test:e2e": "node scripts/e2e-sdk.mjs",
+    "release:check": "node scripts/release.mjs check",
+    "release:publish": "node scripts/release.mjs publish"
   },
   "files": [
     "bin/",

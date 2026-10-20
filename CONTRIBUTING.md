@@ -35,7 +35,10 @@ need a build step or compiler to run Dotter.
 Keep README screenshots tied to real offline CLI output. Include referenced
 assets in the package allowlist and its installed-package checks. See the
 [asset notes](docs/assets/README.md) and [release guide](docs/releasing.md) for
-preview status, source hygiene and publication gates.
+preview status, local maintainer pre-push setup and guarded publication.
+Maintainer releases use `npm run release:check` and `npm run release:publish`
+from a complete source checkout with npm 11.11.1. These commands are not part
+of the installed SDK or CLI and are separate from ordinary contributor CI.
 
 Live tests must be separately authorized and scoped to disposable resources.
 Passing local tests is not evidence of live service acceptance.
