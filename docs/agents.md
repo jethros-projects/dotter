@@ -28,7 +28,10 @@ dotter status --json
 dotter dots --json
 ```
 
-The host needs Node.js 22+ and a Codex CLI ChatGPT login with Dot access.
+The host needs Node.js 22.23.4+, 24.22.1+, or 26.12.1+ within those major
+lines and a Codex CLI ChatGPT login with Dot access. Unsupported runtimes stop
+with `UNSUPPORTED_NODE_VERSION` before authentication or requests. Update Node.js
+and restart the host; reinstalling Dotter alone does not patch the runtime.
 Advanced SSE workflows also need Python 3. If the login is unavailable, `dotter auth login`
 starts the explicit Codex login flow. API-key authentication is unsupported.
 

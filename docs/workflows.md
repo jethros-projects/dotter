@@ -2,7 +2,8 @@
 
 ## Install and sign in
 
-Requirements: Node.js 22+ and Codex CLI signed in with ChatGPT. Core requests use
+Requirements: Node.js 22.23.4+, 24.22.1+, or 26.12.1+ within those major
+lines and Codex CLI signed in with ChatGPT. Core requests use
 native Node HTTPS; advanced activity/room-live/account-summary SSE still uses
 Python 3. Dot operations require a Dot in that account. Interactive voice and remote control
 also require a browser with WebRTC support. Automatic browser opening uses

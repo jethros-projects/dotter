@@ -7,6 +7,7 @@ There is no transpilation or framework layer.
 
 | Location | Responsibility |
 | --- | --- |
+| `src/runtime.mjs` | Internal Node security floor, evaluated before SDK and CLI logic |
 | `src/index.mjs`, `src/index.d.ts` | Canonical typed SDK entrypoint |
 | `src/native.mjs`, `src/advanced.d.ts` | Explicit lower-level service APIs |
 | `bin/dotter.mjs` | Process entrypoint, safe errors, and exit codes |

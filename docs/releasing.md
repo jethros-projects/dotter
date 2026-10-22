@@ -3,7 +3,7 @@
 ## Preview channel
 
 The npm package is `@jethros-projects/dotter`; it contains the SDK and the `dotter`
-executable. Public previews use a prerelease version such as `0.6.3-next.3` and
+executable. Public previews use a prerelease version such as `0.6.3-next.4` and
 the explicit npm tag `next`. The source repository is
 [jethros-projects/dotter](https://github.com/jethros-projects/dotter).
 
@@ -43,8 +43,9 @@ on offline tests. Public previews must keep this limitation visible in the READM
    source history and the package.
 2. Update `package.json` and the root version fields in `package-lock.json`.
    Run `npm run docs` to refresh the versioned command reference.
-3. Run `npm ci --ignore-scripts` and `npm run verify`. CI checks Node 22 and 24
-   on Linux and macOS. Run remote CI for the exact source commit.
+3. Run `npm ci --ignore-scripts` and `npm run verify`. CI checks Node 22.23.4, 24.22.1, and 26.12.1
+   on Linux and macOS. The engines range and runtime gate must agree with
+   those patched minimums; use a supported runtime for release checks. Run remote CI for the exact source commit.
 4. Check the README and its screenshot. Use actual offline CLI output. Verify
    that image and documentation links work from both GitHub and npm.
 5. Use npm 11.11.1 and run `npm run release:check` from the clean, complete

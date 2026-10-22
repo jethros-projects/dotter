@@ -3,7 +3,7 @@
 <p align="center">A typed Node.js SDK and CLI for ChatGPT dots.</p>
 <p align="center">
   <a href="https://github.com/jethros-projects/dotter/blob/main/LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-314f40?style=flat-square"></a>
-  <a href="https://nodejs.org"><img alt="Node.js 22 or newer" src="https://img.shields.io/badge/Node.js-22%2B-314f40?style=flat-square"></a>
+  <a href="https://nodejs.org"><img alt="Security-patched Node.js 22, 24 or 26" src="https://img.shields.io/badge/Node.js-22%20%7C%2024%20%7C%2026-314f40?style=flat-square"></a>
   <a href="https://github.com/jethros-projects/dotter/blob/main/docs/SDK.md"><img alt="Typed SDK" src="https://img.shields.io/badge/SDK-typed-314f40?style=flat-square"></a>
 </p>
 <p align="center">
@@ -20,7 +20,7 @@ Build a client around your dot. Bring a conversation into a script. Give a codin
 
 ### Installation
 
-Requires **Node.js 22+**, the **Codex CLI with a ChatGPT login**, and eligible Dot access. Install the preview from npm:
+Requires **Node.js 22.23.4+, 24.22.1+, or 26.12.1+ within those major lines**, the **Codex CLI with a ChatGPT login**, and eligible Dot access. Install the preview from npm:
 
 ```sh
 npm install --global @jethros-projects/dotter@next --ignore-scripts
@@ -29,6 +29,8 @@ dotter --help
 ```
 
 For an application, run `npm install @jethros-projects/dotter@next --ignore-scripts`. The package is `@jethros-projects/dotter`; the command is `dotter`. TypeScript declarations are included. No build step.
+
+Update Node.js and restart running clients before installing this security preview. Unsupported runtimes stop before authentication or requests; updating the npm package alone does not patch Node.js. See the [October security notice](https://github.com/jethros-projects/dotter/blob/main/docs/security-2026-10.md).
 
 Core requests and polled streams use Node HTTPS. Advanced activity, room-live, and account-summary SSE workflows also require Python 3.
 

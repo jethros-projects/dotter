@@ -10,7 +10,7 @@
 
 ## Setup and checks
 
-Use Node.js 22+; Python 3 runs legacy/SSE and terminal test fixtures. No build step.
+Use Node.js 22.23.4+, 24.22.1+, or 26.12.1+ within those major lines; Python 3 runs legacy/SSE and terminal test fixtures. No build step.
 
 ```sh
 npm ci --ignore-scripts

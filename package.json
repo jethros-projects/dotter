@@ -1,6 +1,6 @@
 {
   "name": "@jethros-projects/dotter",
-  "version": "0.6.3-next.3",
+  "version": "0.6.3-next.4",
   "description": "A typed SDK and command-line companion for OpenAI Dot",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "node": ">=22"
+    "node": "^22.23.4 || ^24.22.1 || ^26.12.1"
   },
   "bin": {
     "dotter": "./bin/dotter.mjs"
@@ -72,7 +72,8 @@
     "scripts/e2e-sdk-checks.mjs",
     "docs/assets/dotter-terminal.png",
     "docs/assets/README.md",
-    "docs/releasing.md"
+    "docs/releasing.md",
+    "docs/security-2026-10.md"
   ],
   "dependencies": {
     "ajv": "8.20.0",

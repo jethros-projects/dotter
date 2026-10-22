@@ -22,12 +22,13 @@ function execute(command, args, cwd = root) {
 try {
   const [artifact] = JSON.parse(execute('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', temporary]));
   for (const { path: file } of artifact.files) {
-    assert.match(file, /^(?:bin\/|src\/|examples\/|node_modules\/|scripts\/e2e-sdk(?:-checks)?\.mjs$|docs\/assets\/(?:dotter-terminal\.png|README\.md)$|docs\/(?:workflows|commands|contracts|architecture|SDK|agents|releasing)\.md$|(?:package\.json|README\.md|AGENTS\.md|LICENSE|CONTRIBUTING\.md|SECURITY\.md|THIRD_PARTY_NOTICES\.md)$)/,
+    assert.match(file, /^(?:bin\/|src\/|examples\/|node_modules\/|scripts\/e2e-sdk(?:-checks)?\.mjs$|docs\/assets\/(?:dotter-terminal\.png|README\.md)$|docs\/(?:workflows|commands|contracts|architecture|SDK|agents|releasing|security-2026-10)\.md$|(?:package\.json|README\.md|AGENTS\.md|LICENSE|CONTRIBUTING\.md|SECURITY\.md|THIRD_PARTY_NOTICES\.md)$)/,
       `Unexpected package file: ${file}`);
   }
   assert.ok(artifact.files.some(file => file.path === 'bin/dotter.mjs'));
+  assert.ok(artifact.files.some(file => file.path === 'src/runtime.mjs'));
   assert.ok(artifact.files.some(file => file.path === 'scripts/e2e-sdk-checks.mjs'));
-  for (const document of ['README.md', 'AGENTS.md', 'docs/SDK.md', 'docs/agents.md', 'docs/releasing.md', 'docs/assets/README.md', 'docs/assets/dotter-terminal.png']) {
+  for (const document of ['README.md', 'AGENTS.md', 'docs/SDK.md', 'docs/agents.md', 'docs/releasing.md', 'docs/security-2026-10.md', 'docs/assets/README.md', 'docs/assets/dotter-terminal.png']) {
     assert.ok(artifact.files.some(file => file.path === document), `Missing package documentation: ${document}`);
   }
   assert.ok(!artifact.files.some(file => file.path.includes('dot-chat')));
@@ -38,6 +39,18 @@ try {
   const packageRoot = path.join(prefix, 'node_modules', '@jethros-projects/dotter');
   const cli = path.join(prefix, 'node_modules', '.bin', 'dotter');
   const pkg = JSON.parse(await readFile(path.join(packageRoot, 'package.json'), 'utf8'));
+  assert.equal(pkg.engines.node, '^22.23.4 || ^24.22.1 || ^26.12.1');
+  const unsupportedPreload = `data:text/javascript,${encodeURIComponent("Object.defineProperty(process.versions, 'node', { value: '24.22.0' });")}`;
+  for (const target of ['@jethros-projects/dotter', '@jethros-projects/dotter/advanced']) {
+    execute(process.execPath, ['--import', unsupportedPreload, '--input-type=module', '--eval', `
+      import assert from 'node:assert/strict';
+      await assert.rejects(import(${JSON.stringify(target)}), { code: 'UNSUPPORTED_NODE_VERSION' });
+    `], prefix);
+  }
+  const unsupportedCli = spawnSync(process.execPath, ['--import', unsupportedPreload, cli, 'status', '--json'], { env, encoding: 'utf8', timeout: 10000 });
+  assert.equal(unsupportedCli.status, 1);
+  assert.equal(unsupportedCli.stderr, '');
+  assert.equal(JSON.parse(unsupportedCli.stdout).error.code, 'UNSUPPORTED_NODE_VERSION');
   assert.equal(execute(process.execPath, [cli, '--version']).trim(), pkg.version);
   assert.match(execute(process.execPath, [cli]), /Usage: dotter/);
   assert.match(execute(process.execPath, [cli, 'help', 'send']), /dotter send TEXT/);

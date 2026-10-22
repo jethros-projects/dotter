@@ -1,7 +1,10 @@
 # SDK
 
 Dotter exposes one typed client from `@jethros-projects/dotter`. The CLI and applications use
-this same API. It runs in Node.js 22 or newer, directly from JavaScript modules.
+this same API. It runs directly from JavaScript modules on Node.js 22.23.4+, 24.22.1+, or
+26.12.1+ within those major lines. An unsupported runtime rejects the root and
+advanced imports with `UNSUPPORTED_NODE_VERSION` before credential or network
+access. Update Node.js and restart the host before importing Dotter.
 TypeScript declarations are included; no compilation is needed to use the SDK.
 For task-oriented CLI use, see the [agent runbook](agents.md).
 Core requests and polled `watch()` use native Node HTTPS. Advanced activity,

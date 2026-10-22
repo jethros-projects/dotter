@@ -1,3 +1,5 @@
+import './runtime.mjs';
+
 export { FullDotClient } from './advanced.mjs';
 export { DotClient, normalizeMessage, validateSendContext } from './client.mjs';
 export { Transport } from './transport.mjs';
